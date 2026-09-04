@@ -26,6 +26,16 @@ import {
  * keeps the suite honest about the login path and works unchanged whether the target
  * authenticates through Supabase or the self-hosted provider.
  */
+/**
+ * The SSO profile walks the real OIDC login against a fake identity provider
+ * (e2e/support/fake-oidp.mjs) and an auth-enabled backend. Unlike `visual`,
+ * that backend cannot be started here: it needs PostgreSQL, a config file and
+ * a lab of environment variables, so the runbook starts it by hand before the
+ * run and points E2E_BASE_URL at the dev server serving VITE_OIDC_LOGIN_URL.
+ * Opt-in like `visual` — a bare `playwright test` must not require any of it.
+ */
+const ssoEnabled = !!process.env.E2E_SSO;
+
 export default defineConfig({
 	testDir: './e2e',
 	// Journey specs create and mutate tenant data; running one file's customer
@@ -131,19 +141,49 @@ export default defineConfig({
 					},
 				]
 			: []),
+		// The SSO walk has no stored login to reuse — the login IS the test — so the
+		// project opts out of every storage state and runs without dependencies.
+		...(ssoEnabled
+			? [
+					{
+						name: 'sso',
+						testDir: './e2e/sso',
+						use: { ...devices['Desktop Chrome'], baseURL, storageState: { cookies: [], origins: [] } },
+					},
+				]
+			: []),
 	],
 
-	// Skipped entirely when a target URL was named and E2E_START_SERVER did not
-	// override that. reuseExistingServer keeps a dev server already running on the
-	// port from being killed and restarted on every local run.
-	webServer: startsOwnServer
-		? {
-				command: webServerCommand,
-				url: baseURL,
-				reuseExistingServer: !isCI,
-				timeout: 120_000,
-				stdout: 'pipe',
-				stderr: 'pipe',
-			}
-		: undefined,
+	// Servers are listed in dependency order: the fake IdP must answer discovery
+	// before the auth-enabled backend (started by hand, not here) probes it at
+	// boot, and Playwright waits on each `url` in array order. reuseExistingServer
+	// keeps a dev server already running on the port from being killed and
+	// restarted on every local run.
+	webServer: [
+		...(ssoEnabled
+			? [
+					{
+						command: 'node e2e/support/fake-oidp.mjs',
+						url: 'http://127.0.0.1:9401/.well-known/openid-configuration',
+						reuseExistingServer: !isCI,
+						env: { FAKE_OIDP_URL: 'http://127.0.0.1:9401' },
+					},
+				]
+			: []),
+		// Skipped entirely when a target URL was named and E2E_START_SERVER did not
+		// override that — the sso runbook starts the dev server by hand with
+		// VITE_OIDC_LOGIN_URL set, which a config-launched server would not carry.
+		...(startsOwnServer
+			? [
+					{
+						command: webServerCommand,
+						url: baseURL,
+						reuseExistingServer: !isCI,
+						timeout: 120_000,
+						stdout: 'pipe' as const,
+						stderr: 'pipe' as const,
+					},
+				]
+			: []),
+	],
 });

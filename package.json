@@ -28,6 +28,7 @@
     "test:e2e:critical": "playwright test --project=e2e --grep @critical",
     "test:e2e:regression": "playwright test --project=e2e --grep @regression",
     "test:e2e:rbac": "playwright test --project=rbac",
+    "test:e2e:sso": "E2E_SSO=1 playwright test --project=sso",
     "test:e2e:visual": "playwright test --project=visual",
     "test:e2e:visual:update": "playwright test --project=visual --update-snapshots",
     "test:e2e:report": "playwright show-report",
