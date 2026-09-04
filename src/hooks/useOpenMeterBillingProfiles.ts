@@ -46,8 +46,7 @@ export function useOpenMeterBillingProfile(id: string) {
 export function useCreateOpenMeterBillingProfile() {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: async (profile: BillingProfileCreateInput) =>
-			(await requireOpenMeterClient().billing.profiles.create(profile)) ?? null,
+		mutationFn: async (profile: BillingProfileCreateInput) => (await requireOpenMeterClient().billing.profiles.create(profile)) ?? null,
 		onSuccess: () => {
 			void queryClient.invalidateQueries({ queryKey: openMeterBillingProfilesKeys.root });
 		},

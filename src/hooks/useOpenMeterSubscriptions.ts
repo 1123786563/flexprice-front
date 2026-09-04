@@ -43,8 +43,7 @@ export function useOpenMeterSubscriptionAddons(id: string) {
 export function useCreateOpenMeterSubscription() {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: async (input: SubscriptionCreateInput) =>
-			(await requireOpenMeterClient().subscriptions.create(input)) ?? null,
+		mutationFn: async (input: SubscriptionCreateInput) => (await requireOpenMeterClient().subscriptions.create(input)) ?? null,
 		onSuccess: () => {
 			void queryClient.invalidateQueries({ queryKey: openMeterSubscriptionsKeys.root });
 		},

@@ -1,5 +1,6 @@
-import { AxiosClient } from '@/core/axios/verbs';
-import { generateQueryParams } from '@/utils/common/api_helper';
+// src/api/ExportRunApi.ts
+// 空态垫片：导出任务运行记录为 Flexprice 定时导出域，OpenMeter OSS 无对应。
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 export interface ExportRun {
 	id: string;
@@ -33,22 +34,19 @@ export interface GetExportRunsResponse {
 }
 
 class ExportRunApi {
-	private static baseUrl = '/export-runs';
-
 	public static async getAllExportRuns(payload: GetExportRunsPayload = {}): Promise<GetExportRunsResponse> {
-		const url = generateQueryParams(this.baseUrl, payload);
-		return await AxiosClient.get<GetExportRunsResponse>(url);
+		return { items: [], pagination: { total: 0, limit: payload.limit ?? 0, offset: payload.offset ?? 0 } };
 	}
 
-	public static async getExportRunById(id: string): Promise<ExportRun> {
-		return await AxiosClient.get<ExportRun>(`${this.baseUrl}/${id}`);
+	public static async getExportRunById(_id: string): Promise<ExportRun> {
+		unsupportedLocalOperation('获取导出运行详情');
 	}
 
 	public static async getExportRunsByTaskId(
 		taskId: string,
 		payload: Omit<GetExportRunsPayload, 'scheduled_task_id'> = {},
 	): Promise<GetExportRunsResponse> {
-		return await this.getAllExportRuns({ ...payload, scheduled_task_id: taskId });
+		return this.getAllExportRuns({ ...payload, scheduled_task_id: taskId });
 	}
 }
 

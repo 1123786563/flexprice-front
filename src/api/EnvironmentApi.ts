@@ -1,4 +1,7 @@
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/EnvironmentApi.ts
+// 本地环境垫片：OpenMeter 单命名空间即单环境，读返回固定环境；
+// waitForActiveEnvironment 机制保持不变（axios 环境头门禁在业务模块全量脱离 axios 后已无调用方，
+// 但保留以免隐性依赖）。环境的增/改/克隆在本地模式明确报错。
 import { ACTIVE_ENVIRONMENT_ID_KEY } from '@/hooks/useEnvironment';
 import { Environment } from '@/models';
 import {
@@ -8,14 +11,11 @@ import {
 	ListEnvironmentResponse,
 	UpdateEnvironmentPayload,
 } from '@/types/dto';
+import { getLocalEnvironments, unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 // Resolved the first time an active environment ID is known — either because it was already
 // in localStorage (e.g. on a refresh, from a prior session) or because useEnvironment() just
-// picked a default after its own /environments fetch resolved. axiosClient's request
-// interceptor awaits this (bounded by a timeout) before sending environment-scoped requests,
-// so a fresh login doesn't fire them with no X-Environment-ID header — the backend 403s
-// without one, and getActiveEnvironmentId() is a synchronous localStorage read that's simply
-// empty until useEnvironment()'s own fetch has had a chance to run.
+// picked a default after its own /environments fetch resolved.
 //
 // Built lazily (not at module load) so importing this module never itself touches
 // localStorage or the ACTIVE_ENVIRONMENT_ID_KEY export up front — tests that mock
@@ -34,35 +34,30 @@ function getEnvReadyPromise(): Promise<void> {
 }
 
 class EnvironmentApi {
-	private static baseUrl = '/environments';
-
-	// API Methods
 	public static async getAllEnvironments(): Promise<ListEnvironmentResponse> {
-		try {
-			return await AxiosClient.get<ListEnvironmentResponse>(this.baseUrl);
-		} catch (error) {
-			return { environments: [], total: 0 } as ListEnvironmentResponse;
-		}
+		const environments = getLocalEnvironments();
+		return await Promise.resolve<ListEnvironmentResponse>({
+			environments,
+			limit: environments.length,
+			offset: 0,
+			total: environments.length,
+		});
 	}
 
 	public static async getEnvironmentById(id: string): Promise<Environment | null> {
-		try {
-			return await AxiosClient.get<Environment>(`${this.baseUrl}/${id}`);
-		} catch (error) {
-			return null;
-		}
+		return await Promise.resolve(getLocalEnvironments().find((env) => env.id === id) ?? null);
 	}
 
-	public static async createEnvironment(payload: CreateEnvironmentPayload): Promise<Environment | null> {
-		return await AxiosClient.post<Environment>(this.baseUrl, payload);
+	public static async createEnvironment(_payload: CreateEnvironmentPayload): Promise<Environment | null> {
+		unsupportedLocalOperation('创建环境');
 	}
 
-	public static async cloneEnvironment(sourceEnvironmentId: string, payload: CloneEnvironmentPayload): Promise<CloneEnvironmentResponse> {
-		return await AxiosClient.post<CloneEnvironmentResponse>(`${this.baseUrl}/${sourceEnvironmentId}/clone`, payload);
+	public static async cloneEnvironment(_sourceEnvironmentId: string, _payload: CloneEnvironmentPayload): Promise<CloneEnvironmentResponse> {
+		unsupportedLocalOperation('克隆环境');
 	}
 
-	public static async updateEnvironment(id: string, payload: UpdateEnvironmentPayload): Promise<Environment | null> {
-		return await AxiosClient.put<Environment>(`${this.baseUrl}/${id}`, payload);
+	public static async updateEnvironment(_id: string, _payload: UpdateEnvironmentPayload): Promise<Environment | null> {
+		unsupportedLocalOperation('编辑环境');
 	}
 
 	public static getActiveEnvironmentId(): string | null {

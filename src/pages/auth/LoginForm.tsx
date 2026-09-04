@@ -11,6 +11,7 @@ import { config, APP_ENV } from '@/config/config';
 import { RouteNames } from '@/core/routes/Routes';
 import GoogleSignin from './GoogleSignin';
 import SamlSignin, { SSO_TENANT_PARAM, resolveSsoTenantId } from './SamlSignin';
+import OidcSignin from './OidcSignin';
 import { AuthTab } from './authTabs';
 import { useTranslation } from 'react-i18next';
 
@@ -155,6 +156,23 @@ const LoginForm: React.FC<LoginFormProps> = ({ switchTab }) => {
 						<div className='flex-1 h-px bg-surface-strong'></div>
 					</div>
 					<GoogleSignin />
+				</>
+			)}
+
+			{/* OIDC single sign-on (e.g. Casdoor). Shown only when the deployment
+			    points VITE_OIDC_LOGIN_URL at the backend's /auth/oidc/login
+			    endpoint; absent that, there is no provider to send the browser
+			    to and the button would fail for everyone. Unlike the SAML
+			    button below, OIDC is configured deployment-wide rather than per
+			    tenant, so no tenant has to be named up front. */}
+			{config.auth.oidcLoginUrl && (
+				<>
+					<div className='flex items-center justify-center my-6'>
+						<div className='flex-1 h-px bg-surface-strong'></div>
+						<span className='mx-4 text-sm text-content-muted'>{t('divider')}</span>
+						<div className='flex-1 h-px bg-surface-strong'></div>
+					</div>
+					<OidcSignin />
 				</>
 			)}
 

@@ -16,6 +16,8 @@ export interface User {
 		status: string;
 		created_at: string;
 		updated_at: string;
+		/** 后端实际返回（DefaultRoute 读取 onboarding_completed）；类型早前缺失。 */
+		metadata?: Record<string, string>;
 	};
 	email: string;
 	name?: string;

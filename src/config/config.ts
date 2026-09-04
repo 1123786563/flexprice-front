@@ -44,6 +44,8 @@ interface AuthConfig {
 	provider: AUTH_PROVIDER;
 	url: string;
 	anonKey: string;
+	/** Full URL of the backend OIDC login endpoint (…/auth/oidc/login). Empty hides the SSO button. */
+	oidcLoginUrl: string;
 }
 interface PosthogConfig {
 	enabled: boolean;
@@ -326,6 +328,7 @@ export const config: Config = {
 		provider: (import.meta.env.VITE_AUTH_PROVIDER ?? AUTH_PROVIDER.Supabase) as AUTH_PROVIDER,
 		url: import.meta.env.VITE_SUPABASE_URL ?? '',
 		anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY ?? '',
+		oidcLoginUrl: import.meta.env.VITE_OIDC_LOGIN_URL?.trim() ?? '',
 	},
 	posthog: {
 		enabled: import.meta.env.VITE_POSTHOG_ENABLED === 'true',

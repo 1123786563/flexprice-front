@@ -1,6 +1,6 @@
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/GroupApi.ts
+// 空态垫片：实体分组为 Flexprice 平台域，OpenMeter OSS 无对应。
 import { Pagination } from '@/models';
-import { generateQueryParams } from '@/utils/common/api_helper';
 import {
 	CreateGroupRequest,
 	UpdateGroupRequest,
@@ -9,49 +9,38 @@ import {
 	GroupFilter,
 	AddEntityToGroupRequest,
 } from '@/types/dto';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 export class GroupApi {
-	private static baseUrl = '/groups';
-
-	public static async createGroup(data: CreateGroupRequest) {
-		return await AxiosClient.post<GroupResponse, CreateGroupRequest>(this.baseUrl, data);
+	public static async createGroup(_data: CreateGroupRequest): Promise<GroupResponse> {
+		unsupportedLocalOperation('创建实体分组');
 	}
 
-	public static async getAllGroups({ limit, offset }: Pagination) {
-		const payload = {
-			limit,
-			offset,
-		};
-		const url = generateQueryParams(this.baseUrl, payload);
-		return await AxiosClient.get<ListGroupsResponse>(url);
+	public static async getAllGroups({ limit, offset }: Pagination): Promise<ListGroupsResponse> {
+		return { items: [], pagination: { limit, offset, total: 0 } };
 	}
 
-	public static async getGroupById(id: string) {
-		return await AxiosClient.get<GroupResponse>(`${this.baseUrl}/${id}`);
+	public static async getGroupById(_id: string): Promise<GroupResponse> {
+		unsupportedLocalOperation('获取实体分组详情');
 	}
 
-	public static async updateGroup(id: string, data: UpdateGroupRequest) {
-		return await AxiosClient.put<GroupResponse, UpdateGroupRequest>(`${this.baseUrl}/${id}`, data);
+	public static async updateGroup(_id: string, _data: UpdateGroupRequest): Promise<GroupResponse> {
+		unsupportedLocalOperation('更新实体分组');
 	}
 
-	public static async deleteGroup(id: string) {
-		return await AxiosClient.delete<void>(`${this.baseUrl}/${id}`);
+	public static async deleteGroup(_id: string): Promise<void> {
+		unsupportedLocalOperation('删除实体分组');
 	}
 
-	public static async searchGroups(query: string, { limit, offset }: Pagination) {
-		const payload = {
-			limit,
-			offset,
-			query,
-		};
-		return await AxiosClient.post<ListGroupsResponse>(`${this.baseUrl}/search`, payload);
+	public static async searchGroups(_query: string, { limit, offset }: Pagination): Promise<ListGroupsResponse> {
+		return { items: [], pagination: { limit, offset, total: 0 } };
 	}
 
-	public static async getGroupsByFilter(payload: GroupFilter) {
-		return await AxiosClient.post<ListGroupsResponse>(`${this.baseUrl}/search`, payload);
+	public static async getGroupsByFilter(payload: GroupFilter): Promise<ListGroupsResponse> {
+		return { items: [], pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 } };
 	}
 
-	public static async addEntityToGroup(id: string, data: AddEntityToGroupRequest) {
-		return await AxiosClient.post<GroupResponse, AddEntityToGroupRequest>(`${this.baseUrl}/${id}/entities`, data);
+	public static async addEntityToGroup(_id: string, _data: AddEntityToGroupRequest): Promise<GroupResponse> {
+		unsupportedLocalOperation('向分组添加实体');
 	}
 }

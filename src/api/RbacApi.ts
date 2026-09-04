@@ -1,5 +1,6 @@
-import { AxiosClient } from '@/core/axios/verbs';
-import { generateQueryParams } from '@/utils/common/api_helper';
+// src/api/RbacApi.ts
+// 本地 RBAC 垫片：仅 super_admin 通配角色，RouteGuard 全放行。
+import { getLocalRoles, unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 export interface RbacRole {
 	id: string;
@@ -19,18 +20,14 @@ export interface GetRolesResponse {
 export const SUPER_ADMIN_ROLE_ID = 'super_admin';
 
 class RbacApi {
-	private static baseUrl = '/rbac';
-
-	// Fetch all available roles, optionally filtered to those assignable to a given user type
-	public static async getAllRoles(userType?: 'user' | 'service_account'): Promise<RbacRole[]> {
-		const url = generateQueryParams(`${this.baseUrl}/roles`, { user_type: userType });
-		const response = await AxiosClient.get<GetRolesResponse>(url);
-		return response.roles;
+	public static async getAllRoles(_userType?: 'user' | 'service_account'): Promise<RbacRole[]> {
+		return await Promise.resolve(getLocalRoles());
 	}
 
-	// Fetch a role by ID
 	public static async getRoleById(id: string): Promise<RbacRole> {
-		return await AxiosClient.get<RbacRole>(`${this.baseUrl}/roles/${id}`);
+		const role = getLocalRoles().find((r) => r.id === id);
+		if (!role) unsupportedLocalOperation(`查询角色 ${id}`);
+		return await Promise.resolve(role);
 	}
 }
 

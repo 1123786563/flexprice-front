@@ -1,71 +1,69 @@
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/PaymentApi.ts
+// 空态垫片：支付记录与支付网关（Stripe/Moyasar）集成为 Flexprice 支付域，OpenMeter OSS 无对应。
 import { Payment } from '@/models';
-import { generateQueryParams } from '@/utils/common/api_helper';
 import { GetAllPaymentsPayload, GetAllPaymentsResponse, RecordPaymentPayload } from '@/types/dto';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 class PaymentApi {
-	private static baseUrl = '/payments';
-
-	public static async createPayment(data: RecordPaymentPayload) {
-		return await AxiosClient.post<Payment>(this.baseUrl, data);
+	public static async createPayment(_data: RecordPaymentPayload): Promise<Payment> {
+		unsupportedLocalOperation('记录支付');
 	}
 
-	public static async getPaymentById(id: string) {
-		return await AxiosClient.get<Payment>(`${this.baseUrl}/${id}`);
+	public static async getPaymentById(_id: string): Promise<Payment> {
+		unsupportedLocalOperation('获取支付详情');
 	}
 
-	public static async updatePayment(id: string, data: Partial<Payment>) {
-		return await AxiosClient.put<Payment>(`${this.baseUrl}/${id}`, data);
+	public static async updatePayment(_id: string, _data: Partial<Payment>): Promise<Payment> {
+		unsupportedLocalOperation('更新支付');
 	}
 
-	public static async deletePayment(id: string) {
-		return await AxiosClient.delete(`${this.baseUrl}/${id}`);
+	public static async deletePayment(_id: string): Promise<void> {
+		unsupportedLocalOperation('删除支付');
 	}
 
-	public static async getAllPayments(payload: GetAllPaymentsPayload) {
-		const url = generateQueryParams(this.baseUrl, payload);
-		return await AxiosClient.get<GetAllPaymentsResponse>(url);
+	public static async getAllPayments(payload: GetAllPaymentsPayload): Promise<GetAllPaymentsResponse> {
+		return { items: [], pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 } };
 	}
 
 	public static async createSetupIntent(
-		customerId: string,
-		data: {
+		_customerId: string,
+		_data: {
 			success_url: string;
 			cancel_url: string;
 			provider: string;
 			set_default?: boolean;
 		},
-	) {
-		return await AxiosClient.post<{
-			setup_intent_id: string;
-			checkout_session_id: string;
-			checkout_url: string;
-			client_secret: string;
-			status: string;
-			usage: string;
-			customer_id: string;
-			created_at: number;
-			expires_at: number;
-		}>(`${this.baseUrl}/customers/${customerId}/setup/intent`, data);
+	): Promise<{
+		setup_intent_id: string;
+		checkout_session_id: string;
+		checkout_url: string;
+		client_secret: string;
+		status: string;
+		usage: string;
+		customer_id: string;
+		created_at: number;
+		expires_at: number;
+	}> {
+		unsupportedLocalOperation('创建支付设置意图');
 	}
 
-	public static async getMoyasarSetupIntent(customerId: string, successUrl?: string) {
-		return await AxiosClient.post<{
-			status: string;
-			customer_id: string;
-			checkout_url: string;
-		}>(`${this.baseUrl}/customers/${customerId}/setup/intent`, {
-			provider: 'moyasar',
-			success_url: successUrl ?? window.location.origin,
-		});
+	public static async getMoyasarSetupIntent(
+		_customerId: string,
+		_successUrl?: string,
+	): Promise<{
+		status: string;
+		customer_id: string;
+		checkout_url: string;
+	}> {
+		unsupportedLocalOperation('创建 Moyasar 支付设置意图');
 	}
 
-	public static async processPayment(id: string): Promise<Payment> {
-		return await AxiosClient.post<Payment>(`${this.baseUrl}/${id}/process`);
+	public static async processPayment(_id: string): Promise<Payment> {
+		unsupportedLocalOperation('处理支付');
 	}
 
-	public static async getCustomerPaymentMethods(customerId: string) {
-		return await AxiosClient.get(`${this.baseUrl}/customers/${customerId}/methods`);
+	public static async getCustomerPaymentMethods(_customerId: string): Promise<unknown[]> {
+		return [];
 	}
 }
 

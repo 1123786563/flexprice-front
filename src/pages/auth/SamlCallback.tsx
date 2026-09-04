@@ -4,13 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { PageLoader } from '@/components/atoms';
 import { RouteNames } from '@/core/routes/Routes';
 import { SSO_PENDING_KEY, SSO_STATE_KEY } from './SamlSignin';
+import { OIDC_PENDING_KEY, OIDC_STATE_KEY } from './OidcSignin';
 
 /**
- * Landing page for a completed SAML login.
+ * Landing page for a completed SSO login (SAML or OIDC).
  *
- * The backend validates the assertion and redirects the browser here with the
- * token it minted, so this page only has to store it in the shape the rest of
- * the app already reads and get the token out of the URL.
+ * The backend validates the assertion or authorization code and redirects the
+ * browser here with the token it minted, so this page only has to store it in
+ * the shape the rest of the app already reads and get the token out of the URL.
  */
 const SamlCallback = () => {
 	const { t } = useTranslation('auth');
@@ -48,62 +49,81 @@ const SamlCallback = () => {
 		// then did would happen inside the attacker's account, including anything
 		// they typed or uploaded.
 		//
-		// The marker is cleared either way, so a token cannot be replayed into a
+		// The markers are cleared either way, so a token cannot be replayed into a
 		// second tab by reusing the same URL.
-		const pending = sessionStorage.getItem(SSO_PENDING_KEY);
+		const samlPending = sessionStorage.getItem(SSO_PENDING_KEY);
 		sessionStorage.removeItem(SSO_PENDING_KEY);
-		if (!pending) {
-			window.history.replaceState(null, '', window.location.pathname);
-			setError(t('sso.unsolicitedToken'));
-			return;
-		}
 
-		// The marker holds the tenant the login was started for, and it has to
-		// match. A marker that only proved "some login began" would still accept a
-		// token for a different tenant: an attacker who gets the victim to click
-		// Sign in with SSO, then to open a link carrying the attacker's own token,
-		// would have that token adopted because a marker existed. Comparing the
-		// tenant closes that — the callback now only completes the login this tab
-		// actually started.
-		// Required, not optional. Treating a missing tenant as "nothing to check"
-		// let an attacker skip the comparison by simply leaving it out of the URL,
-		// which defeats the whole guard. The backend always sends it.
-		const callbackTenant = fragment.get('tenant_id');
-		if (!callbackTenant || callbackTenant !== pending) {
-			window.history.replaceState(null, '', window.location.pathname);
-			setError(t('sso.unsolicitedToken'));
-			return;
-		}
-
-		// The nonce ties the response to this specific login, which the tenant
-		// alone cannot: every login to a tenant carries the same tenant. It went
-		// out as SAML RelayState and comes back with the assertion, so a token
-		// from any other login — including one an attacker starts and completes
-		// themselves — does not carry it.
-		const expectedState = sessionStorage.getItem(SSO_STATE_KEY);
-		sessionStorage.removeItem(SSO_STATE_KEY);
-		if (!expectedState || fragment.get('state') !== expectedState) {
-			window.history.replaceState(null, '', window.location.pathname);
-			setError(t('sso.unsolicitedToken'));
-			return;
-		}
+		const oidcPending = sessionStorage.getItem(OIDC_PENDING_KEY);
+		sessionStorage.removeItem(OIDC_PENDING_KEY);
 
 		// Same shape the password login writes, so everything downstream — the
 		// axios client, useUser, logout — treats an SSO session identically. Only
 		// `token` is read for authentication; the user is loaded from /users/me.
 		//
-		// The tenant comes from the marker this tab set, never from the fragment:
-		// the fragment is attacker-supplied, and storing a tenant from it would
-		// record an identity the login never established. `user_id` is omitted
-		// for the same reason — nothing downstream reads it, and the user is
+		// The tenant is never taken from a fragment a marker did not vouch for:
+		// for SAML it comes from the marker this tab set (the fragment is
+		// attacker-supplied), for OIDC the nonce comparison below has already
+		// bound the whole fragment to the login this tab started, so the
+		// backend-written tenant_id is trustworthy by the time it is read.
+		// `user_id` is omitted — nothing downstream reads it, and the user is
 		// loaded from /users/me against the token itself.
-		localStorage.setItem(
-			'token',
-			JSON.stringify({
-				token,
-				tenant_id: pending,
-			}),
-		);
+		let storedTenantId: string;
+
+		if (samlPending) {
+			// The marker holds the tenant the login was started for, and it has to
+			// match. A marker that only proved "some login began" would still accept a
+			// token for a different tenant: an attacker who gets the victim to click
+			// Sign in with SSO, then to open a link carrying the attacker's own token,
+			// would have that token adopted because a marker existed. Comparing the
+			// tenant closes that — the callback now only completes the login this tab
+			// actually started.
+			// Required, not optional. Treating a missing tenant as "nothing to check"
+			// let an attacker skip the comparison by simply leaving it out of the URL,
+			// which defeats the whole guard. The backend always sends it.
+			const callbackTenant = fragment.get('tenant_id');
+			if (!callbackTenant || callbackTenant !== samlPending) {
+				window.history.replaceState(null, '', window.location.pathname);
+				setError(t('sso.unsolicitedToken'));
+				return;
+			}
+
+			// The nonce ties the response to this specific login, which the tenant
+			// alone cannot: every login to a tenant carries the same tenant. It went
+			// out as SAML RelayState and comes back with the assertion, so a token
+			// from any other login — including one an attacker starts and completes
+			// themselves — does not carry it.
+			const expectedState = sessionStorage.getItem(SSO_STATE_KEY);
+			sessionStorage.removeItem(SSO_STATE_KEY);
+			if (!expectedState || fragment.get('state') !== expectedState) {
+				window.history.replaceState(null, '', window.location.pathname);
+				setError(t('sso.unsolicitedToken'));
+				return;
+			}
+
+			storedTenantId = samlPending;
+		} else if (oidcPending) {
+			// OIDC names no tenant up front — the provider decides which organization
+			// the user lands in — so the nonce is the only thing that distinguishes
+			// this login from any other. It went out as the login URL's `state` query
+			// parameter and comes back in the fragment; a token from any other login,
+			// including an attacker's, does not carry it.
+			const expectedState = sessionStorage.getItem(OIDC_STATE_KEY);
+			sessionStorage.removeItem(OIDC_STATE_KEY);
+			if (!expectedState || fragment.get('state') !== expectedState) {
+				window.history.replaceState(null, '', window.location.pathname);
+				setError(t('sso.unsolicitedToken'));
+				return;
+			}
+
+			storedTenantId = fragment.get('tenant_id') ?? '';
+		} else {
+			window.history.replaceState(null, '', window.location.pathname);
+			setError(t('sso.unsolicitedToken'));
+			return;
+		}
+
+		localStorage.setItem('token', JSON.stringify({ token, tenant_id: storedTenantId }));
 
 		// Clear the fragment before navigating. replace: true keeps the token out
 		// of history, where it would otherwise be recoverable with the back button

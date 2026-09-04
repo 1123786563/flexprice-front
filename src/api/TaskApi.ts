@@ -1,6 +1,6 @@
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/TaskApi.ts
+// 空态垫片：导入任务与定时任务为 Flexprice 批处理域，OpenMeter OSS 无对应。
 import { ImportTask, ScheduledTask } from '@/models';
-import { generateQueryParams } from '@/utils/common/api_helper';
 import {
 	GetTasksPayload,
 	GetTasksResponse,
@@ -12,58 +12,54 @@ import {
 	ForceRunPayload,
 	DownloadTaskFileResponse,
 } from '@/types/dto';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 class TaskApi {
-	private static baseUrl = '/tasks';
-	private static scheduledBaseUrl = '/tasks/scheduled';
-
 	// Regular Task Methods
-	public static async addTask(data: AddTaskPayload) {
-		return await AxiosClient.post<ImportTask, AddTaskPayload>(`${this.baseUrl}`, data);
+	public static async addTask(_data: AddTaskPayload): Promise<ImportTask> {
+		unsupportedLocalOperation('创建导入任务');
 	}
 
-	public static async getTaskById(id: string): Promise<ImportTask> {
-		return await AxiosClient.get(`${this.baseUrl}/${id}`);
+	public static async getTaskById(_id: string): Promise<ImportTask> {
+		unsupportedLocalOperation('获取导入任务详情');
 	}
 
-	public static async updateTaskStatus(id: string, status: string): Promise<ImportTask> {
-		return await AxiosClient.put<ImportTask>(`${this.baseUrl}/${id}/status`, { status });
+	public static async updateTaskStatus(_id: string, _status: string): Promise<ImportTask> {
+		unsupportedLocalOperation('更新导入任务状态');
 	}
 
 	public static async getAllTasks(payload: GetTasksPayload = {}): Promise<GetTasksResponse> {
-		const url = generateQueryParams(this.baseUrl, payload);
-		return await AxiosClient.get(url);
+		return { items: [], pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 } };
 	}
 
 	// Scheduled Task Methods
 	public static async getAllScheduledTasks(payload: GetScheduledTasksPayload = {}): Promise<GetScheduledTasksResponse> {
-		const url = generateQueryParams(this.scheduledBaseUrl, payload);
-		return await AxiosClient.get<GetScheduledTasksResponse>(url);
+		return { items: [], pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 } };
 	}
 
-	public static async getScheduledTaskById(id: string): Promise<ScheduledTask> {
-		return await AxiosClient.get<ScheduledTask>(`${this.scheduledBaseUrl}/${id}`);
+	public static async getScheduledTaskById(_id: string): Promise<ScheduledTask> {
+		unsupportedLocalOperation('获取定时任务详情');
 	}
 
-	public static async createScheduledTask(payload: CreateScheduledTaskPayload): Promise<ScheduledTask> {
-		return await AxiosClient.post<ScheduledTask>(this.scheduledBaseUrl, payload);
+	public static async createScheduledTask(_payload: CreateScheduledTaskPayload): Promise<ScheduledTask> {
+		unsupportedLocalOperation('创建定时任务');
 	}
 
-	public static async updateScheduledTask(id: string, payload: UpdateScheduledTaskPayload): Promise<ScheduledTask> {
-		return await AxiosClient.put<ScheduledTask>(`${this.scheduledBaseUrl}/${id}`, payload);
+	public static async updateScheduledTask(_id: string, _payload: UpdateScheduledTaskPayload): Promise<ScheduledTask> {
+		unsupportedLocalOperation('更新定时任务');
 	}
 
-	public static async deleteScheduledTask(id: string): Promise<void> {
-		return await AxiosClient.delete(`${this.scheduledBaseUrl}/${id}`);
+	public static async deleteScheduledTask(_id: string): Promise<void> {
+		unsupportedLocalOperation('删除定时任务');
 	}
 
-	public static async forceRunScheduledTask(id: string, payload?: ForceRunPayload): Promise<void> {
-		return await AxiosClient.post(`${this.scheduledBaseUrl}/${id}/run`, payload || {});
+	public static async forceRunScheduledTask(_id: string, _payload?: ForceRunPayload): Promise<void> {
+		unsupportedLocalOperation('手动触发定时任务');
 	}
 
 	// Download Task File
-	public static async downloadTaskFile(id: string): Promise<DownloadTaskFileResponse> {
-		return await AxiosClient.get<DownloadTaskFileResponse>(`${this.baseUrl}/${id}/download`);
+	public static async downloadTaskFile(_id: string): Promise<DownloadTaskFileResponse> {
+		unsupportedLocalOperation('下载任务文件');
 	}
 }
 

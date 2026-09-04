@@ -17,12 +17,7 @@ vi.mock('@openmeter/sdk', () => ({
 	},
 }));
 
-import {
-	useCreateOpenMeterFeature,
-	useDeleteOpenMeterFeature,
-	useOpenMeterFeature,
-	useOpenMeterFeatures,
-} from './useOpenMeterFeatures';
+import { useCreateOpenMeterFeature, useDeleteOpenMeterFeature, useOpenMeterFeature, useOpenMeterFeatures } from './useOpenMeterFeatures';
 
 const feature = {
 	id: 'f-1',

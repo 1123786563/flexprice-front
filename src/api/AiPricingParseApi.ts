@@ -1,5 +1,8 @@
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/AiPricingParseApi.ts
+// 空态垫片：Gemini 定价解析是 Flexprice 后端代理能力（服务端持有 API Key），
+// OpenMeter OSS 无对应 AI 服务，本地模式明确报错。
 import type { PricingSchema } from '@/api/ai/types';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 export type GeminiResponseSchema = Record<string, unknown>;
 
@@ -9,15 +12,9 @@ export interface ParseGeminiPricingRequest {
 	responseSchema: GeminiResponseSchema;
 }
 
-/**
- * Server-side Gemini proxy — same auth/interceptors as other Flexprice APIs
-POST /ai/pricing/parse-gemini (base URL is VITE_API_URL, e.g. http://localhost:8080/v1)
- */
 class AiPricingParseApi {
-	private static readonly path = '/ai/pricing/parse-gemini';
-
-	public static async parseGemini(body: ParseGeminiPricingRequest): Promise<PricingSchema> {
-		return await AxiosClient.post<PricingSchema, ParseGeminiPricingRequest>(this.path, body);
+	public static async parseGemini(_body: ParseGeminiPricingRequest): Promise<PricingSchema> {
+		unsupportedLocalOperation('AI 定价解析（parse-gemini）');
 	}
 }
 

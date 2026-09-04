@@ -1,11 +1,10 @@
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/RevenueDashboardApi.ts
+// 空态垫片：收入仪表盘依赖 Flexprice 计费管线（发票/订阅收入聚合），OpenMeter OSS 无对应。
 import { RevenueDashboardRequest, RevenueDashboardResponse } from '@/types/dto/RevenueDashboard';
 
 class RevenueDashboardApi {
-	private static baseUrl = '/dashboard/revenue-dashboard';
-
-	public static async getRevenueDashboard(payload: RevenueDashboardRequest): Promise<RevenueDashboardResponse> {
-		return await AxiosClient.post<RevenueDashboardResponse>(this.baseUrl, payload);
+	public static async getRevenueDashboard(_payload: RevenueDashboardRequest): Promise<RevenueDashboardResponse> {
+		return { summaries: {}, items: [], graph: null };
 	}
 }
 

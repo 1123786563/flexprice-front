@@ -75,10 +75,7 @@ function toCloudEvent(input: UsageEventInput): UsageCloudEvent {
  * metering outages cannot break the calling feature. Safe outside React (e.g. from
  * `src/agent/webmcp.ts`); React components should prefer `useUsageTracking`.
  */
-export async function ingestUsageEvents(
-	inputs: UsageEventInput[],
-	client: OpenMeterClient | null = getOpenMeterClient(),
-): Promise<void> {
+export async function ingestUsageEvents(inputs: UsageEventInput[], client: OpenMeterClient | null = getOpenMeterClient()): Promise<void> {
 	if (!config.openmeter.enabled || inputs.length === 0 || !client) return;
 	try {
 		await client.events.ingest(inputs.map(toCloudEvent));

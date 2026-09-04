@@ -1,34 +1,37 @@
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/ConnectionApi.ts
+// 空态垫片：数据源连接（导入/导出后端存储）为 Flexprice 平台域，OpenMeter OSS 无对应。
 import { Connection, ENTITY_STATUS } from '@/models';
-import { generateQueryParams } from '@/utils/common/api_helper';
 import { GetConnectionsPayload, GetConnectionsResponse, CreateConnectionPayload, UpdateConnectionPayload } from '@/types/dto';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 class ConnectionApi {
-	private static baseUrl = '/connections';
-
 	public static async List(payload: GetConnectionsPayload = {}): Promise<GetConnectionsResponse> {
-		const url = generateQueryParams(this.baseUrl, payload);
-		return await AxiosClient.get<GetConnectionsResponse>(url);
+		return {
+			connections: [],
+			total: 0,
+			limit: payload.limit ?? 0,
+			offset: payload.offset ?? 0,
+		};
 	}
 
-	public static async Get(id: string): Promise<Connection> {
-		return await AxiosClient.get<Connection>(`${this.baseUrl}/${id}`);
+	public static async Get(_id: string): Promise<Connection> {
+		unsupportedLocalOperation('获取数据源连接详情');
 	}
 
 	public static async ListPublished(): Promise<GetConnectionsResponse> {
 		return this.List({ status: ENTITY_STATUS.PUBLISHED });
 	}
 
-	public static async Create(payload: CreateConnectionPayload): Promise<Connection> {
-		return await AxiosClient.post<Connection>(this.baseUrl, payload);
+	public static async Create(_payload: CreateConnectionPayload): Promise<Connection> {
+		unsupportedLocalOperation('创建数据源连接');
 	}
 
-	public static async Update(id: string, payload: Partial<UpdateConnectionPayload>): Promise<Connection> {
-		return await AxiosClient.put<Connection>(`${this.baseUrl}/${id}`, payload);
+	public static async Update(_id: string, _payload: Partial<UpdateConnectionPayload>): Promise<Connection> {
+		unsupportedLocalOperation('更新数据源连接');
 	}
 
-	public static async Delete(id: string): Promise<void> {
-		return await AxiosClient.delete(`${this.baseUrl}/${id}`);
+	public static async Delete(_id: string): Promise<void> {
+		unsupportedLocalOperation('删除数据源连接');
 	}
 }
 

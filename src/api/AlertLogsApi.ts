@@ -1,4 +1,5 @@
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/AlertLogsApi.ts
+// 空态垫片：告警日志由 Flexprice 告警管线产生，OpenMeter OSS 无对应。
 import { TypedBackendFilter, TypedBackendSort } from '@/types/formatters/QueryBuilder';
 import { Pagination } from '@/models';
 
@@ -27,14 +28,12 @@ export interface ListAlertLogsResponse {
 }
 
 class AlertLogsApi {
-	private static baseUrl = '/alerts';
-
-	/**
-	 * List alert logs by filter
-	 * POST /alerts/search
-	 */
 	public static async listAlertLogsByFilter(payload: ListAlertLogsByFilterPayload): Promise<ListAlertLogsResponse> {
-		return await AxiosClient.post<ListAlertLogsResponse>(`${this.baseUrl}/search`, payload);
+		return {
+			items: [],
+			total: 0,
+			pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 },
+		};
 	}
 }
 

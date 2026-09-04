@@ -14,7 +14,14 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock('@openmeter/sdk', () => ({
 	OpenMeter: class {
-		plans = { list: mocks.list, get: mocks.get, create: mocks.create, delete: mocks.delete, publish: mocks.publish, archive: mocks.archive };
+		plans = {
+			list: mocks.list,
+			get: mocks.get,
+			create: mocks.create,
+			delete: mocks.delete,
+			publish: mocks.publish,
+			archive: mocks.archive,
+		};
 		constructor(public clientConfig: unknown) {}
 	},
 }));

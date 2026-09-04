@@ -1,4 +1,5 @@
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/AlertSettingApi.ts
+// 空态垫片：告警规则设置为 Flexprice 告警域，OpenMeter OSS 无对应。
 import {
 	CreateAlertSettingsRequest,
 	UpdateAlertSettingsRequest,
@@ -6,54 +7,27 @@ import {
 	SearchAlertSettingsRequest,
 	SearchAlertSettingsResponse,
 } from '@/types/dto';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 class AlertSettingApi {
-	private static baseUrl = '/alerts/setting';
-
-	/**
-	 * Create a new alert setting (subscription, subscription line item, or group scope)
-	 * @param data - Alert setting configuration
-	 * @returns Promise<AlertSettingResponse>
-	 */
-	public static async create(data: CreateAlertSettingsRequest) {
-		return AxiosClient.post<AlertSettingResponse, CreateAlertSettingsRequest>(this.baseUrl, data);
+	public static async create(_data: CreateAlertSettingsRequest): Promise<AlertSettingResponse> {
+		unsupportedLocalOperation('创建告警设置');
 	}
 
-	/**
-	 * Get an alert setting by ID
-	 * @param id - Alert setting ID
-	 * @returns Promise<AlertSettingResponse>
-	 */
-	public static async get(id: string) {
-		return await AxiosClient.get<AlertSettingResponse>(`${this.baseUrl}/${id}`);
+	public static async get(_id: string): Promise<AlertSettingResponse> {
+		unsupportedLocalOperation('获取告警设置详情');
 	}
 
-	/**
-	 * Search alert settings with filters (POST /alerts/setting/search)
-	 * @param payload - Filters (entity_type, entity_id, parent_entity_id, enabled, etc.)
-	 * @returns Promise<SearchAlertSettingsResponse>
-	 */
-	public static async search(payload: SearchAlertSettingsRequest) {
-		return await AxiosClient.post<SearchAlertSettingsResponse, SearchAlertSettingsRequest>(`${this.baseUrl}/search`, payload);
+	public static async search(payload: SearchAlertSettingsRequest): Promise<SearchAlertSettingsResponse> {
+		return { items: [], pagination: { total: 0, limit: payload.limit ?? 0, offset: payload.offset ?? 0 } };
 	}
 
-	/**
-	 * Update an alert setting's config
-	 * @param id - Alert setting ID
-	 * @param data - Updated config
-	 * @returns Promise<AlertSettingResponse>
-	 */
-	public static async update(id: string, data: UpdateAlertSettingsRequest) {
-		return await AxiosClient.put<AlertSettingResponse, UpdateAlertSettingsRequest>(`${this.baseUrl}/${id}`, data);
+	public static async update(_id: string, _data: UpdateAlertSettingsRequest): Promise<AlertSettingResponse> {
+		unsupportedLocalOperation('更新告警设置');
 	}
 
-	/**
-	 * Delete (soft-delete) an alert setting
-	 * @param id - Alert setting ID
-	 * @returns Promise<void>
-	 */
-	public static async delete(id: string) {
-		return await AxiosClient.delete<void>(`${this.baseUrl}/${id}`);
+	public static async delete(_id: string): Promise<void> {
+		unsupportedLocalOperation('删除告警设置');
 	}
 }
 

@@ -1,6 +1,7 @@
-import { AxiosClient } from '@/core/axios/verbs';
-import { generateQueryParams } from '@/utils/common/api_helper';
+// src/api/EntityIntegrationMappingApi.ts
+// 空态垫片：实体↔外部系统 ID 映射为 Flexprice 集成域，OpenMeter OSS 无对应。
 import { Pagination } from '@/models';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 export interface EntityIntegrationMapping {
 	id: string;
@@ -28,41 +29,26 @@ export interface ListEntityIntegrationMappingsResponse {
 }
 
 class EntityIntegrationMappingApi {
-	private static baseUrl = '/entity-integration-mappings';
-
-	/**
-	 * Create a new entity integration mapping
-	 * POST /entity-integration-mappings
-	 */
-	public static async createEntityIntegrationMapping(data: CreateEntityIntegrationMappingRequest): Promise<EntityIntegrationMapping> {
-		return await AxiosClient.post<EntityIntegrationMapping>(this.baseUrl, data);
+	public static async createEntityIntegrationMapping(_data: CreateEntityIntegrationMappingRequest): Promise<EntityIntegrationMapping> {
+		unsupportedLocalOperation('创建实体集成映射');
 	}
 
-	/**
-	 * List all entity integration mappings
-	 * GET /entity-integration-mappings
-	 */
 	public static async listEntityIntegrationMappings(
 		payload: Pagination = { limit: 10, offset: 0 },
 	): Promise<ListEntityIntegrationMappingsResponse> {
-		const url = generateQueryParams(this.baseUrl, payload);
-		return await AxiosClient.get<ListEntityIntegrationMappingsResponse>(url);
+		return {
+			items: [],
+			total: 0,
+			pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 },
+		};
 	}
 
-	/**
-	 * Get an entity integration mapping by ID
-	 * GET /entity-integration-mappings/:id
-	 */
-	public static async getEntityIntegrationMapping(id: string): Promise<EntityIntegrationMapping> {
-		return await AxiosClient.get<EntityIntegrationMapping>(`${this.baseUrl}/${id}`);
+	public static async getEntityIntegrationMapping(_id: string): Promise<EntityIntegrationMapping> {
+		unsupportedLocalOperation('获取实体集成映射详情');
 	}
 
-	/**
-	 * Delete an entity integration mapping
-	 * DELETE /entity-integration-mappings/:id
-	 */
-	public static async deleteEntityIntegrationMapping(id: string): Promise<void> {
-		return await AxiosClient.delete<void>(`${this.baseUrl}/${id}`);
+	public static async deleteEntityIntegrationMapping(_id: string): Promise<void> {
+		unsupportedLocalOperation('删除实体集成映射');
 	}
 }
 

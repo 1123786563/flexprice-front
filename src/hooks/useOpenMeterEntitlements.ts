@@ -90,9 +90,7 @@ export function useVoidOpenMeterEntitlementGrant() {
 	});
 }
 
-export type OpenMeterCustomerEntitlementValue = NonNullable<
-	Awaited<ReturnType<OpenMeterClient['customers']['entitlements']['value']>>
->;
+export type OpenMeterCustomerEntitlementValue = NonNullable<Awaited<ReturnType<OpenMeterClient['customers']['entitlements']['value']>>>;
 
 /** 查询客户（v2 授权体系）在某 feature 上的可用额度值。 */
 export function useOpenMeterCustomerEntitlementValue(customerIdOrKey: string, featureKey: string) {

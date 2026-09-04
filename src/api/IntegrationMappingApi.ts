@@ -1,7 +1,8 @@
-import { AxiosClient } from '@/core/axios/verbs';
-import { generateQueryParams } from '@/utils/common/api_helper';
+// src/api/IntegrationMappingApi.ts
+// 空态垫片：集成配置与实体映射同步为 Flexprice 集成域，OpenMeter OSS 无对应。
 import { Pagination } from '@/models';
 import { IntegrationDelinkRequest, IntegrationDelinkResponse } from '@/types/dto';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 export interface SyncConfig {
 	inbound: boolean;
@@ -58,28 +59,24 @@ export interface IntegrationLinkResponse {
 }
 
 class IntegrationMappingApi {
-	private static baseUrl = '/integrations';
-
 	public static async getIntegrationConfig(): Promise<IntegrationConfigResponse> {
-		return await AxiosClient.get<IntegrationConfigResponse>(`${this.baseUrl}/config`);
+		return { integrations: [] };
 	}
 
-	public static async getIntegrationMappings(entityType: string, entityId: string): Promise<IntegrationMappingsResponse> {
-		const params = { entity_type: entityType, entity_id: entityId };
-		const url = generateQueryParams(`${this.baseUrl}/mappings`, params);
-		return await AxiosClient.get<IntegrationMappingsResponse>(url);
+	public static async getIntegrationMappings(_entityType: string, _entityId: string): Promise<IntegrationMappingsResponse> {
+		return { items: [], pagination: { limit: 0, offset: 0, total: 0 } };
 	}
 
-	public static async syncIntegration(request: IntegrationSyncRequest): Promise<{ message: string }> {
-		return await AxiosClient.post<{ message: string }>(`${this.baseUrl}/sync`, request);
+	public static async syncIntegration(_request: IntegrationSyncRequest): Promise<{ message: string }> {
+		unsupportedLocalOperation('触发集成同步');
 	}
 
-	public static async linkIntegration(request: IntegrationLinkRequest): Promise<IntegrationLinkResponse> {
-		return await AxiosClient.post<IntegrationLinkResponse>(`${this.baseUrl}/link`, request);
+	public static async linkIntegration(_request: IntegrationLinkRequest): Promise<IntegrationLinkResponse> {
+		unsupportedLocalOperation('创建集成映射');
 	}
 
-	public static async delinkIntegration(request: IntegrationDelinkRequest): Promise<IntegrationDelinkResponse> {
-		return await AxiosClient.delete<IntegrationDelinkResponse>(`${this.baseUrl}/link`, request);
+	public static async delinkIntegration(_request: IntegrationDelinkRequest): Promise<IntegrationDelinkResponse> {
+		unsupportedLocalOperation('解除集成映射');
 	}
 }
 

@@ -3,9 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { config } from '@/config/config';
 import { getOpenMeterClient, OpenMeterClient, requireOpenMeterClient } from '@/core/services/openmeter';
 
-export type OpenMeterNotificationChannelsPage = NonNullable<
-	Awaited<ReturnType<OpenMeterClient['notifications']['channels']['list']>>
->;
+export type OpenMeterNotificationChannelsPage = NonNullable<Awaited<ReturnType<OpenMeterClient['notifications']['channels']['list']>>>;
 export type OpenMeterNotificationChannel = OpenMeterNotificationChannelsPage['items'][number];
 export type OpenMeterNotificationRulesPage = NonNullable<Awaited<ReturnType<OpenMeterClient['notifications']['rules']['list']>>>;
 export type OpenMeterNotificationEventsPage = NonNullable<Awaited<ReturnType<OpenMeterClient['notifications']['events']['list']>>>;

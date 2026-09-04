@@ -100,7 +100,13 @@ const AddAddonDialog: React.FC<Props> = ({
 
 	// Reset form when modal opens/closes
 	const selectedAddonPrices = useMemo(
-		() => filterAddonPricesForSubscription((selectedAddonDetails?.prices as Price[]) || [], billingPeriod, currency, resolvedBillingPeriodCount),
+		() =>
+			filterAddonPricesForSubscription(
+				(selectedAddonDetails?.prices as Price[]) || [],
+				billingPeriod,
+				currency,
+				resolvedBillingPeriodCount,
+			),
 		[selectedAddonDetails, billingPeriod, currency, resolvedBillingPeriodCount],
 	);
 

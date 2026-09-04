@@ -49,7 +49,9 @@ export function isPriceCompatibleWithBillingPeriod(
 	billingPeriod: string,
 	billingPeriodCount?: number,
 ): boolean {
-	return isOneTimePlanPrice(price) || isCadenceCompatible(billingPeriod, billingPeriodCount, price.billing_period, price.billing_period_count);
+	return (
+		isOneTimePlanPrice(price) || isCadenceCompatible(billingPeriod, billingPeriodCount, price.billing_period, price.billing_period_count)
+	);
 }
 
 type ChargeTableData = {

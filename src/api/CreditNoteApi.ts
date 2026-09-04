@@ -1,5 +1,5 @@
-import { AxiosClient } from '@/core/axios/verbs';
-import { generateQueryParams } from '@/utils/common/api_helper';
+// src/api/CreditNoteApi.ts
+// 空态垫片：贷记单为 Flexprice 发票冲抵域，OpenMeter OSS 无对应。
 import {
 	GetAllCreditNotesPayload,
 	CreateCreditNoteParams,
@@ -8,41 +8,23 @@ import {
 	ListCreditNotesResponse,
 	CreditNote,
 } from '@/types/dto';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 class CreditNoteApi {
-	private static baseUrl = '/creditnotes';
-
-	/**
-	 * Get all credit notes with optional filtering
-	 * GET /creditnotes
-	 */
 	static async getCreditNotes(params: GetAllCreditNotesPayload = {}): Promise<ListCreditNotesResponse> {
-		const url = generateQueryParams(this.baseUrl, params);
-		return await AxiosClient.get<ListCreditNotesResponse>(url);
+		return { items: [], pagination: { limit: params.limit ?? 0, offset: params.offset ?? 0, total: 0 } };
 	}
 
-	/**
-	 * Get a specific credit note by ID
-	 * GET /creditnotes/:id
-	 */
-	static async getCreditNoteById(creditNoteId: string): Promise<CreditNote> {
-		return await AxiosClient.get<CreditNote>(`${this.baseUrl}/${creditNoteId}`);
+	static async getCreditNoteById(_creditNoteId: string): Promise<CreditNote> {
+		unsupportedLocalOperation('获取贷记单详情');
 	}
 
-	/**
-	 * Create a new credit note
-	 * POST /creditnotes
-	 */
-	static async createCreditNote(params: CreateCreditNoteParams): Promise<CreditNote> {
-		return await AxiosClient.post<CreditNote, CreateCreditNoteParams>(this.baseUrl, params);
+	static async createCreditNote(_params: CreateCreditNoteParams): Promise<CreditNote> {
+		unsupportedLocalOperation('创建贷记单');
 	}
 
-	/**
-	 * Finalize a draft credit note
-	 * POST /creditnotes/:id/finalize
-	 */
-	static async finalizeCreditNote(params: ProcessDraftCreditNoteParams): Promise<CreditNote> {
-		return await AxiosClient.post<CreditNote>(`${this.baseUrl}/${params.credit_note_id}/finalize`);
+	static async finalizeCreditNote(_params: ProcessDraftCreditNoteParams): Promise<CreditNote> {
+		unsupportedLocalOperation('定稿贷记单');
 	}
 
 	/**
@@ -53,21 +35,12 @@ class CreditNoteApi {
 		return this.finalizeCreditNote(params);
 	}
 
-	/**
-	 * Void a credit note
-	 * POST /creditnotes/:id/void
-	 */
-	static async voidCreditNote(params: VoidCreditNoteParams): Promise<CreditNote> {
-		const { credit_note_id, ...voidData } = params;
-		return await AxiosClient.post<CreditNote>(`${this.baseUrl}/${credit_note_id}/void`, voidData);
+	static async voidCreditNote(_params: VoidCreditNoteParams): Promise<CreditNote> {
+		unsupportedLocalOperation('作废贷记单');
 	}
 
-	/**
-	 * Get credit notes for a specific invoice
-	 * Convenience method using the list endpoint with invoice filter
-	 */
 	static async getCreditNotesByInvoice(invoiceId: string): Promise<ListCreditNotesResponse> {
-		return await this.getCreditNotes({ invoice_id: invoiceId });
+		return this.getCreditNotes({ invoice_id: invoiceId });
 	}
 }
 

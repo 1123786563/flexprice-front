@@ -1,4 +1,5 @@
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/WalletApi.ts
+// 空态垫片：预付钱包（余额/交易/充值）为 Flexprice 结算域，OpenMeter OSS 无对应。
 import { Wallet, RealtimeWalletBalance } from '@/models';
 import {
 	CreateWalletPayload,
@@ -15,64 +16,55 @@ import {
 	ListWalletsByFilterPayload,
 	ListWalletsResponse,
 } from '@/types/dto';
-import { generateQueryParams } from '@/utils/common/api_helper';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 class WalletApi {
-	private static baseUrl = '/wallets';
-
-	static async getCustomerWallets(data: GetCustomerWalletsPayload): Promise<Wallet[]> {
-		const url = generateQueryParams(`/customers${this.baseUrl}`, data);
-		return await AxiosClient.get<Wallet[]>(url);
+	static async getCustomerWallets(_data: GetCustomerWalletsPayload): Promise<Wallet[]> {
+		return [];
 	}
 
-	static async getWalletTransactions({ walletId, limit = 10, offset = 0 }: WalletTransactionPayload): Promise<WalletTransactionResponse> {
-		return await AxiosClient.get<WalletTransactionResponse>(`${this.baseUrl}/${walletId}/transactions?limit=${limit}&offset=${offset}`);
+	static async getWalletTransactions({ limit = 10, offset = 0 }: WalletTransactionPayload): Promise<WalletTransactionResponse> {
+		return { items: [], pagination: { limit, offset, total: 0 } };
 	}
 
-	static async getWalletBalance(walletId: string): Promise<RealtimeWalletBalance> {
-		return await AxiosClient.get<RealtimeWalletBalance>(`${this.baseUrl}/${walletId}/balance/real-time`);
+	static async getWalletBalance(_walletId: string): Promise<RealtimeWalletBalance> {
+		unsupportedLocalOperation('获取钱包实时余额');
 	}
 
-	static async getWalletBalanceV2(walletId: string): Promise<RealtimeWalletBalance> {
-		return await AxiosClient.get<RealtimeWalletBalance>(`${this.baseUrl}/${walletId}/balance/real-time-v2`);
-	}
-	static async createWallet(data: CreateWalletPayload): Promise<Wallet> {
-		return await AxiosClient.post<Wallet>(`${this.baseUrl}`, data);
+	static async getWalletBalanceV2(_walletId: string): Promise<RealtimeWalletBalance> {
+		unsupportedLocalOperation('获取钱包实时余额（v2）');
 	}
 
-	static async topupWallet(data: TopupWalletPayload): Promise<TopupWalletResponse> {
-		return await AxiosClient.post<TopupWalletResponse>(`${this.baseUrl}/${data.walletId}/top-up`, data);
+	static async createWallet(_data: CreateWalletPayload): Promise<Wallet> {
+		unsupportedLocalOperation('创建钱包');
 	}
 
-	static async debitWallet(data: DebitWalletPayload): Promise<Wallet> {
-		return await AxiosClient.post<Wallet>(`${this.baseUrl}/${data.walletId}/debit`, data);
+	static async topupWallet(_data: TopupWalletPayload): Promise<TopupWalletResponse> {
+		unsupportedLocalOperation('钱包充值');
 	}
 
-	static async terminateWallet(walletId: string): Promise<void> {
-		return await AxiosClient.post<void>(`${this.baseUrl}/${walletId}/terminate`, {});
+	static async debitWallet(_data: DebitWalletPayload): Promise<Wallet> {
+		unsupportedLocalOperation('钱包扣减');
 	}
 
-	static async updateWallet(walletId: string, data: UpdateWalletRequest): Promise<WalletResponse> {
-		return await AxiosClient.put<WalletResponse>(`${this.baseUrl}/${walletId}`, { ...data });
+	static async terminateWallet(_walletId: string): Promise<void> {
+		unsupportedLocalOperation('终止钱包');
 	}
 
-	// Search all wallet transactions across all wallets
+	static async updateWallet(_walletId: string, _data: UpdateWalletRequest): Promise<WalletResponse> {
+		unsupportedLocalOperation('更新钱包');
+	}
+
 	static async getAllWalletTransactionsByFilter(payload: GetWalletTransactionsByFilterPayload): Promise<WalletTransactionResponse> {
-		return await AxiosClient.post<WalletTransactionResponse, GetWalletTransactionsByFilterPayload>(
-			`${this.baseUrl}/transactions/search`,
-			payload,
-		);
+		return { items: [], pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 } };
 	}
 
-	// List wallets with query parameters
 	static async listWallets(payload: ListWalletsPayload = {}): Promise<ListWalletsResponse> {
-		const url = generateQueryParams(this.baseUrl, payload);
-		return await AxiosClient.get<ListWalletsResponse>(url);
+		return { items: [], pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 } };
 	}
 
-	// List wallets by filter with JSON body
 	static async listWalletsByFilter(payload: ListWalletsByFilterPayload): Promise<ListWalletsResponse> {
-		return await AxiosClient.post<ListWalletsResponse, ListWalletsByFilterPayload>(`${this.baseUrl}/search`, payload);
+		return { items: [], pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 } };
 	}
 }
 

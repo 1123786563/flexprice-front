@@ -1,5 +1,6 @@
-import { AxiosClient } from '@/core/axios/verbs';
-import { generateQueryParams } from '@/utils/common/api_helper';
+// src/api/TaskRunApi.ts
+// 空态垫片：任务运行记录为 Flexprice 批处理域，OpenMeter OSS 无对应。
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 export interface TaskRun {
 	id: string;
@@ -49,22 +50,19 @@ export interface GetTaskRunsResponse {
 }
 
 class TaskRunApi {
-	private static baseUrl = '/tasks';
-
 	public static async getAllTaskRuns(payload: GetTaskRunsPayload = {}): Promise<GetTaskRunsResponse> {
-		const url = generateQueryParams(this.baseUrl, payload);
-		return await AxiosClient.get<GetTaskRunsResponse>(url);
+		return { items: [], pagination: { total: 0, limit: payload.limit ?? 0, offset: payload.offset ?? 0 } };
 	}
 
-	public static async getTaskRunById(id: string): Promise<TaskRun> {
-		return await AxiosClient.get<TaskRun>(`${this.baseUrl}/${id}`);
+	public static async getTaskRunById(_id: string): Promise<TaskRun> {
+		unsupportedLocalOperation('获取任务运行详情');
 	}
 
 	public static async getTaskRunsByScheduledTaskId(
 		scheduledTaskId: string,
 		payload: Omit<GetTaskRunsPayload, 'scheduled_task_id'> = {},
 	): Promise<GetTaskRunsResponse> {
-		return await this.getAllTaskRuns({ ...payload, scheduled_task_id: scheduledTaskId });
+		return this.getAllTaskRuns({ ...payload, scheduled_task_id: scheduledTaskId });
 	}
 }
 

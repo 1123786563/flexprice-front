@@ -1,6 +1,11 @@
+// src/api/OnboardingApi.ts
+// OpenMeter 本地模式：generateEvents 复用 EventsApi.fireEvents（OM events.ingest）；
+// setupDemo（后端演示数据初始化）OM 无对应，明确报错；recordOnboardingData 保留
+// 原有 Google Sheets fetch 逻辑（与 Flexprice 后端无关，不经过 axios）。
 import { config } from '@/config/config';
-import { AxiosClient } from '@/core/axios/verbs';
+import EventsApi from '@/api/EventsApi';
 import { FireEventsPayload } from '@/types/dto';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 export interface SetupDemoRequest {
 	// Add fields based on backend requirements
@@ -18,22 +23,20 @@ export interface SetupDemoResponse {
 export type OnboardingDataRequest = Record<string, string>;
 
 class OnboardingApi {
-	private static baseUrl = '/portal/onboarding';
-
 	/**
 	 * Generate events for onboarding
-	 * POST /portal/onboarding/events
+	 * OM 承载：走 EventsApi.fireEvents → OM events.ingest（CloudEvents）。
 	 */
 	public static async generateEvents(payload: FireEventsPayload): Promise<void> {
-		return await AxiosClient.post<void>(`${this.baseUrl}/events`, payload);
+		return await EventsApi.fireEvents(payload);
 	}
 
 	/**
 	 * Setup demo
-	 * POST /portal/onboarding/setup
+	 * 演示租户/客户/订阅数据初始化为 Flexprice 后端能力，OM 无对应。
 	 */
-	public static async setupDemo(payload: SetupDemoRequest): Promise<SetupDemoResponse> {
-		return await AxiosClient.post<SetupDemoResponse>(`${this.baseUrl}/setup`, payload);
+	public static async setupDemo(_payload: SetupDemoRequest): Promise<SetupDemoResponse> {
+		unsupportedLocalOperation('初始化演示数据（setup demo）');
 	}
 
 	/**

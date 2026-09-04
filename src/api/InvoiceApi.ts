@@ -1,11 +1,10 @@
-import { config } from '@/config/config';
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/InvoiceApi.ts
+// OpenMeter 承载：发票读走 billing.invoices（status/totals/lines 映射，list 需 expand lines）。
+// void→billing.void、finalize→billing.approve、create→createLineItems+invoicePendingLines（仅 ONE_OFF）。
+// OM OSS 无 PDF、手工支付记账、重算与通知触达——明确报错而非假成功。
 import { Invoice } from '@/models';
-import { generateQueryParams } from '@/utils/common/api_helper';
-import AuthService from '@/core/auth/AuthService';
-import EnvironmentApi from '@/api/EnvironmentApi';
-import { SortDirection } from '@/types/common/QueryBuilder';
 import { INVOICE_STATUS } from '@/models/Invoice';
+import { SortDirection } from '@/types/common/QueryBuilder';
 import {
 	GetInvoicesResponse,
 	GetInvoicesListResponse,
@@ -17,131 +16,133 @@ import {
 	VoidInvoicePayload,
 	RecalculateInvoiceResponse,
 } from '@/types/dto';
+import { getOpenMeterClient, requireOpenMeterClient } from '@/core/services/openmeter';
+import {
+	buildOmInvoiceListQuery,
+	buildOmPendingLineCreate,
+	buildOmVoidInput,
+	ensureOneOffCreatable,
+	filterInvoicesClientSide,
+	mapOmInvoice,
+} from '@/core/services/openmeter/mappers/invoice';
+import { toFlexpricePagination } from '@/core/services/openmeter/mappers/common';
 import { downloadInvoiceLineItemsCsv } from '@/utils/invoices/downloadInvoiceLineItemsCsv';
 
 class InvoiceApi {
-	private static baseurl = '/invoices';
-
 	/**
-	 * List/search invoices by filter. Always POSTs to /invoices/search with filter as JSON body.
-	 * Note: passing `skip_line_items: true` makes the backend omit `line_items` on each returned
-	 * invoice even though this method's return type doesn't reflect that — prefer
-	 * `getCustomerInvoices` (typed via `GetInvoicesListResponse`) for that case, or treat
-	 * `items[].line_items` as possibly absent when calling this directly with that flag.
+	 * List/search invoices by filter (POST /invoices/search 语义)。
+	 * 服务端下推：状态集、customer、periodStart 区间、分页与排序；
+	 * payment_status / invoice_ids / 查询构造器 filters 客户端兜底过滤。
+	 * `skip_line_items: true` 时不展开行项目（line_items 为空数组），需要行项目请用 getInvoiceById。
 	 */
 	public static async listInvoices(filter: InvoiceFilter = {}): Promise<GetInvoicesResponse> {
-		return await AxiosClient.post<GetInvoicesResponse>(`${this.baseurl}/search`, filter);
+		const client = getOpenMeterClient();
+		if (!client) return { items: [], pagination: { limit: 0, offset: 0, total: 0 } };
+		const page = (await client.billing.invoices.list(buildOmInvoiceListQuery(filter))) ?? {
+			items: [],
+			totalCount: 0,
+			page: 1,
+			pageSize: 0,
+		};
+		const items = filterInvoicesClientSide(page.items.map(mapOmInvoice), filter);
+		return { items, pagination: toFlexpricePagination(page, filter.limit, filter.offset) };
 	}
 
-	/** List invoices for a single customer. Uses listInvoices with customer_id filter and skip_line_items — line_items is omitted on each returned invoice. */
+	/** List invoices for a single customer（skip_line_items 语义保留：轻量列表不展开行项目）。 */
 	public static async getCustomerInvoices(
 		customerId: string,
 		pagination?: { limit: number; offset: number },
 	): Promise<GetInvoicesListResponse> {
-		return await AxiosClient.post<GetInvoicesListResponse>(`${this.baseurl}/search`, {
+		return await this.listInvoices({
 			customer_id: customerId,
-			// Explicitly include all known invoice statuses; backend defaults may exclude some (e.g. SKIPPED).
+			// 与 Flexprice 版一致：显式传全量状态（含 SKIPPED），映射为 OM 全集即不过滤。
 			invoice_status: Object.values(INVOICE_STATUS),
 			skip_line_items: true,
-			sort: [
-				{
-					field: 'period_start',
-					direction: SortDirection.DESC,
-				},
-			],
+			sort: [{ field: 'period_start', direction: SortDirection.DESC }],
 			...pagination,
 		});
 	}
 
 	public static async getInvoiceById(invoiceId: string): Promise<Invoice> {
-		return await AxiosClient.get<Invoice>(`${this.baseurl}/${invoiceId}`);
+		const om = await requireOpenMeterClient().billing.invoices.get(invoiceId);
+		if (!om) throw new Error(`发票 ${invoiceId} 不存在`);
+		return mapOmInvoice(om);
 	}
 
-	public static async updateInvoicePaymentStatus(invoiceId: string, payload: UpdatePaymentStatusPayload): Promise<Invoice> {
-		return await AxiosClient.put<Invoice>(`${this.baseurl}/${invoiceId}/payment`, payload);
+	/** OM void：仅已出账发票可作废；整单 100% discard，payload.metadata.reason 作为作废理由。 */
+	public static async voidInvoice(invoiceId: string, payload?: VoidInvoicePayload): Promise<Invoice> {
+		const om = await requireOpenMeterClient().billing.invoices.void(invoiceId, buildOmVoidInput(payload));
+		if (!om) throw new Error('作废发票失败');
+		return mapOmInvoice(om);
 	}
 
-	public static async updateInvoiceStatus(payload: UpdateInvoiceStatusPayload): Promise<Invoice> {
-		return await AxiosClient.put<Invoice>(`${this.baseurl}/${payload.invoiceId}/status`, payload);
+	/** OM approve：审批并立即出账（draft→issued），对应 Flexprice finalize 语义。 */
+	public static async finalizeInvoice(invoiceId: string): Promise<Invoice> {
+		const om = await requireOpenMeterClient().billing.invoices.approve(invoiceId);
+		if (!om) throw new Error('发票出账失败');
+		return mapOmInvoice(om);
 	}
 
-	public static async voidInvoice(invoiceId: string, payload?: VoidInvoicePayload) {
-		return await AxiosClient.post(`${this.baseurl}/${invoiceId}/void`, payload);
-	}
-
-	public static async finalizeInvoice(invoiceId: string) {
-		return await AxiosClient.post(`${this.baseurl}/${invoiceId}/finalize`);
-	}
-
-	public static async attemptPayment(invoiceId: string) {
-		return await AxiosClient.post(`${this.baseurl}/${invoiceId}/payment/attempt`);
-	}
-
-	public static async getInvoicePreview(payload: GetInvoicePreviewPayload) {
-		return await AxiosClient.post<Invoice>(`${this.baseurl}/preview`, payload);
-	}
-
+	/**
+	 * ONE_OFF 发票创建 → OM 两步：createLineItems（flat 计价挂起行）+ invoicePendingLines。
+	 * SUBSCRIPTION/CREDIT、订阅关联、优惠券与税率覆盖无法等价映射，ensureOneOffCreatable 明确报错。
+	 */
 	public static async createInvoice(payload: CreateInvoicePayload): Promise<Invoice> {
-		return await AxiosClient.post<Invoice>(`${this.baseurl}`, payload);
-	}
-
-	public static async updateInvoice(invoiceId: string, payload: Partial<Invoice>): Promise<Invoice> {
-		return await AxiosClient.put<Invoice>(`${this.baseurl}/${invoiceId}`, payload);
-	}
-
-	public static async recalculateInvoice(invoiceId: string): Promise<RecalculateInvoiceResponse> {
-		return await AxiosClient.post<RecalculateInvoiceResponse>(`${this.baseurl}/${invoiceId}/recalculate`);
-	}
-
-	public static async getInvoicePdf(invoiceId: string, invoiceNo?: string) {
-		const downloadFileName = invoiceNo ? `invoice-${invoiceNo}.pdf` : `invoice-${invoiceId}.pdf`;
-
-		const response = await fetch(`${config.api.baseUrl}${this.baseurl}/${invoiceId}/pdf`, {
-			headers: {
-				Authorization: `Bearer ${await AuthService.getAcessToken()}`,
-				'X-Environment-ID': EnvironmentApi.getActiveEnvironmentId() || '',
-				Accept: 'application/pdf',
-			},
+		ensureOneOffCreatable(payload);
+		const client = requireOpenMeterClient();
+		const created = await client.billing.invoices.createLineItems(payload.customer_id, buildOmPendingLineCreate(payload));
+		const lineIds = (created?.lines ?? []).map((line) => line.id);
+		if (!lineIds.length) throw new Error('创建发票失败：OpenMeter 未创建行项目');
+		const invoices = await client.billing.invoices.invoicePendingLines({
+			customerId: payload.customer_id,
+			filters: { lineIds },
 		});
-
-		if (!response.ok) {
-			throw new Error('Failed to fetch PDF');
-		}
-
-		const arrayBuffer = await response.arrayBuffer();
-		const blob = new Blob([arrayBuffer], { type: 'application/pdf' });
-		const url = window.URL.createObjectURL(blob);
-
-		// Create a temporary link element
-		const link = document.createElement('a');
-		link.href = url;
-		link.download = downloadFileName;
-
-		// Append to body, click and remove
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
-
-		// Clean up the URL object
-		window.URL.revokeObjectURL(url);
+		const invoice = invoices?.[0];
+		if (!invoice) throw new Error('创建发票失败：OpenMeter 未返回发票');
+		return mapOmInvoice(invoice);
 	}
 
-	public static async downloadInvoicePdf(invoiceId: string) {
-		const params = { url: true };
-		const url = generateQueryParams(`${this.baseurl}/${invoiceId}/pdf`, params);
-		const response = await AxiosClient.get<{ presigned_url: string }>(url);
-		const presignedUrl = response.presigned_url;
-
-		window.open(presignedUrl, '_blank');
+	/** OM OSS 无手工支付记账——支付状态由发票状态推导（paid/payment_processing/uncollectible）。 */
+	public static async updateInvoicePaymentStatus(_invoiceId: string, _payload: UpdatePaymentStatusPayload): Promise<Invoice> {
+		throw new Error('OpenMeter 暂不支持手工更新发票支付状态（支付状态由发票状态自动推导）');
 	}
 
-	/** Client-side CSV of line items with amount > 0; triggers download. @returns row count, or 0 if nothing to export */
+	public static async updateInvoiceStatus(_payload: UpdateInvoiceStatusPayload): Promise<Invoice> {
+		throw new Error('OpenMeter 暂不支持直接修改发票状态（请用作废/出账操作）');
+	}
+
+	public static async attemptPayment(_invoiceId: string) {
+		throw new Error('OpenMeter 暂不支持手动发起收款');
+	}
+
+	public static async getInvoicePreview(_payload: GetInvoicePreviewPayload): Promise<Invoice> {
+		throw new Error('OpenMeter 暂不支持订阅发票预览');
+	}
+
+	/** OM update 为整对象替换（supplier/customer/lines/workflow 必填），Flexprice 补丁语义无法等价映射。 */
+	public static async updateInvoice(_invoiceId: string, _payload: Partial<Invoice>): Promise<Invoice> {
+		throw new Error('OpenMeter 暂不支持补丁式更新发票（更新为整对象替换语义）');
+	}
+
+	public static async recalculateInvoice(_invoiceId: string): Promise<RecalculateInvoiceResponse> {
+		throw new Error('OpenMeter 暂不支持重算发票');
+	}
+
+	public static async getInvoicePdf(_invoiceId: string, _invoiceNo?: string): Promise<void> {
+		throw new Error('OpenMeter 社区版未提供发票 PDF 下载');
+	}
+
+	public static async downloadInvoicePdf(_invoiceId: string): Promise<void> {
+		throw new Error('OpenMeter 社区版未提供发票 PDF 下载');
+	}
+
+	/** 客户端导出行项目 CSV（amount > 0 触发下载），行为与 Flexprice 版一致。 */
 	public static downloadInvoiceCsv(invoice: Invoice): number {
 		return downloadInvoiceLineItemsCsv(invoice);
 	}
 
-	public static async triggerCommunication(invoiceId: string) {
-		return await AxiosClient.post(`${this.baseurl}/${invoiceId}/comms/trigger`);
+	public static async triggerCommunication(_invoiceId: string) {
+		throw new Error('OpenMeter 暂不支持手动触发发票通知');
 	}
 }
 

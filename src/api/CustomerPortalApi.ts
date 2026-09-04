@@ -1,4 +1,7 @@
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/CustomerPortalApi.ts
+// 空态垫片：客户门户（token 鉴权的客户自助面板）为 Flexprice 门户域，OpenMeter OSS
+// 无对应后端（portal 为 noop 适配器）。列表/分析返回空态，模型详情与支付/充值等
+// 强依赖网关的操作明确报错；getConfig 直接返回前端默认配置。
 import { Customer, Invoice, RealtimeWalletBalance } from '@/models';
 import { UpdateCustomerRequest, GetUsageSummaryResponse } from '@/types/dto';
 import {
@@ -12,8 +15,7 @@ import { GetInvoicesResponse } from '@/types/dto/InvoiceApi';
 import { WalletResponse, WalletTransactionResponse } from '@/types/dto/Wallet';
 import { GetUsageAnalyticsResponse } from '@/types/dto/Events';
 import { GetDetailedCostAnalyticsResponse } from '@/types/dto/Cost';
-import { generateQueryParams } from '@/utils/common/api_helper';
-import { PortalConfig, DEFAULT_PORTAL_CONFIG, deepMergePortalConfig } from '@/types/dto/PortalConfig';
+import { PortalConfig, DEFAULT_PORTAL_CONFIG } from '@/types/dto/PortalConfig';
 import {
 	PortalTopUpRequest,
 	PortalTopUpResponse,
@@ -29,210 +31,132 @@ import {
 	PortalIntegrationsResponse,
 	PortalCheckoutSession,
 } from '@/types/dto/CustomerPortalBilling';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 /**
  * CustomerPortalApi - Customer-facing dashboard APIs
- * All methods require dashboard token authentication (set via setRuntimeCredentials)
+ * 本地空态垫片：OM OSS 未提供客户门户后端。
  */
 class CustomerPortalApi {
-	private static baseUrl = '/customer/portal';
-
-	/**
-	 * Get the authenticated customer's information
-	 */
 	public static async getCustomer(): Promise<Customer> {
-		return await AxiosClient.get<Customer>(`${this.baseUrl}/info`);
+		unsupportedLocalOperation('获取门户客户信息');
 	}
 
-	/**
-	 * Update the authenticated customer's information
-	 */
-	public static async updateCustomer(payload: UpdateCustomerRequest): Promise<Customer> {
-		return await AxiosClient.put<Customer>(`${this.baseUrl}/info`, payload);
+	public static async updateCustomer(_payload: UpdateCustomerRequest): Promise<Customer> {
+		unsupportedLocalOperation('更新门户客户信息');
 	}
 
-	/**
-	 * Get usage summary for the authenticated customer
-	 */
-	public static async getUsageSummary(query?: GetCustomerUsageSummaryRequest): Promise<GetUsageSummaryResponse> {
-		const url = generateQueryParams(`${this.baseUrl}/usage`, query || {});
-		return await AxiosClient.get<GetUsageSummaryResponse>(url);
+	public static async getUsageSummary(_query?: GetCustomerUsageSummaryRequest): Promise<GetUsageSummaryResponse> {
+		return { customer_id: '', features: [] };
 	}
 
-	/**
-	 * Get subscriptions for the authenticated customer with pagination
-	 */
 	public static async getSubscriptions(payload: DashboardPaginatedRequest): Promise<ListSubscriptionsResponse> {
-		return await AxiosClient.post<ListSubscriptionsResponse>(`${this.baseUrl}/subscriptions`, payload);
+		return {
+			items: [],
+			pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 },
+			sort: [],
+			filters: [],
+		};
 	}
 
-	/**
-	 * Get a specific subscription by ID for the authenticated customer
-	 */
-	public static async getSubscription(id: string): Promise<SubscriptionResponse> {
-		return await AxiosClient.get<SubscriptionResponse>(`${this.baseUrl}/subscriptions/${id}`);
+	public static async getSubscription(_id: string): Promise<SubscriptionResponse> {
+		unsupportedLocalOperation('获取门户订阅详情');
 	}
 
-	/**
-	 * Get invoices for the authenticated customer with pagination
-	 */
 	public static async getInvoices(payload: DashboardPaginatedRequest): Promise<GetInvoicesResponse> {
-		return await AxiosClient.post<GetInvoicesResponse>(`${this.baseUrl}/invoices`, payload);
+		return { items: [], pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 } };
 	}
 
-	/**
-	 * Get a specific invoice by ID for the authenticated customer
-	 */
-	public static async getInvoice(id: string): Promise<Invoice> {
-		return await AxiosClient.get<Invoice>(`${this.baseUrl}/invoices/${id}`);
+	public static async getInvoice(_id: string): Promise<Invoice> {
+		unsupportedLocalOperation('获取门户发票详情');
 	}
 
-	/**
-	 * Get wallets for the authenticated customer
-	 */
 	public static async getWallets(): Promise<WalletResponse[]> {
-		return await AxiosClient.post<WalletResponse[]>(`${this.baseUrl}/wallets`, {});
+		return [];
 	}
 
-	/**
-	 * Get a specific wallet by ID for the authenticated customer
-	 */
-	public static async getWallet(id: string): Promise<WalletResponse> {
-		return await AxiosClient.get<WalletResponse>(`${this.baseUrl}/wallets/${id}`);
+	public static async getWallet(_id: string): Promise<WalletResponse> {
+		unsupportedLocalOperation('获取门户钱包详情');
 	}
 
-	/**
-	 * Get usage analytics for the authenticated customer
-	 */
-	public static async getAnalytics(payload: DashboardAnalyticsRequest): Promise<GetUsageAnalyticsResponse> {
-		return await AxiosClient.post<GetUsageAnalyticsResponse>(`${this.baseUrl}/analytics/revenue`, payload);
+	public static async getAnalytics(_payload: DashboardAnalyticsRequest): Promise<GetUsageAnalyticsResponse> {
+		return { total_cost: 0, currency: 'USD', items: [], custom_analytics: [] };
 	}
 
-	/**
-	 * Get cost analytics for the authenticated customer
-	 */
 	public static async getCostAnalytics(payload: DashboardCostAnalyticsRequest): Promise<GetDetailedCostAnalyticsResponse> {
-		return await AxiosClient.post<GetDetailedCostAnalyticsResponse>(`${this.baseUrl}/analytics/cost`, payload);
+		return {
+			cost_analytics: [],
+			total_revenue: '0',
+			total_cost: '0',
+			margin: '0',
+			margin_percent: '0',
+			roi: '0',
+			roi_percent: '0',
+			currency: 'USD',
+			start_time: payload.start_time ?? '',
+			end_time: payload.end_time ?? '',
+		};
 	}
 
-	/**
-	 * Get a presigned URL for downloading an invoice PDF for the authenticated customer
-	 */
-	public static async downloadInvoicePdf(invoiceId: string): Promise<void> {
-		const url = generateQueryParams(`${this.baseUrl}/invoices/${invoiceId}/pdf`, { url: true });
-		const response = await AxiosClient.get<{ presigned_url: string }>(url);
-		const presignedUrl = response.presigned_url;
-		window.open(presignedUrl, '_blank');
+	public static async downloadInvoicePdf(_invoiceId: string): Promise<void> {
+		unsupportedLocalOperation('下载发票 PDF');
 	}
 
-	/**
-	 * Get real-time balance for a wallet belonging to the authenticated customer
-	 */
-	public static async getWalletBalance(walletId: string): Promise<RealtimeWalletBalance> {
-		return await AxiosClient.get<RealtimeWalletBalance>(`${this.baseUrl}/wallets/${walletId}`);
+	public static async getWalletBalance(_walletId: string): Promise<RealtimeWalletBalance> {
+		unsupportedLocalOperation('获取门户钱包实时余额');
 	}
 
-	/**
-	 * Get transactions for a wallet belonging to the authenticated customer with pagination
-	 */
 	public static async getWalletTransactions(payload: {
 		walletId: string;
 		limit?: number;
 		offset?: number;
 	}): Promise<WalletTransactionResponse> {
-		const { walletId, limit = 10, offset = 0 } = payload;
-		const url = generateQueryParams(`${this.baseUrl}/wallets/${walletId}/transactions`, { limit, offset });
-		return await AxiosClient.get<WalletTransactionResponse>(url);
+		return { items: [], pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 } };
 	}
 
-	/**
-	 * Top up a wallet. Pass `checkout` to charge now; omit it to raise an invoice
-	 * the customer settles later.
-	 */
-	public static async topUpWallet(walletId: string, payload: PortalTopUpRequest): Promise<PortalTopUpResponse> {
-		return await AxiosClient.post<PortalTopUpResponse>(`${this.baseUrl}/wallets/${walletId}/top-up`, payload);
+	public static async topUpWallet(_walletId: string, _payload: PortalTopUpRequest): Promise<PortalTopUpResponse> {
+		unsupportedLocalOperation('门户钱包充值');
 	}
 
-	/**
-	 * Configure auto top-up. The payload is flat: invoicing is the tenant's call,
-	 * and enabling auto top-up is itself the consent to be charged unattended.
-	 */
-	public static async updateAutoTopup(walletId: string, payload: PortalAutoTopupRequest): Promise<unknown> {
-		return await AxiosClient.put<unknown>(`${this.baseUrl}/wallets/${walletId}/auto-topup`, payload);
+	public static async updateAutoTopup(_walletId: string, _payload: PortalAutoTopupRequest): Promise<unknown> {
+		unsupportedLocalOperation('配置自动充值');
 	}
 
-	/**
-	 * Start payment for an invoice. The amount comes from the invoice — a customer
-	 * cannot part-pay. Read `payment_action` for what to do next.
-	 */
-	public static async payInvoice(invoiceId: string, payload: PortalPayInvoiceRequest = {}): Promise<PortalPayInvoiceResponse> {
-		return await AxiosClient.post<PortalPayInvoiceResponse>(`${this.baseUrl}/invoices/${invoiceId}/pay`, payload);
+	public static async payInvoice(_invoiceId: string, _payload: PortalPayInvoiceRequest = {}): Promise<PortalPayInvoiceResponse> {
+		unsupportedLocalOperation('门户支付发票');
 	}
 
-	/**
-	 * Saved payment methods, grouped by provider. A group may carry an `error`
-	 * instead of items — that is "we could not ask", not "none saved".
-	 */
-	public static async getPaymentMethods(query?: PortalListPaymentMethodsQuery): Promise<SavedPaymentMethodsResponse> {
-		const url = generateQueryParams(`${this.baseUrl}/payment-methods`, query || {});
-		return await AxiosClient.get<SavedPaymentMethodsResponse>(url);
+	public static async getPaymentMethods(_query?: PortalListPaymentMethodsQuery): Promise<SavedPaymentMethodsResponse> {
+		return { providers: [] };
 	}
 
-	/**
-	 * Begin adding a payment method. Returns an action, not a method — nothing is
-	 * vaulted yet. Follow `action.url` when `action.type` is 'redirect'.
-	 */
-	public static async addPaymentMethod(payload: PortalAddPaymentMethodRequest): Promise<AddPaymentMethodResponse> {
-		return await AxiosClient.post<AddPaymentMethodResponse>(`${this.baseUrl}/payment-methods`, payload);
+	public static async addPaymentMethod(_payload: PortalAddPaymentMethodRequest): Promise<AddPaymentMethodResponse> {
+		unsupportedLocalOperation('添加支付方式');
 	}
 
-	/**
-	 * Remove a saved payment method. Returns the refreshed list — the backend
-	 * re-reads the affected gateway — so callers can seed the cache rather than
-	 * spend another round trip on it.
-	 */
-	public static async deletePaymentMethod(payload: PortalDeletePaymentMethodRequest): Promise<SavedPaymentMethodsResponse> {
-		return await AxiosClient.post<SavedPaymentMethodsResponse>(`${this.baseUrl}/payment-methods/delete`, payload);
+	public static async deletePaymentMethod(_payload: PortalDeletePaymentMethodRequest): Promise<SavedPaymentMethodsResponse> {
+		unsupportedLocalOperation('删除支付方式');
 	}
 
-	/** Defaults are scoped per provider, so the provider is required. Returns the refreshed list. */
-	public static async setDefaultPaymentMethod(payload: PortalSetDefaultPaymentMethodRequest): Promise<SavedPaymentMethodsResponse> {
-		return await AxiosClient.post<SavedPaymentMethodsResponse>(`${this.baseUrl}/payment-methods/default`, payload);
+	public static async setDefaultPaymentMethod(_payload: PortalSetDefaultPaymentMethodRequest): Promise<SavedPaymentMethodsResponse> {
+		unsupportedLocalOperation('设置默认支付方式');
 	}
 
-	/**
-	 * Which providers are connected and what each can do. Drives whether the portal
-	 * offers checkout, saved-card management or a default-method control at all.
-	 */
 	public static async getIntegrations(): Promise<PortalIntegrationsResponse> {
-		return await AxiosClient.get<PortalIntegrationsResponse>(`${this.baseUrl}/integrations`);
+		return { payment_integrations: [] };
 	}
 
-	/** Poll a checkout session to see whether the customer completed payment. */
-	public static async getCheckoutSession(sessionId: string): Promise<PortalCheckoutSession> {
-		return await AxiosClient.get<PortalCheckoutSession>(`${this.baseUrl}/checkout-sessions/${sessionId}`);
+	public static async getCheckoutSession(_sessionId: string): Promise<PortalCheckoutSession> {
+		unsupportedLocalOperation('查询支付会话');
 	}
 
-	public static async cancelCheckoutSession(sessionId: string): Promise<PortalCheckoutSession> {
-		return await AxiosClient.post<PortalCheckoutSession>(`${this.baseUrl}/checkout-sessions/${sessionId}/cancel`, {});
+	public static async cancelCheckoutSession(_sessionId: string): Promise<PortalCheckoutSession> {
+		unsupportedLocalOperation('取消支付会话');
 	}
 
-	/**
-	 * Get the portal configuration for this tenant.
-	 * Backend merges tenant-specific config with defaults and returns the resolved PortalConfig.
-	 * Falls back to DEFAULT_PORTAL_CONFIG on any error (no config stored, expired token, etc.)
-	 */
+	/** OM 本地无租户门户配置存储，直接返回前端默认配置。 */
 	public static async getConfig(): Promise<PortalConfig> {
-		try {
-			const response = await AxiosClient.get<{ value: Partial<PortalConfig> }>(`${this.baseUrl}/config`);
-			if (response?.value) {
-				return deepMergePortalConfig(DEFAULT_PORTAL_CONFIG, response.value);
-			}
-			return DEFAULT_PORTAL_CONFIG;
-		} catch {
-			// No config stored yet or network error — use bundled defaults silently
-			return DEFAULT_PORTAL_CONFIG;
-		}
+		return DEFAULT_PORTAL_CONFIG;
 	}
 }
 

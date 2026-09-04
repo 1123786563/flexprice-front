@@ -1,4 +1,5 @@
-import { AxiosClient } from '@/core/axios/verbs';
+// src/api/WorkflowApi.ts
+// 空态垫片：Temporal 工作流执行历史为 Flexprice 平台域，OpenMeter OSS 无对应。
 import type {
 	WorkflowExecutionFilterRequest,
 	ListWorkflowsResponse,
@@ -8,40 +9,27 @@ import type {
 	BatchWorkflowsRequest,
 	BatchWorkflowsResponse,
 } from '@/types/dto';
+import { unsupportedLocalOperation } from '@/core/services/platform/localPlatform';
 
 class WorkflowApi {
-	private static baseUrl = '/workflows';
-
 	public static async search(payload: WorkflowExecutionFilterRequest): Promise<ListWorkflowsResponse> {
-		return await AxiosClient.post<ListWorkflowsResponse>(`${this.baseUrl}/search`, payload);
+		return { items: [], pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 } };
 	}
 
-	/**
-	 * Get full workflow details (GET /workflows/:workflow_id/:run_id).
-	 */
-	public static async getDetails(workflowId: string, runId: string): Promise<WorkflowDetailsResponse> {
-		return await AxiosClient.get<WorkflowDetailsResponse>(`${this.baseUrl}/${workflowId}/${runId}`);
+	public static async getDetails(_workflowId: string, _runId: string): Promise<WorkflowDetailsResponse> {
+		unsupportedLocalOperation('获取工作流执行详情');
 	}
 
-	/**
-	 * Get workflow summary (GET /workflows/:workflow_id/:run_id/summary).
-	 */
-	public static async getSummary(workflowId: string, runId: string): Promise<WorkflowSummaryResponse> {
-		return await AxiosClient.get<WorkflowSummaryResponse>(`${this.baseUrl}/${workflowId}/${runId}/summary`);
+	public static async getSummary(_workflowId: string, _runId: string): Promise<WorkflowSummaryResponse> {
+		unsupportedLocalOperation('获取工作流执行摘要');
 	}
 
-	/**
-	 * Get workflow timeline (GET /workflows/:workflow_id/:run_id/timeline).
-	 */
-	public static async getTimeline(workflowId: string, runId: string): Promise<WorkflowTimelineResponse> {
-		return await AxiosClient.get<WorkflowTimelineResponse>(`${this.baseUrl}/${workflowId}/${runId}/timeline`);
+	public static async getTimeline(_workflowId: string, _runId: string): Promise<WorkflowTimelineResponse> {
+		unsupportedLocalOperation('获取工作流执行时间线');
 	}
 
-	/**
-	 * Batch fetch workflows (POST /workflows/batch).
-	 */
-	public static async getBatch(payload: BatchWorkflowsRequest): Promise<BatchWorkflowsResponse> {
-		return await AxiosClient.post<BatchWorkflowsResponse>(`${this.baseUrl}/batch`, payload);
+	public static async getBatch(_payload: BatchWorkflowsRequest): Promise<BatchWorkflowsResponse> {
+		return { workflows: [] };
 	}
 }
 

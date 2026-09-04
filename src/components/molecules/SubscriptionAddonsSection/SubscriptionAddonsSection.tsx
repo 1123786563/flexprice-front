@@ -428,7 +428,9 @@ const SubscriptionAddonsSection: FC<SubscriptionAddonsSectionProps> = ({
 					billingPeriod={subscriptionDetails?.billing_period}
 					billingPeriodCount={
 						subscriptionBillingPeriodCount ??
-						(subscriptionContextResolved ? undefined : (subscriptionDetailsFetched as SubscriptionResponse | undefined)?.billing_period_count)
+						(subscriptionContextResolved
+							? undefined
+							: (subscriptionDetailsFetched as SubscriptionResponse | undefined)?.billing_period_count)
 					}
 					currency={subscriptionDetails?.currency}
 					currentPeriodEndIso={subscriptionDetails?.current_period_end}
