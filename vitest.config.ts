@@ -6,6 +6,13 @@ export default defineConfig({
 	test: {
 		globals: true,
 		environment: 'jsdom',
+		environmentOptions: {
+			jsdom: {
+				// Without an explicit URL jsdom uses an opaque origin, where localStorage is
+				// unavailable ("localStorage is not available for opaque origins").
+				url: 'http://localhost:3000',
+			},
+		},
 		env: {
 			// Reset white-label overrides so brand config tests assert against Flexprice defaults.
 			// Individual tests use vi.stubEnv() to set specific values.

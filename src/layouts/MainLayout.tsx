@@ -9,10 +9,15 @@ import useUser from '@/hooks/useUser';
 import posthog from 'posthog-js';
 import { useEffect } from 'react';
 import RouteGuard from '@/core/routes/RouteGuard';
+import { usePageViewTracking } from '@/hooks/usePageViewTracking';
+import { useRegisterUsageSubject } from '@/hooks/useOpenMeterSubjects';
 
 const MainLayout: React.FC = () => {
 	const { user } = useUser();
 	const navigate = useNavigate();
+
+	usePageViewTracking();
+	useRegisterUsageSubject();
 
 	useEffect(() => {
 		if (!user || !config.app.isProd) return;

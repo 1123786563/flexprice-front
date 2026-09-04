@@ -19,6 +19,7 @@ export enum Locale {
 	He = 'he',
 	Fa = 'fa',
 	Ur = 'ur',
+	Zh = 'zh',
 }
 
 export enum Direction {
@@ -39,7 +40,7 @@ export interface I18nConfig {
 	direction: Direction;
 }
 
-export const SUPPORTED_LOCALES: Locale[] = [Locale.En, Locale.Ar];
+export const SUPPORTED_LOCALES: Locale[] = [Locale.En, Locale.Ar, Locale.Zh];
 
 export const RTL_LOCALES = new Set<Locale>([Locale.Ar, Locale.He, Locale.Fa, Locale.Ur]);
 

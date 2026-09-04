@@ -1,0 +1,170 @@
+{
+	"features": {
+		"createFeature": {
+			"title": "如何创建功能？",
+			"description": "了解功能在 Flexprice 中的工作方式。"
+		},
+		"linkToPlans": {
+			"title": "如何将功能关联到计划？",
+			"description": "在 Flexprice 中将功能关联到计划。"
+		},
+		"clonePricing": {
+			"title": "如何复制 OpenAI 定价？",
+			"description": "在 Flexprice 中复制 OpenAI / Cursor 风格的定价。"
+		}
+	},
+	"addons": {
+		"create": {
+			"title": "如何创建附加组件？",
+			"description": "了解如何在 Flexprice 中创建新的附加组件。"
+		},
+		"list": {
+			"title": "如何列出所有附加组件？",
+			"description": "了解如何列出所有附加组件。"
+		},
+		"delete": {
+			"title": "如何删除附加组件？",
+			"description": "了解如何删除附加组件。"
+		}
+	},
+	"coupons": {
+		"create": {
+			"title": "如何创建优惠券？",
+			"description": "了解如何在 Flexprice 中创建新的优惠券。"
+		},
+		"update": {
+			"title": "如何更新优惠券？",
+			"description": "了解如何更新优惠券。"
+		},
+		"delete": {
+			"title": "如何删除优惠券？",
+			"description": "了解如何删除优惠券。"
+		}
+	},
+	"plans": {
+		"overview": {
+			"title": "了解计划在 Flexprice 中的工作方式。",
+			"description": "了解计划在 Flexprice 中的工作方式。"
+		},
+		"create": {
+			"title": "如何创建计划",
+			"description": "在 Flexprice 中创建新计划。"
+		},
+		"billingModels": {
+			"title": "如何在预付和后付账单之间选择？",
+			"description": "了解计划中使用的账单模式。"
+		}
+	},
+	"groups": {
+		"overview": {
+			"title": "了解分组在 Flexprice 中的工作方式。",
+			"description": "了解分组在 Flexprice 中的工作方式。"
+		},
+		"plansContext": {
+			"title": "了解计划在 Flexprice 中的工作方式。",
+			"description": "了解计划在 Flexprice 中的工作方式。"
+		},
+		"featuresContext": {
+			"title": "了解功能在 Flexprice 中的工作方式。",
+			"description": "了解功能在 Flexprice 中的工作方式。"
+		}
+	},
+	"customers": {
+		"create": {
+			"title": "如何创建客户",
+			"description": "了解客户在 Flexprice 中的工作方式。"
+		},
+		"archive": {
+			"title": "如何归档客户",
+			"description": "在 Flexprice 中创建新客户。"
+		},
+		"subscription": {
+			"title": "如何创建订阅",
+			"description": "在 Flexprice 中创建新订阅。"
+		}
+	},
+	"invoices": {
+		"create": {
+			"title": "如何创建发票",
+			"description": "了解发票在 Flexprice 中的工作方式。"
+		},
+		"manage": {
+			"title": "如何管理发票",
+			"description": "在 Flexprice 中管理发票。"
+		},
+		"partialPayments": {
+			"title": "如何处理部分付款",
+			"description": "在 Flexprice 中处理部分付款。"
+		}
+	},
+	"payments": {
+		"create": {
+			"title": "如何创建付款",
+			"description": "了解付款在 Flexprice 中的工作方式。"
+		},
+		"update": {
+			"title": "如何更新付款",
+			"description": "在 Flexprice 中创建付款。"
+		},
+		"delete": {
+			"title": "如何删除付款",
+			"description": "在 Flexprice 中删除现有付款。"
+		}
+	},
+	"secrets": {
+		"list": {
+			"title": "列出 API 密钥",
+			"description": "在 Flexprice 中查看所有 API 密钥。"
+		},
+		"create": {
+			"title": "创建新的 API 密钥",
+			"description": "在 Flexprice 中生成新的 API 密钥。"
+		},
+		"delete": {
+			"title": "删除 API 密钥",
+			"description": "在 Flexprice 中删除 API 密钥。"
+		}
+	},
+	"creditNotes": {
+		"create": {
+			"title": "创建新的贷记单",
+			"description": "了解贷记单在 Flexprice 中的工作方式。"
+		},
+		"process": {
+			"title": "处理草稿贷记单",
+			"description": "在 Flexprice 中创建新贷记单。"
+		},
+		"void": {
+			"title": "作废贷记单",
+			"description": "在 Flexprice 中管理贷记单。"
+		}
+	},
+	"importExport": {
+		"overview": {
+			"title": "概览",
+			"description": "了解 Flexprice 中的导入和导出选项。"
+		},
+		"importFile": {
+			"title": "导入文件",
+			"description": "将文件导入到 Flexprice。"
+		},
+		"processTask": {
+			"title": "处理导入任务",
+			"description": "在 Flexprice 中处理导入任务。"
+		}
+	},
+	"taxes": {
+		"createRate": {
+			"title": "如何创建税率？",
+			"description": "了解如何为您的计费系统设置税率。"
+		},
+		"types": {
+			"title": "了解税种类型",
+			"description": "了解百分比与固定金额税的计算方式。"
+		},
+		"associations": {
+			"title": "税务关联和覆盖",
+			"description": "了解如何将税务应用于特定实体。"
+		}
+	}
+}

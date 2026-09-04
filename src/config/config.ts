@@ -68,6 +68,15 @@ interface ReoConfig {
 	enabled: boolean;
 	clientId: string;
 }
+interface OpenMeterConfig {
+	enabled: boolean;
+	/** OpenMeter API base URL, no trailing slash (e.g. http://localhost:8888). */
+	baseUrl: string;
+	/** API key for OpenMeter Cloud / auth-enabled deployments; empty for local unauthenticated servers. */
+	apiKey: string;
+	/** Consumer portal token for the `@openmeter/sdk/react` portal query client; empty when the backend has no portal (self-hosted noop adapter). */
+	portalToken: string;
+}
 interface RegionConfig {
 	indiaUrl: string;
 	usUrl: string;
@@ -263,6 +272,7 @@ export interface Config {
 	intercom: IntercomConfig;
 	pylon: PylonConfig;
 	reo: ReoConfig;
+	openmeter: OpenMeterConfig;
 	region: RegionConfig;
 	integrations: IntegrationsConfig;
 	restrictions: RestrictionsConfig;
@@ -338,6 +348,12 @@ export const config: Config = {
 	reo: {
 		enabled: import.meta.env.VITE_REO_ENABLED === 'true',
 		clientId: import.meta.env.VITE_REO_CLIENT_ID ?? '',
+	},
+	openmeter: {
+		enabled: import.meta.env.VITE_OPENMETER_ENABLED === 'true',
+		baseUrl: (import.meta.env.VITE_OPENMETER_URL ?? 'http://localhost:8888').replace(/\/+$/, ''),
+		apiKey: import.meta.env.VITE_OPENMETER_API_KEY ?? '',
+		portalToken: import.meta.env.VITE_OPENMETER_PORTAL_TOKEN ?? '',
 	},
 	region: {
 		indiaUrl: import.meta.env.VITE_DASHBOARD_URL_INDIA ?? '',

@@ -11,6 +11,7 @@ const LOCALE_LABELS: Record<Locale, string> = {
 	[Locale.He]: 'עברית',
 	[Locale.Fa]: 'فارسی',
 	[Locale.Ur]: 'اردو',
+	[Locale.Zh]: '中文',
 };
 
 const LocaleSelector: React.FC = () => {

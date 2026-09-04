@@ -1,0 +1,563 @@
+{
+	"list": {
+		"title": "客户",
+		"paginationUnit": "客户",
+		"entityName": "客户",
+		"openPortal": "打开客户门户",
+		"emptyHeading": "客户",
+		"emptyDescription": "添加您的第一个客户以开始管理订阅和账单。",
+		"createCustomer": "创建客户",
+		"columns": {
+			"name": "名称",
+			"externalId": "外部 ID",
+			"status": "状态",
+			"updatedAt": "更新时间",
+			"actions": "操作"
+		},
+		"filters": {
+			"name": "名称",
+			"externalId": "外部 ID",
+			"email": "邮箱",
+			"createdAt": "创建时间",
+			"status": "状态",
+			"metadata": "元数据"
+		},
+		"sort": {
+			"name": "名称",
+			"email": "邮箱",
+			"createdAt": "创建时间",
+			"updatedAt": "更新时间"
+		},
+		"orgTypeFilter": {
+			"ariaLabel": "按组织类型筛选",
+			"parent": "父级",
+			"child": "子级"
+		}
+	},
+	"detail": {
+		"inactiveBanner": "该客户已停用。您只能查看其详情，无法进行任何更改。",
+		"tabsAria": "标签页",
+		"tabs": {
+			"overview": "概览",
+			"wallet": "钱包",
+			"invoice": "发票",
+			"information": "信息",
+			"taxAssociation": "税务",
+			"analytics": "分析",
+			"usageEvents": "使用事件"
+		},
+		"invoiceTabs": {
+			"overview": "概览",
+			"payments": "付款",
+			"creditNotes": "贷项通知单"
+		},
+		"creditNotesEmptySubtitle": "未找到贷项通知单"
+	},
+	"overview": {
+		"sectionTitle": "客户详情",
+		"loadingCustomerDetails": "正在加载客户详情...",
+		"billingStripeTag": "stripe",
+		"labels": {
+			"customer": "客户",
+			"email": "邮箱",
+			"billingId": "账单 ID",
+			"billingDetailsHeading": "账单详情",
+			"address": "地址",
+			"country": "国家",
+			"state": "州/省",
+			"city": "城市",
+			"postalCode": "邮政编码",
+			"timezone": "时区",
+			"subscriptionAmount": "订阅金额",
+			"subscriptionStartDate": "订阅开始日期"
+		},
+		"customerCardSectionTitle": "客户详情",
+		"customerCardSlug": "Slug",
+		"cardTitle": "客户详情"
+	},
+	"form": {
+		"drawer": {
+			"editCustomer": "编辑客户",
+			"addCustomer": "添加客户",
+			"editDescription": "输入客户详情以更新账户。",
+			"createDescription": "输入客户详情以在系统中创建新账户。",
+			"detailsSectionBadge": "客户详情",
+			"nameLabel": "名称",
+			"namePlaceholder": "输入名称",
+			"externalIdLabel": "外部 ID",
+			"externalIdPlaceholder": "customer-",
+			"emailOptionalLabel": "邮箱（可选）",
+			"emailPlaceholder": "例如 example@gmail.com",
+			"addBillingDetail": "添加账单详情",
+			"billingSectionBadge": "账单详情",
+			"saving": "保存中...",
+			"save": "保存"
+		},
+		"billingFields": {
+			"country": "国家",
+			"selectCountry": "选择国家",
+			"noCountries": "暂无可用国家",
+			"addressLine1": "地址行 1",
+			"addressLine1Placeholder": "地址行 1",
+			"addressLine2": "地址行 2",
+			"addressLine2Placeholder": "地址行 2",
+			"state": "州/省",
+			"selectState": "选择州/省",
+			"noStates": "暂无可用州/省",
+			"city": "城市",
+			"selectCity": "选择城市",
+			"noCities": "暂无可用城市",
+			"postalCode": "邮政编码",
+			"postalCodePlaceholder": "输入邮政编码"
+		},
+		"validation": {
+			"externalIdRequired": "外部 ID 为必填项",
+			"nameRequired": "客户名称为必填项",
+			"invalidEmail": "邮箱地址无效",
+			"addressLine1Max": "地址行 1 必须少于 255 个字符",
+			"addressLine2Max": "地址行 2 必须少于 255 个字符",
+			"cityMax": "城市名称必须少于 100 个字符",
+			"stateMax": "州/省名称必须少于 100 个字符",
+			"postalCodeMax": "邮政编码必须少于 20 个字符",
+			"countryLength": "国家代码必须正好为 2 个字符",
+			"addressCountryStateRequired": "填写地址字段时，国家和州/省为必填项",
+			"failedToSave": "添加客户失败，请重试。"
+		},
+		"toast": {
+			"updated": "客户更新成功",
+			"created": "客户添加成功"
+		}
+	},
+	"wallet": {
+		"createTitle": "创建钱包",
+		"description": "定义钱包详情及其使用的货币。",
+		"typeLabel": "钱包类型",
+		"typePlaceholder": "选择钱包类型",
+		"currencyLabel": "货币",
+		"customCurrencyHint": "已选择自定义货币。货币和转换汇率将自动设置。",
+		"selectCurrencyHint": "为此钱包选择货币或自定义货币。",
+		"conversionRate": "转换汇率",
+		"suffixCredit": "积分",
+		"creditsPluralSuffix": "积分",
+		"topupConversionRate": "充值转换汇率",
+		"topupConversionDescription": "充值的转换汇率。如未指定，默认使用主转换汇率。",
+		"freeCredits": "免费积分",
+		"freeCreditsPlaceholder": "输入要添加到钱包的免费积分",
+		"freeCreditsExpiry": "免费积分到期日期",
+		"expiryPlaceholder": "选择到期日期",
+		"typePrepaidDesc": "客户预先充值积分。使用量从实时余额中扣除。",
+		"typePostpaidDesc": "积分将在账单周期结束时应用到发票上。",
+		"labelPrePaid": "预付费",
+		"labelPostPaid": "后付费",
+		"addTopupRate": "充值汇率",
+		"addFreeCredits": "免费积分",
+		"saveWallet": "保存钱包",
+		"errors": {
+			"currencyRequired": "货币为必填项",
+			"conversionRatePositive": "转换汇率必须大于 0",
+			"topupConversionPositive": "充值转换汇率必须大于 0",
+			"expiryAfterSubscription": "到期日期必须在当前订阅周期结束之后"
+		},
+		"toast": {
+			"createSuccess": "钱包创建成功",
+			"createError": "创建钱包时发生错误"
+		}
+	},
+	"select": {
+		"searchCustomers": "搜索客户...",
+		"searchCustomer": "搜索客户...",
+		"searchByName": "按名称搜索客户...",
+		"customersLabel": "客户",
+		"selectCustomers": "选择客户",
+		"none": "无",
+		"self": "自己"
+	},
+	"inheritanceTable": {
+		"addDialogTitle": "添加要继承的客户",
+		"columns": {
+			"customer": "客户",
+			"externalId": "外部 ID"
+		},
+		"removeAriaPrefix": "移除",
+		"sectionTitle": "继承的客户",
+		"addSelected": "添加 ({{count}})",
+		"add": "添加"
+	},
+	"usageTable": {
+		"columns": {
+			"feature": "功能",
+			"plan": "计划",
+			"value": "值",
+			"usage": "使用量"
+		},
+		"units": "单位",
+		"unlimitedLabel": "无限",
+		"booleanTrue": "是",
+		"booleanFalse": "否",
+		"featureTypes": {
+			"static": "静态",
+			"metered": "计量",
+			"boolean": "布尔",
+			"config": "配置",
+			"dash": "--",
+			"usageProgressUnlimited": "{{usage}} / 无限"
+		},
+		"fallback": "--"
+	},
+	"subscriptionCreate": {
+		"selectCustomerLabel": "客户",
+		"selectCustomerPlaceholder": "搜索客户...",
+		"selectCustomerHint": "选择客户以继续创建订阅",
+		"toast": {
+			"draftSaved": "订阅草稿保存成功",
+			"created": "订阅创建成功",
+			"error": "创建订阅时出错"
+		},
+		"validation": {
+			"planAndPeriod": "请选择计划和账单周期。",
+			"startDate": "请选择订阅的开始日期。",
+			"phaseStartDate": "请选择阶段 {{phase}} 的开始日期",
+			"saveEditsFirst": "请在提交前保存您的更改。",
+			"trialDays": "请输入有效的试用天数（至少为 1），或留空以使用计划默认值。",
+			"autoThresholdFixed": "当计划包含固定费用时，无法使用自动开票阈值。",
+			"autoThresholdNonNegative": "请输入有效的自动开票阈值（0 或更大），或留空以省略。",
+			"entitlementOverridesWithProration": "权益覆盖不能与按比例计费组合使用。请禁用按比例计费或移除权益覆盖。"
+		},
+		"billingCustomer": {
+			"loadFailed": "无法加载账单客户详情。",
+			"missingExternalId": "账单客户必须拥有外部 ID。"
+		},
+		"sandboxNotice": "这是一个沙盒订阅，将于 {{date}}（距今 {{days}} 天后）自动结束。",
+		"saveAsDraft": "保存为草稿"
+	},
+	"subscriptionDetail": {
+		"breadcrumbSubscription": "订阅",
+		"sectionTitle": "订阅详情",
+		"subscriptionName": "订阅名称",
+		"status": "状态",
+		"billingCycle": "账单周期",
+		"commitmentPeriod": "承诺周期",
+		"paymentTerms": "付款条款",
+		"timezone": "时区",
+		"invoicingCustomer": "开票客户",
+		"parentCustomer": "父客户",
+		"commitmentLabel": "承诺",
+		"autoInvoiceThreshold": "自动开票阈值",
+		"overageFactor": "超额系数",
+		"startDate": "开始日期",
+		"renewalDate": "续订日期",
+		"subscriptionsInheritance": "订阅继承",
+		"taxAssociations": "税务关联",
+		"couponAssociations": "优惠券关联",
+		"subscriptionPhases": "订阅阶段",
+		"phaseHeading": "阶段 {{index}}",
+		"phaseStart": "开始",
+		"phaseEnd": "结束",
+		"noPhases": "未找到阶段。",
+		"upcomingInvoicesTitle": "即将到来的发票",
+		"upcomingInvoicesSubtitle": "这是将在 {{date}} 开具的发票预览。如果订阅更新，它可能会发生变化。",
+		"upcomingInvoicesEmpty": "截至 {{date}} 的周期内没有行项目。",
+		"cancelsOnDate": "于 {{date}} 取消",
+		"cancelsByDate": "将于 {{date}} 前取消",
+		"columns": {
+			"customer": "客户",
+			"type": "类型",
+			"plan": "计划",
+			"startDate": "开始日期",
+			"renewalDate": "续订日期"
+		},
+		"toast": {
+			"genericError": "出错了"
+		},
+		"commitment": {
+			"annual": "年度",
+			"monthly": "月度",
+			"nMonths": "{{count}} 个月",
+			"quarterly": "季度",
+			"halfYearly": "半年",
+			"weekly": "周度",
+			"daily": "日度"
+		}
+	},
+	"tabPanels": {
+		"common": {
+			"metadata": "元数据",
+			"unknown": "未知"
+		},
+		"analytics": {
+			"heading": "分析",
+			"featuresLabel": "功能",
+			"featuresPlaceholder": "选择功能",
+			"startDatePlaceholder": "选择开始日期",
+			"startDateLabel": "开始日期",
+			"endDatePlaceholder": "选择结束日期",
+			"endDateLabel": "结束日期",
+			"options": "选项",
+			"includeChildren": "包含子级",
+			"metricRevenue": "收入",
+			"metricCost": "成本",
+			"metricMargin": "利润",
+			"metricMarginPercent": "利润率 %",
+			"metricCpm": "CPM",
+			"usageBreakdown": "使用量明细",
+			"collapseAll": "全部折叠",
+			"expandAll": "全部展开",
+			"totalUsage": "总使用量",
+			"totalCost": "总成本",
+			"cogs": "成本",
+			"tableEmpty": "--"
+		},
+		"information": {
+			"saveCardOnStripe": "在 Stripe 上保存卡片",
+			"setupAutopayMoyasar": "设置自动付款",
+			"sharePortalLinkTitle": "分享客户门户链接",
+			"childCustomersTitle": "子客户"
+		},
+		"invoice": {
+			"title": "发票",
+			"emptySubtitle": "未找到发票",
+			"addInvoice": "添加发票",
+			"paginationUnit": "发票"
+		},
+		"overview": {
+			"subscriptionsCardTitle": "订阅",
+			"subscriptionsPaginationUnit": "订阅",
+			"entitlementsCardTitle": "权益"
+		},
+		"tax": {
+			"emptyTitle": "税务",
+			"emptySubtitle": "未给该客户分配税率",
+			"associationsTitle": "税务关联",
+			"associationsPaginationUnit": "税务关联"
+		},
+		"usageEvents": {
+			"loadErrorTitle": "无法加载事件",
+			"loadErrorDescription": "缺少客户信息",
+			"noEventsFound": "未找到事件"
+		},
+		"wallet": {
+			"emptyTitle": "钱包",
+			"emptySubtitle": "该客户没有关联的钱包",
+			"addWallet": "添加钱包",
+			"topupWallet": "充值钱包",
+			"detailsTitle": "钱包详情",
+			"currentBalanceShort": "当前",
+			"ongoingBalanceShort": "进行中",
+			"balanceLabel": "{{type}} 余额",
+			"currentBalanceTooltip": "根据最新发票的余额",
+			"ongoingBalanceTooltip": "包含实时使用量",
+			"creditsSuffix": "积分",
+			"noTransactionsTitle": "未找到交易",
+			"transactionsTitle": "交易",
+			"transactionsPaginationUnit": "交易",
+			"noTransactionsSubtitle": "暂无近期交易",
+			"noMetadataTitle": "无元数据",
+			"noMetadataHint": "添加自定义元数据以存储关于此钱包的额外信息。"
+		}
+	},
+	"moyasarAutopay": {
+		"title": "通过 Moyasar 设置自动付款",
+		"intro": "输入卡片详情以启用自动付款。卡片由 Moyasar 安全地进行令牌化处理。",
+		"setupCard": "设置卡片",
+		"loadingForm": "正在加载安全卡片表单…",
+		"savingCard": "正在保存卡片…",
+		"successTitle": "自动付款已启用。该客户的后续发票将自动扣款。",
+		"alreadyConfiguredTitle": "自动付款已配置",
+		"alreadyConfiguredDesc": "该客户已有保存的付款方式。请先移除它，然后才能注册新卡片。",
+		"done": "完成",
+		"toastEnabled": "自动付款已启用。后续发票将自动扣款。",
+		"toastInitFailed": "初始化 Moyasar 自动付款失败",
+		"toastSaveFailed": "保存卡片失败",
+		"toastScriptFailed": "Moyasar.js 加载失败。请刷新后重试。",
+		"toastNoToken": "Moyasar 未返回卡片令牌",
+		"toastParseTokenFailed": "解析结账令牌失败",
+		"loadingSetup": "正在完成卡片设置…",
+		"formTitle": "保存卡片用于自动付款",
+		"formDesc": "我们将扣除 1 SAR 以验证您的卡片，随后会自动退款。",
+		"formLoadFailed": "加载付款表单失败。请刷新。",
+		"cardSavedTitle": "卡片保存成功",
+		"cardSavedDescription": "您的卡片已保存，自动付款现已激活。后续发票将自动扣款。",
+		"cardSetupInProgressTitle": "卡片设置进行中",
+		"cardSetupInProgressDescription": "您的卡片正在验证中。通常会在几分钟内完成。您可以放心关闭此页面。",
+		"cardSetupFailedTitle": "卡片设置失败",
+		"cardSetupFailedDefaultDescription": "出错了。请重试。",
+		"tryAgain": "重试"
+	},
+	"organisms": {
+		"phaseForm": {
+			"phaseDuration": "阶段时长",
+			"startDateRequired": "开始日期*",
+			"endDate": "结束日期",
+			"foreverPlaceholder": "永久",
+			"updatePhase": "更新阶段",
+			"savePhase": "保存阶段"
+		},
+		"phaseList": {
+			"title": "订阅阶段",
+			"forever": "永久",
+			"phaseIndex": "阶段 {{index}}",
+			"couponSingle": "• {{count}} 张优惠券",
+			"couponPlural": "• {{count}} 张优惠券",
+			"lineItemCouponSingle": "• {{count}} 张行项目优惠券",
+			"lineItemCouponPlural": "• {{count}} 张行项目优惠券",
+			"editPhase": "编辑阶段",
+			"deletePhase": "删除阶段",
+			"addPhase": "+ 添加阶段"
+		},
+		"priceOverrideSummary": {
+			"title": "已应用的价格覆盖 ({{count}})",
+			"chargeFallback": "费用"
+		},
+		"subscriptionAction": {
+			"cancelTitle": "取消订阅",
+			"cancelSubtitle": "此操作无法撤销。请在继续之前选择取消和发票行为。",
+			"cancellationType": "取消类型",
+			"cancelOn": "取消日期",
+			"selectCancellationDate": "选择取消日期",
+			"prorationBehavior": "按比例计费行为",
+			"invoiceBehaviorTitle": "发票行为",
+			"generateInvoice": "生成发票",
+			"generateInvoiceDesc": "启用后，将为截至取消日期的使用量生成发票。",
+			"reasonOptional": "原因（可选）",
+			"cancelReasonPlaceholder": "为什么要取消此订阅？",
+			"keepSubscription": "不，保留",
+			"cancelling": "取消中...",
+			"yesCancel": "是，取消",
+			"cancellationImmediate": "立即",
+			"cancellationEndOfPeriod": "周期结束",
+			"cancellationScheduled": "计划日期",
+			"prorationNone": "无",
+			"prorationCreate": "创建按比例计费",
+			"activateTitle": "激活订阅",
+			"activateSubtitle": "激活订阅将从所选的开始日期启动账单周期。",
+			"startDate": "开始日期",
+			"activating": "激活中...",
+			"activate": "激活"
+		},
+		"subscriptionForm": {
+			"subscriptionDetails": "订阅详情",
+			"planRequired": "计划*",
+			"selectPlan": "选择计划",
+			"loadPlansError": "加载计划失败",
+			"loadPlanDetailsError": "加载计划详情失败",
+			"loadingPlanDetails": "正在加载计划详情...",
+			"billingPeriodRequired": "账单周期*",
+			"selectBillingPeriod": "选择账单周期",
+			"currencyRequired": "货币*",
+			"selectCurrency": "选择货币",
+			"subscriptionCycle": "订阅周期",
+			"billingAnniversary": "周年",
+			"billingCalendar": "日历",
+			"subscriptionStartRequired": "订阅开始日期*",
+			"subscriptionEnd": "订阅结束日期",
+			"foreverPlaceholder": "永久",
+			"billingDate": "账单日期",
+			"selectBillingDate": "选择账单日期",
+			"commitmentAmount": "承诺金额",
+			"commitmentAmountPlaceholder": "例如 $100.00",
+			"commitmentPeriod": "承诺周期",
+			"commitmentMonthly": "月度",
+			"commitmentQuarterly": "季度",
+			"commitmentHalfYearly": "半年",
+			"commitmentAnnual": "年度",
+			"sameAsBillingPlaceholder": "与账单周期相同",
+			"overageFactor": "超额系数",
+			"overageFactorPlaceholder": "例如 1.5",
+			"enableTrueUp": "启用 True-up 费用",
+			"entitlements": "权益",
+			"billingConfiguration": "账单配置",
+			"paymentTerms": "付款条款",
+			"selectPaymentTerms": "选择付款条款",
+			"billingCustomerLabel": "账单客户",
+			"billingCustomerPlaceholder": "自己",
+			"searchBillingCustomer": "搜索账单客户...",
+			"freeTrial": "免费试用",
+			"aboutFreeTrialAria": "关于免费试用",
+			"freeTrialHelp": "此订阅的可选试用天数。留空以使用计划默认值（如果计划未定义，则无试用期）。",
+			"trialDaysAria": "试用期天数",
+			"trialDaysPlaceholder": "14",
+			"prorationBehavior": "按比例计费行为",
+			"aboutProrationAria": "关于按比例计费",
+			"prorationHelp": "启用后，周期内的订阅更改将生成按比例计费的行项目，使发票反映每个价格所花费的时间。",
+			"prorationInline": "当订阅在周期中途变更时，创建按比例计费的行项目。",
+			"autoInvoiceThreshold": "自动开票阈值",
+			"aboutAutoInvoiceAria": "关于自动开票阈值",
+			"autoInvoiceHelp": "可在周期结束前触发发票的使用量金额。当费用基于使用量时可用；固定价格订阅费用将禁用此字段。",
+			"autoInvoicePlaceholder": "100.00",
+			"autoInvoiceAmountAria": "自动开票阈值金额",
+			"planNoCharges": "此计划未添加任何费用"
+		},
+		"subscriptionPriceTable": {
+			"overridePrice": "覆盖价格",
+			"editOverride": "编辑覆盖",
+			"resetOverride": "重置覆盖",
+			"configureCommitment": "配置承诺",
+			"editCommitment": "编辑承诺",
+			"applyCoupon": "应用优惠券",
+			"payAsYouGo": "按量付费",
+			"chargeFallback": "费用",
+			"charges": "费用",
+			"showLess": "收起",
+			"showMore": "显示更多 {{count}} 项",
+			"colCharge": "费用",
+			"colBillingPeriod": "账单周期",
+			"colQuantity": "数量",
+			"colPrice": "价格",
+			"editAdded": "编辑",
+			"deleteAdded": "删除"
+		},
+		"subscriptionTable": {
+			"planModifiedAria": "计划已修改",
+			"hierarchyColumn": "层级",
+			"inheritedTitle": "继承的订阅",
+			"inheritedBody": "此订阅镜像父订阅的费用。应在父级上进行更改。",
+			"parentTitle": "父订阅",
+			"parentBody": "来自关联子订阅的使用量和费用将汇总到此订阅中。",
+			"groupedInvoicingTitle": "分组开票",
+			"groupedInvoicingBody": "此订阅有自己的费用；账单可以在父订阅发票上合并。",
+			"delegatedInvoicingTitle": "委托开票",
+			"delegatedInvoicingBody": "费用在此订阅上累计，但发票将开具给另一个客户（开票客户）。",
+			"chipInherited": "继承",
+			"chipParent": "父级",
+			"chipGrouped": "分组开票",
+			"chipDelegated": "委托开票"
+		},
+		"subscriptionWithOverrides": {
+			"chargesTitle": "订阅费用",
+			"resetAll": "全部重置",
+			"priceOverridesTitle": "已应用的价格覆盖",
+			"reset": "重置",
+			"creating": "正在创建订阅...",
+			"create": "创建订阅",
+			"chargeFallback": "费用",
+			"overrideSingle": "{{count}} 项覆盖",
+			"overridePlural": "{{count}} 项覆盖"
+		},
+		"usageTable": {
+			"currentMeterUsage": "当前计量使用量"
+		}
+	},
+	"subscriptionEdit": {
+		"pageTitle": "编辑订阅",
+		"pageHeading": "编辑订阅",
+		"couponAssociations": "优惠券关联",
+		"addCoupon": "添加优惠券",
+		"taxAssociations": "税务关联",
+		"addTax": "添加税务",
+		"toast": {
+			"lineItemUpdated": "行项目更新成功",
+			"lineItemUpdateFailed": "更新行项目失败",
+			"lineItemTerminated": "行项目终止成功",
+			"lineItemTerminateFailed": "终止行项目失败",
+			"chargeAdded": "费用添加成功",
+			"chargeAddFailed": "添加费用失败",
+			"subscriptionUpdated": "订阅更新成功",
+			"subscriptionUpdateFailed": "更新订阅失败",
+			"creditGrantCreated": "信用额度授予创建成功",
+			"creditGrantCreateFailed": "创建信用额度授予失败",
+			"creditGrantDeleted": "信用额度授予删除成功",
+			"creditGrantDeleteFailed": "删除信用额度授予失败",
+			"loadError": "加载订阅数据出错"
+		}
+	}
+}

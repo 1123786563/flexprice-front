@@ -57,3 +57,7 @@ deploy-config.json
 # Playwright Docker image (matching CI) belong in the repo. See e2e/README.md.
 /e2e/visual/**/*-darwin.png
 /e2e/visual/**/*-win32.png
+.mimosa/
+
+# Ad-hoc GUI test evidence screenshots
+/gui-test-screenshots/

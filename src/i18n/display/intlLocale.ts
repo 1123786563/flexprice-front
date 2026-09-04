@@ -7,6 +7,7 @@ const INTL_LOCALE_BY_LANG: Record<string, string> = {
 	he: 'he-IL',
 	fa: 'fa-IR',
 	ur: 'ur-PK',
+	zh: 'zh-CN',
 };
 
 /** Active UI locale for Intl (follows i18n.language / locale store). */

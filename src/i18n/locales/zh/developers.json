@@ -1,0 +1,488 @@
+{
+	"labels": {
+		"missingValue": "—",
+		"name": "名称",
+		"account": "账号",
+		"token": "令牌",
+		"type": "类型",
+		"roles": "角色",
+		"createdAt": "创建时间",
+		"id": "ID",
+		"expiration": "过期时间",
+		"accountType": "账号类型",
+		"mappedToIdentity": "映射到的身份",
+		"selectedRoles": "已选角色",
+		"accountRolesPermissions": "账号角色和权限",
+		"apiKey": "API 密钥",
+		"lineItem": "行项目",
+		"qty": "数量",
+		"values": "值",
+		"customer": "客户",
+		"subscription": "订阅",
+		"feature": "功能",
+		"meter": "计量器",
+		"price": "价格",
+		"workflowId": "工作流 ID",
+		"runId": "运行 ID",
+		"workflowType": "工作流类型",
+		"taskQueue": "任务队列",
+		"entity": "实体",
+		"entityId": "实体 ID",
+		"activityId": "活动 ID",
+		"activityType": "活动类型",
+		"close": "关闭",
+		"closeTime": "关闭时间",
+		"status": "状态",
+		"start": "开始",
+		"error": "错误",
+		"duration": "持续时间",
+		"startTime": "开始时间",
+		"endTime": "结束时间",
+		"eventId": "事件 ID",
+		"eventsName": "事件名称",
+		"externalCustomerId": "外部客户 ID",
+		"source": "来源",
+		"timestamp": "时间戳",
+		"response": "响应",
+		"eventDetails": "事件详情",
+		"eventFilter": "事件筛选",
+		"roleRequiredHint": "角色",
+		"placeholders": {
+			"key": "键",
+			"value": "值",
+			"secretKeyName": "密钥",
+			"selectServiceAccount": "选择服务账号"
+		}
+	},
+	"apiKeys": {
+		"toastFetchError": "获取密钥失败",
+		"paginationUnit": "密钥",
+		"emptyCard": {
+			"heading": "生成密钥",
+			"description": "生成密钥以验证 API 请求并保障安全访问。",
+			"button": "创建密钥"
+		},
+		"roles": {
+			"fullAccess": "完全访问"
+		},
+		"accountTypes": {
+			"serviceAccount": "服务账号",
+			"userAccount": "用户账号"
+		},
+		"entityName": "API 密钥",
+		"permissionDisplay": {
+			"none": "无",
+			"read": "读取",
+			"write": "写入",
+			"fullAccess": "完全访问"
+		}
+	},
+	"serviceAccounts": {
+		"toastFetchError": "获取服务账号失败",
+		"paginationUnit": "服务账号",
+		"noRoles": "无角色",
+		"emptyCard": {
+			"heading": "创建服务账号",
+			"description": "创建服务账号以管理具有特定角色和权限的程序化访问。",
+			"button": "创建服务账号"
+		}
+	},
+	"secretKeyDrawer": {
+		"title": "创建 API 密钥",
+		"description": "创建新的 API 密钥以访问 Flexprice API",
+		"createFailed": "创建 API 密钥失败，请重试。",
+		"inheritedPrefix": "继承自服务账号：",
+		"fullAccess": {
+			"title": "完全访问",
+			"body": "此 API 密钥将拥有从您的用户账号继承的完全访问权限及所有权限。"
+		},
+		"serviceAccountsUnavailable": {
+			"title": "服务账号不可用",
+			"body": "服务账号的后端端点尚未实现。请改为创建用户账号 API 密钥，或联系您的管理员。"
+		},
+		"noServiceAccounts": {
+			"title": "未找到服务账号",
+			"body": "请先创建一个服务账号，以便为自动化服务生成 API 密钥。"
+		},
+		"expiration": {
+			"never": "永不过期",
+			"oneHour": "1 小时",
+			"oneDay": "1 天",
+			"oneWeek": "1 周",
+			"oneMonth": "1 个月"
+		},
+		"accountTypes": {
+			"user": "用户账号",
+			"service": "服务账号"
+		},
+		"serviceAccountFallback": "服务账号 {{index}}",
+		"modal": {
+			"title": "查看 API 密钥",
+			"warning": "此密钥仅可查看一次，请妥善保管。"
+		}
+	},
+	"serviceAccountDrawer": {
+		"title": "创建服务账号",
+		"description": "为自动化服务创建具有特定角色的服务账号",
+		"createSuccess": "服务账号创建成功！",
+		"createFailed": "创建服务账号失败，请重试。",
+		"intro": {
+			"title": "服务账号",
+			"body": "服务账号用于自动化流程和 API 集成。它们具有固定的角色和权限。"
+		},
+		"rolesUnavailable": {
+			"title": "角色不可用",
+			"body": "无法加载可用角色，请联系您的管理员。"
+		},
+		"rolesHint": "选择一个或多个角色来定义此服务账号的权限",
+		"loadingRoles": "正在加载角色...",
+		"noRolesAvailable": "没有可用角色",
+		"submit": "创建服务账号",
+		"editTitle": "编辑服务账号",
+		"editDescription": "更新此服务账号的名称。",
+		"namePlaceholder": "例如：事件采集服务",
+		"saveButton": "保存更改",
+		"updateSuccess": "服务账号更新成功",
+		"updateFailed": "更新服务账号失败"
+	},
+	"webhooks": {
+		"toastFetchError": "获取 Webhook 仪表盘失败：{{message}}",
+		"unknownError": "未知错误",
+		"emptyLoadFailed": {
+			"heading": "无法加载",
+			"description": "加载 Webhook 仪表盘时出错，请尝试刷新页面。"
+		},
+		"disabled": {
+			"heading": "未启用",
+			"description": "Webhook 未启用，请联系支持团队以启用 Webhook。"
+		},
+		"tabs": {
+			"endpoints": "端点",
+			"eventCatalog": "事件目录",
+			"logs": "日志",
+			"activity": "活动"
+		},
+		"endpoints": {
+			"heading": "端点",
+			"addEndpoint": "添加端点",
+			"loadFailed": "加载端点失败。",
+			"columns": {
+				"endpoint": "端点",
+				"errorRate": "错误率"
+			},
+			"empty": {
+				"title": "设置一个端点即可开始",
+				"subtitle": "如需查看可订阅的事件列表，请查看<link>事件目录</link>。"
+			},
+			"deleteConfirm": "删除端点 {{url}}？",
+			"deleteSuccess": "端点已删除",
+			"deleteFailed": "删除端点失败",
+			"secret": {
+				"reveal": "显示密钥",
+				"hide": "隐藏密钥",
+				"loading": "加载中…",
+				"loadFailed": "加载密钥失败",
+				"masked": "••••••••••••",
+				"copy": "复制密钥",
+				"copied": "密钥已复制到剪贴板"
+			},
+			"form": {
+				"newEndpointTitle": "新端点",
+				"urlLabel": "端点 URL",
+				"urlPlaceholder": "例如：https://www.example.com/webhook",
+				"urlHint": "此 URL 将为每个已订阅的事件接收 POST 请求。",
+				"urlHintPrefix": "配置端点或测试",
+				"svixPlayLink": "使用 Svix Play",
+				"svixPlayTooltip": "Svix Play 会即时为您提供一个唯一端点，用于接收和检查传入的 Webhook。",
+				"svixPlayTooltipAria": "关于 Svix Play",
+				"svixPlayGenerating": "生成中…",
+				"svixPlayFailed": "生成 Svix Play URL 失败",
+				"descriptionLabel": "描述",
+				"descriptionPlaceholder": "对此端点用途的可选描述。",
+				"subscribeToEvents": "订阅事件",
+				"searchEventsPlaceholder": "搜索事件…",
+				"submit": "添加端点",
+				"submitting": "添加中…",
+				"addSuccess": "端点已添加",
+				"addFailed": "添加端点失败"
+			},
+			"detail": {
+				"backToEndpoint": "端点详情",
+				"tabs": {
+					"overview": "概览",
+					"testing": "测试",
+					"advanced": "高级"
+				},
+				"createdAt": "创建日期",
+				"updatedAt": "最后更新",
+				"subscribedEvents": "已订阅事件",
+				"allEvents": "所有事件",
+				"eventsSaved": "已订阅事件已更新",
+				"eventsSaveFailed": "更新已订阅事件失败",
+				"signingSecret": "签名密钥",
+				"enableEndpoint": "启用端点",
+				"disableEndpoint": "禁用端点",
+				"disabledBadge": "已禁用",
+				"enableSuccess": "端点已启用",
+				"disableSuccess": "端点已禁用",
+				"toggleFailed": "更新端点失败",
+				"description": "描述",
+				"noDescription": "无描述",
+				"descriptionSaved": "描述已更新",
+				"descriptionSaveFailed": "更新描述失败",
+				"deliveryStats": "投递统计（过去 24 小时）",
+				"noDeliveries": "过去 24 小时内未收到任何消息",
+				"throttling": "端点限流",
+				"throttlePlaceholder": "例如：10",
+				"throttleValue": "{{rate}} 请求/秒",
+				"noThrottle": "未设置限流速率",
+				"throttleSaved": "限流已更新",
+				"throttleSaveFailed": "更新限流失败",
+				"customHeaders": "自定义请求头",
+				"headerKeyPlaceholder": "键",
+				"headerValuePlaceholder": "值",
+				"headersSaveFailed": "更新自定义请求头失败"
+			},
+			"testing": {
+				"heading": "示例 Webhook",
+				"description": "要测试您的集成，请使用示例事件向此端点发送请求。",
+				"note": "以这种方式发送的失败消息将不会重试。",
+				"sendEvent": "发送事件",
+				"selectEventType": "选择事件类型",
+				"sendExample": "发送示例",
+				"sendSuccess": "示例事件已发送",
+				"sendFailed": "发送示例事件失败"
+			},
+			"attempts": {
+				"heading": "消息尝试",
+				"columns": {
+					"status": "状态",
+					"eventType": "事件类型",
+					"messageId": "消息 ID",
+					"timestamp": "时间戳",
+					"replay": "重放"
+				},
+				"filters": {
+					"all": "全部",
+					"succeeded": "成功",
+					"failed": "失败"
+				},
+				"status": {
+					"succeeded": "成功",
+					"failed": "失败",
+					"sending": "发送中",
+					"pending": "待处理",
+					"unknown": "未知"
+				},
+				"empty": {
+					"title": "暂无消息",
+					"subtitle": "此端点尚未收到任何消息。"
+				},
+				"loadFailed": "加载消息尝试失败。",
+				"replaySuccess": "消息已加入重新投递队列",
+				"replayFailed": "重放消息失败"
+			}
+		},
+		"messages": {
+			"loadFailed": "加载消息失败。",
+			"content": "消息内容",
+			"raw": "原始",
+			"createdAt": "创建时间",
+			"attempts": {
+				"heading": "Webhook 尝试",
+				"emptyTitle": "暂无尝试",
+				"empty": "此消息暂无投递尝试。",
+				"httpResponseCode": "HTTP 响应码",
+				"response": "响应",
+				"webhookHeaders": "Webhook 请求头"
+			}
+		},
+		"eventCatalog": {
+			"heading": "事件类型",
+			"filterPlaceholder": "筛选事件类型…",
+			"allEvents": "所有事件",
+			"empty": "未找到事件类型。",
+			"loadFailed": "加载事件目录失败。"
+		},
+		"logs": {
+			"heading": "消息日志",
+			"loadFailed": "加载消息日志失败。",
+			"empty": {
+				"title": "暂无消息",
+				"subtitle": "当端点开始接收流量后，已投递的事件将显示在此处。"
+			},
+			"columns": {
+				"eventType": "事件类型",
+				"messageId": "消息 ID",
+				"timestamp": "时间戳"
+			}
+		},
+		"activity": {
+			"heading": "历史投递尝试",
+			"subheading": "跨所有端点的投递尝试。",
+			"successfulAttempts": "成功尝试",
+			"failedAttempts": "失败尝试",
+			"recentActivity": "近期活动",
+			"noActivity": "过去 6 小时内没有记录任何活动。",
+			"loadFailed": "加载活动失败"
+		}
+	},
+	"workflows": {
+		"paginationUnit": "工作流",
+		"empty": {
+			"description": "记录运行时，Temporal 工作流执行将显示在此处。"
+		},
+		"filters": {
+			"workflowId": "工作流 ID",
+			"workflowType": "工作流类型",
+			"taskQueue": "任务队列",
+			"status": "状态",
+			"entity": "实体",
+			"entityId": "实体 ID",
+			"running": "运行中",
+			"completed": "已完成",
+			"failed": "已失败",
+			"canceled": "已取消",
+			"terminated": "已终止",
+			"continuedAsNew": "已作为新流程继续",
+			"timedOut": "已超时"
+		},
+		"sort": {
+			"startTime": "开始时间",
+			"endTime": "结束时间",
+			"createdAt": "创建时间"
+		},
+		"columns": {
+			"workflowId": "工作流 ID",
+			"runId": "运行 ID",
+			"workflowType": "工作流类型",
+			"status": "状态",
+			"startTime": "开始时间",
+			"endTime": "结束时间",
+			"duration": "持续时间"
+		},
+		"statusChip": {
+			"completed": "已完成",
+			"failed": "已失败"
+		},
+		"durationUnits": {
+			"ms": "毫秒",
+			"s": "秒",
+			"min": "分钟",
+			"hr": "小时"
+		}
+	},
+	"workflowDetail": {
+		"heading": "工作流详情",
+		"headingShort": "工作流",
+		"notFoundTitle": "未找到工作流",
+		"notFoundDescription": "加载工作流失败，或它可能已被删除。",
+		"backToWorkflows": "返回工作流列表",
+		"summaryTitle": "摘要",
+		"activitiesTitle": "活动",
+		"noActivities": "没有记录任何活动。",
+		"columns": {
+			"retries": "重试次数"
+		},
+		"activityStatus": {
+			"COMPLETED": "已完成",
+			"FAILED": "已失败",
+			"RUNNING": "运行中",
+			"CANCELED": "已取消",
+			"TIMED_OUT": "已超时"
+		}
+	},
+	"events": {
+		"listPage": {
+			"title": "事件"
+		},
+		"queryBuilder": {
+			"filters": {
+				"eventId": "事件 ID",
+				"eventName": "事件名称",
+				"externalCustomerId": "外部客户 ID",
+				"source": "来源",
+				"startTime": "开始时间",
+				"endTime": "结束时间"
+			},
+			"sort": {
+				"createdAt": "创建时间",
+				"updatedAt": "更新时间"
+			}
+		},
+		"debugger": {
+			"processedEventsTitle": "已处理事件",
+			"eventDetailsTitle": "事件详情",
+			"loadFailedTitle": "加载事件调试详情失败",
+			"noTrackerData": "此事件没有可用的跟踪数据。",
+			"couldNotResolveCustomer": "无法解析此订阅的客户",
+			"openSubscriptionFailed": "打开订阅失败",
+			"propertiesCopied": "属性已复制到剪贴板！"
+		},
+		"processed": {
+			"eventNumber": "事件 #{{n}}"
+		},
+		"tracker": {
+			"ingested": "已采集",
+			"customerLookup": "客户查询",
+			"featureLookup": "功能查询",
+			"priceLookup": "价格查询",
+			"subscriptionLineItemLookup": "订阅行项目查询",
+			"attributedToCustomer": "归属客户",
+			"stepStatus": {
+				"processing": "处理中",
+				"failed": "失败",
+				"successful": "成功",
+				"skipped": "已跳过"
+			}
+		},
+		"monitoring": {
+			"title": "事件监控",
+			"description": "事件处理指标和延迟信息",
+			"eventCount": "事件计数",
+			"emptyRangeTitle": "此范围为空",
+			"emptyRangeDescription": "所选范围内没有足够的数据来显示此统计信息。",
+			"viewLatestData": "查看最新数据"
+		},
+		"list": {
+			"noEventsFound": "未找到事件"
+		}
+	},
+	"usage": {
+		"costAnalytics": {
+			"pageTitle": "分析",
+			"featuresLabel": "功能",
+			"selectFeaturesPlaceholder": "选择功能",
+			"customerIdLabel": "客户 ID",
+			"externalCustomerIdPlaceholder": "外部客户 ID",
+			"selectDateRangePlaceholder": "选择日期范围",
+			"dateRangeTitle": "日期范围",
+			"revenueMetric": "收入",
+			"costMetric": "成本",
+			"marginMetric": "利润",
+			"marginPercentMetric": "利润率 %"
+		},
+		"query": {
+			"pageTitle": "查询",
+			"selectMeteredFeaturePlaceholder": "选择计量功能",
+			"filters": {
+				"customerId": "客户 ID",
+				"startTime": "开始时间",
+				"endTime": "结束时间"
+			},
+			"windowSizes": {
+				"MINUTE": "分钟",
+				"15MIN": "15 分钟",
+				"30MIN": "30 分钟",
+				"HOUR": "小时",
+				"3HOUR": "3 小时",
+				"6HOUR": "6 小时",
+				"12HOUR": "12 小时",
+				"DAY": "天",
+				"WEEK": "周"
+			},
+			"sortTimeWindow": "时间窗口",
+			"chartSeriesUsage": "用量"
+		}
+	}
+}

@@ -1,0 +1,155 @@
+{
+	"wrapper": {
+		"invalidLinkTitle": "无效的客户门户链接",
+		"invalidLinkDescription": "URL 中缺少仪表板会话令牌。请检查您的链接后重试。",
+		"refreshPage": "刷新页面"
+	},
+	"footer": {
+		"poweredBy": "技术支持",
+		"brand": "Flexprice"
+	},
+	"header": {
+		"defaultInitials": "CU"
+	},
+	"errors": {
+		"fetchCustomer": "获取客户数据失败",
+		"loadSubscriptions": "加载订阅失败",
+		"loadUsage": "加载使用量数据失败",
+		"loadUsageAnalytics": "加载使用量分析失败",
+		"loadWallet": "加载钱包失败",
+		"loadInvoices": "加载发票失败",
+		"downloadInvoice": "下载发票失败",
+		"exportInvoice": "导出发票失败",
+		"loadEvents": "加载事件失败",
+		"loadWallets": "加载钱包失败",
+		"loadTransactions": "加载交易失败",
+		"loadAnalytics": "加载分析数据失败",
+		"loadCostAnalytics": "加载成本分析失败",
+		"loadUsageBreakdown": "加载使用量明细失败"
+	},
+	"toast": {
+		"invoiceDownloaded": "发票已下载",
+		"invoiceCsvDownloaded": "发票 CSV 已下载",
+		"noBillableLineItems": "没有可导出的计费行项目"
+	},
+	"datePreset": {
+		"today": "今天",
+		"last_7_days": "7 天",
+		"last_30_days": "30 天",
+		"current_month": "本月",
+		"last_month": "上个月"
+	},
+	"datePicker": {
+		"startDate": "开始日期",
+		"endDate": "结束日期"
+	},
+	"timePeriod": {
+		"1d": "1 天",
+		"7d": "7 天",
+		"30d": "30 天"
+	},
+	"billingOverview": {
+		"title": "账单概览",
+		"totalInvoiced": "已开票总额",
+		"totalOverdue": "逾期总额",
+		"overdueTooltip": "超过到期日的未付发票"
+	},
+	"subscriptionStatus": {
+		"active": "活跃",
+		"trialing": "试用中",
+		"cancelled": "已取消",
+		"incomplete": "不完整",
+		"draft": "草稿"
+	},
+	"walletStatus": {
+		"active": "活跃",
+		"frozen": "已冻结",
+		"closed": "已关闭"
+	},
+	"invoiceChip": {
+		"paid": "已支付",
+		"voided": "已作废",
+		"draft": "草稿",
+		"overdue": "已逾期",
+		"pending": "待处理"
+	},
+	"subscriptions": {
+		"title": "订阅",
+		"emptyTitle": "没有活跃的订阅",
+		"emptyDescription": "您目前没有任何活跃的订阅",
+		"unknownPlan": "未知计划",
+		"nextBilling": "下次账单：{{date}}",
+		"trialEnds": "试用结束：{{date}}"
+	},
+	"usage": {
+		"title": "使用量",
+		"currentTitle": "当前使用量",
+		"quotaTitle": "使用量配额",
+		"breakdownTitle": "使用量明细",
+		"trendTitle": "使用量趋势",
+		"unknownFeature": "未知功能",
+		"unlimited": "无限"
+	},
+	"events": {
+		"columnEventName": "事件名称",
+		"columnTimestamp": "时间戳",
+		"columnEventId": "事件 ID",
+		"columnProperties": "属性",
+		"propertyCount_one": "{{count}} 个属性",
+		"propertyCount_other": "{{count}} 个属性",
+		"noProperties": "无属性"
+	},
+	"invoices": {
+		"searchPlaceholder": "搜索发票...",
+		"columnDate": "日期",
+		"columnInvoiceNumber": "发票号",
+		"columnStatus": "状态",
+		"columnAmount": "金额",
+		"columnDownload": "下载",
+		"emptyTitle": "无发票",
+		"emptyDescription": "尚未生成任何发票",
+		"noMatchTitle": "未找到发票",
+		"noMatchDescription": "没有符合您搜索条件的发票",
+		"numberPrefix": "INV-{{id}}"
+	},
+	"wallet": {
+		"defaultName": "钱包",
+		"fallbackName": "钱包 {{id}}",
+		"balance": "余额",
+		"credits": "积分",
+		"valueSuffix": "值",
+		"emptyTitle": "无钱包",
+		"emptyDescription": "此账户尚未设置钱包",
+		"transactionHistory": "交易历史",
+		"noTransactionsTitle": "无交易",
+		"noTransactionsDescription": "您的交易历史将显示在这里"
+	},
+	"usageAnalytics": {
+		"noDataTitle": "未找到使用量数据",
+		"noDataDescription": "您过去 {{period}} 的使用量将显示在这里"
+	},
+	"usageEvents": {
+		"unableTitle": "无法加载事件",
+		"unableDescription": "缺少客户信息",
+		"noEventsTitle": "未找到事件",
+		"noEventsDescription": "您过去 {{period}} 的事件将显示在这里"
+	},
+	"usageBreakdown": {
+		"feature": "功能",
+		"totalUsage": "总使用量",
+		"totalCost": "总成本",
+		"noGroup": "无分组",
+		"expandAllAria": "全部展开",
+		"collapseAllAria": "全部折叠",
+		"unknownRow": "未知",
+		"cellEmDash": "—",
+		"cellEmpty": "--"
+	},
+	"metrics": {
+		"revenue": "收入",
+		"cost": "成本",
+		"margin": "利润",
+		"marginPercent": "利润率 %",
+		"cpm": "CPM"
+	}
+}
