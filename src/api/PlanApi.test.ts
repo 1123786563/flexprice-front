@@ -99,6 +99,24 @@ describe('PlanApi（OpenMeter 承载）', () => {
 		expect(byKey.items).toHaveLength(2); // key 过滤由 OM 服务端执行，此处断言请求形状
 	});
 
+	it('getPlansByFilter：精确 id 过滤短路 plans.get（详情页在多计划库下不被分页漏掉）', async () => {
+		const client = mockClient();
+		// OM 列表第一页只有另一个计划（模拟多计划库分页）
+		client.plans.list.mockResolvedValue({ items: [], totalCount: 0, page: 1, pageSize: 1 });
+		const res = await PlanApi.getPlansByFilter({
+			limit: 1,
+			offset: 0,
+			filters: [
+				{ field: 'id', operator: FilterOperator.EQUAL, data_type: DataType.STRING, value: { string: '01M1984JSY67Q5PYAYF47FNCXF' } },
+			],
+			sort: [],
+		});
+		expect(client.plans.get).toHaveBeenCalledWith('01M1984JSY67Q5PYAYF47FNCXF');
+		expect(res.items).toHaveLength(1);
+		expect(res.items[0].id).toBe('01M1984JSY67Q5PYAYF47FNCXF');
+		expect(res.pagination.total).toBe(1);
+	});
+
 	it('getPlanById：映射正确；不存在时明确报错', async () => {
 		mockClient();
 		const plan = await PlanApi.getPlanById('01M1984JSY67Q5PYAYF47FNCXF');

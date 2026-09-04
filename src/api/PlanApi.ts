@@ -60,10 +60,25 @@ export class PlanApi {
 	 * Replaces: getAllPlans, getAllActivePlans, listPlans, searchPlans, getExpandedPlan, getActiveExpandedPlan
 	 * OM 侧下推 key（lookup_key）与分页；status/TypedBackendFilter 子集与排序在客户端执行，
 	 * expand/时间范围过滤（start_time/end_time）静默忽略。
+	 * 精确 id 查询（详情页 id EQUAL + limit 1）短路走 plans.get：OM 列表分页 + 客户端过滤
+	 * 的组合在多计划库下会漏掉目标计划（第一页未必包含它）。
 	 */
 	public static async getPlansByFilter(payload: GetPlansByFilterPayload = {}): Promise<GetAllPlansResponse> {
 		const client = getOpenMeterClient();
 		if (!client) return { items: [], pagination: { limit: payload.limit ?? 0, offset: payload.offset ?? 0, total: 0 } };
+		const idFilter = payload.filters?.find((f) => f.field === 'id' && f.operator === 'eq' && typeof f.value?.string === 'string');
+		if (idFilter && idFilter.value?.string) {
+			const om = await client.plans.get(idFilter.value.string).catch(() => null);
+			let items = om ? [mapOmPlan(om)] : [];
+			for (const f of payload.filters ?? []) {
+				if (f === idFilter) continue;
+				items = applyPlanClientFilter(items, f);
+			}
+			return {
+				items,
+				pagination: { limit: payload.limit ?? 1, offset: payload.offset ?? 0, total: items.length },
+			};
+		}
 		const page: OmPlanPage = (await client.plans.list(buildOmPlanListQuery(payload))) ?? {
 			items: [],
 			totalCount: 0,
