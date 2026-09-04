@@ -42,6 +42,8 @@ function mockClient() {
 			get: vi.fn().mockResolvedValue(OM_SUB),
 			create: vi.fn().mockResolvedValue(OM_SUB),
 			cancel: vi.fn().mockResolvedValue({ ...OM_SUB, status: 'canceled' }),
+			change: vi.fn().mockResolvedValue({ current: OM_SUB, next: OM_SUB }),
+			migrate: vi.fn().mockResolvedValue({ current: OM_SUB, next: OM_SUB }),
 		},
 		plans: {
 			get: vi.fn().mockResolvedValue({ id: 'plan-1', key: 'drill_plan_220', version: 1, name: 'Drill Plan' }),
@@ -114,10 +116,34 @@ describe('SubscriptionApi（OpenMeter 承载）', () => {
 		).rejects.toThrow(/定时取消/);
 	});
 
+	it('executeSubscriptionChange：目标计划解析 key+version，effective_date 决定 timing', async () => {
+		const client = mockClient();
+		const res = await SubscriptionApi.executeSubscriptionChange('sub-1', {
+			plan_id: 'plan-1',
+		} as never);
+		expect(client.plans.get).toHaveBeenCalledWith('plan-1');
+		expect(client.subscriptions.change).toHaveBeenCalledWith(
+			'sub-1',
+			expect.objectContaining({ timing: 'immediate', plan: { key: 'drill_plan_220', version: 1 } }),
+		);
+		expect(res.message).toContain('立即生效');
+
+		const future = new Date(Date.now() + 86400_000).toISOString();
+		await SubscriptionApi.executeSubscriptionChange('sub-1', { plan_id: 'plan-1', effective_date: future } as never);
+		expect(client.subscriptions.change).toHaveBeenLastCalledWith('sub-1', expect.objectContaining({ timing: 'next_billing_cycle' }));
+	});
+
+	it('executeSubscriptionChange：行项目/权益覆盖明确报错', async () => {
+		mockClient();
+		await expect(
+			SubscriptionApi.executeSubscriptionChange('sub-1', { plan_id: 'plan-1', override_line_items: [{}] } as never),
+		).rejects.toThrow(/不支持行项目\/权益覆盖/);
+	});
+
 	it('无 OM 通路的方法明确报错（不假成功）', async () => {
 		mockClient();
-		await expect(SubscriptionApi.executeSubscriptionModify('sub-1', {} as never)).rejects.toThrow(/暂不支持/);
-		await expect(SubscriptionApi.executeSubscriptionChange('sub-1', {} as never)).rejects.toThrow(/暂不支持/);
+		await expect(SubscriptionApi.executeSubscriptionModify('sub-1', { type: 'quantity_change' } as never)).rejects.toThrow(/费率卡计费/);
+		await expect(SubscriptionApi.executeSubscriptionModify('sub-1', { type: 'inheritance' } as never)).rejects.toThrow(/暂不支持/);
 		await expect(SubscriptionApi.updateSubscription('sub-1', {} as never)).rejects.toThrow(/暂不支持/);
 		await expect(SubscriptionApi.createSubscriptionLineItem('sub-1', {} as never)).rejects.toThrow(/暂不支持/);
 	});

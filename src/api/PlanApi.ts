@@ -99,9 +99,48 @@ export class PlanApi {
 		return mapOmPlan(om);
 	}
 
-	/** OM 通过计划版本自动对订阅生效，无手动同步端点：明确报错而非假成功。 */
-	public static async synchronizePlanPricesWithSubscription(_id: string): Promise<SynchronizePlanPricesWithSubscriptionResponse> {
-		throw new Error('OpenMeter 暂不支持手动同步计划价格到订阅（OM 通过计划新版本自动生效）');
+	/**
+	 * 计划价格同步 → OM subscriptions.migrate：订阅固定在其创建时的 plan 版本上，
+	 * 把该计划的活跃订阅逐个迁移到最新版本（OM 无批量端点，逐条迁移并汇总结果）。
+	 */
+	public static async synchronizePlanPricesWithSubscription(id: string): Promise<SynchronizePlanPricesWithSubscriptionResponse> {
+		const client = requireOpenMeterClient();
+		const plan = await client.plans.get(id);
+		if (!plan?.key) throw new Error(`计划 ${id} 不存在`);
+		const customers = (await client.customers.list({ pageSize: 100, page: 1 }))?.items ?? [];
+		const targets = customers.flatMap((c) => c.subscriptions ?? []).filter((s) => s.plan?.id === id && s.status === 'active');
+		let migrated = 0;
+		let failed = 0;
+		for (const sub of targets) {
+			try {
+				await client.subscriptions.migrate(sub.id, {
+					targetVersion: plan.version,
+					timing: 'immediate',
+				});
+				migrated++;
+			} catch {
+				failed++;
+			}
+		}
+		return {
+			message: `已迁移 ${migrated} 个订阅到计划 v${plan.version}${failed ? `，${failed} 个失败` : ''}`,
+			plan_id: id,
+			plan_name: plan.name ?? plan.key,
+			synchronization_summary: {
+				subscriptions_processed: targets.length,
+				prices_processed: 0,
+				line_items_created: 0,
+				line_items_terminated: 0,
+				line_items_skipped: 0,
+				line_items_failed: failed,
+				skipped_already_terminated: 0,
+				skipped_overridden: 0,
+				skipped_incompatible: 0,
+				total_prices: 0,
+				active_prices: 0,
+				expired_prices: 0,
+			},
+		};
 	}
 }
 

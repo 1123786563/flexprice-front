@@ -149,6 +149,17 @@ const AppSidebar: React.FC<React.ComponentProps<typeof Sidebar>> = ({ ...props }
 		[t],
 	);
 
+	// OpenMeter 本地模式等场景下隐藏无后端域的入口：按路由路径过滤（顶层与子项），
+	// 子项过滤后为空的分组整组隐藏；默认空配置不隐藏任何项（上游行为不变）。
+	const hidden = useMemo(() => new Set(config.features.sidebarHiddenRoutes), []);
+	const visibleNavMain = useMemo(
+		() =>
+			navMain
+				.map((item) => (item.items ? { ...item, items: item.items.filter((sub) => !hidden.has(sub.url)) } : item))
+				.filter((item) => !hidden.has(item.url) && !(item.items && item.items.length === 0)),
+		[navMain, hidden],
+	);
+
 	return (
 		<Sidebar
 			collapsible='icon'
@@ -159,7 +170,7 @@ const AppSidebar: React.FC<React.ComponentProps<typeof Sidebar>> = ({ ...props }
 				<EnvironmentSelector />
 			</SidebarHeader>
 			<SidebarContent className='gap-0 mt-1'>
-				<SidebarNav items={navMain} />
+				<SidebarNav items={visibleNavMain} />
 			</SidebarContent>
 			<SidebarFooter>
 				<FlexpriceSidebarFooter />

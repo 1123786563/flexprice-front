@@ -18,7 +18,7 @@ import { BILLING_CADENCE, INVOICE_CADENCE } from '@/models/Invoice';
 import type { AddonResponse, CreateAddonRequest, UpdateAddonRequest } from '@/types/dto/Addon';
 import { userMetadata, type OmFeature } from './feature';
 import { isEntitlementCard, resolveFeature, synthEntitlementFromCard } from './entitlement';
-import { cadenceToBillingPeriod, iso } from './common';
+import { cadenceToBillingPeriod, iso, normalizeOmKey } from './common';
 
 export type OmAddon = NonNullable<Awaited<ReturnType<OpenMeterClient['addons']['get']>>>;
 export type OmAddonPage = NonNullable<Awaited<ReturnType<OpenMeterClient['addons']['list']>>>;
@@ -118,11 +118,11 @@ export function mapOmAddonToModel(om: OmAddon): Addon {
 	};
 }
 
-/** Flexprice CreateAddonRequest → OM AddonCreate；OM 必填的 instanceType/currency/rateCards 取安全缺省。 */
+/** Flexprice CreateAddonRequest → OM AddonCreate；OM 必填的 instanceType/currency/rateCards 取安全缺省。key 过 OM 规范化（小写字母数字+下划线）。 */
 export function buildOmAddonCreate(req: CreateAddonRequest): OmAddonCreate {
 	return {
 		name: req.name,
-		key: req.lookup_key,
+		key: normalizeOmKey(req.lookup_key),
 		...(req.description !== undefined ? { description: req.description } : {}),
 		...(req.metadata && Object.keys(req.metadata).length ? { metadata: { ...req.metadata } } : {}),
 		// Flexprice addon 无多实例/币种概念；single + USD + 空价格卡为最小可创建组合

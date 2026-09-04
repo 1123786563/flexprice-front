@@ -29,6 +29,19 @@ export function iso(value: Date | string | null | undefined): string {
 	return typeof value === 'string' ? value : value.toISOString();
 }
 
+/**
+ * OM 实体 key（plan/addon）服务端校验 `^[a-z0-9]+(?:_[a-z0-9]+)*$`：
+ * 连字符等非法字符折叠为下划线（如 e2e-plan-x → e2e_plan_x），否则创建 400。
+ */
+export function normalizeOmKey(source: string): string {
+	const normalized = source
+		.toLowerCase()
+		.replace(/[^a-z0-9_]+/g, '_')
+		.replace(/_{2,}/g, '_')
+		.replace(/^_+|_+$/g, '');
+	return normalized || 'key';
+}
+
 /** OM ISO-8601 billingCadence（P1M/P3M/P1Y…）→ Flexprice BILLING_PERIOD。 */
 export function cadenceToBillingPeriod(cadence: string | undefined): BILLING_PERIOD {
 	switch (cadence) {

@@ -166,9 +166,83 @@ describe('PlanApi（OpenMeter 承载）', () => {
 		expect(res.id).toBe('01M1984JSY67Q5PYAYF47FNCXF');
 	});
 
-	it('synchronizePlanPricesWithSubscription：OM 无对应，明确报错', async () => {
-		mockClient();
-		await expect(PlanApi.synchronizePlanPricesWithSubscription('01M1984JSY67Q5PYAYF47FNCXF')).rejects.toThrow(/暂不支持/);
+	it('synchronizePlanPricesWithSubscription：活跃订阅逐个 migrate 到计划最新版本并汇总', async () => {
+		const migrate = vi.fn().mockResolvedValue({});
+		mockClient({
+			customers: {
+				list: vi.fn().mockResolvedValue({
+					items: [
+						{
+							id: 'cust-1',
+							key: 'tenant-a',
+							name: 'Tenant A',
+							subscriptions: [
+								{ id: 'sub-1', plan: { id: '01M1984JSY67Q5PYAYF47FNCXF', key: 'drill_plan_220', version: 1 }, status: 'active' },
+								{ id: 'sub-old', plan: { id: 'other-plan', key: 'other', version: 1 }, status: 'active' },
+							],
+						},
+						{
+							id: 'cust-2',
+							key: 'tenant-b',
+							name: 'Tenant B',
+							subscriptions: [
+								{ id: 'sub-2', plan: { id: '01M1984JSY67Q5PYAYF47FNCXF', key: 'drill_plan_220', version: 1 }, status: 'canceled' },
+							],
+						},
+					],
+					totalCount: 2,
+					page: 1,
+					pageSize: 100,
+				}),
+			},
+			subscriptions: {
+				migrate,
+			},
+		});
+		const res = await PlanApi.synchronizePlanPricesWithSubscription('01M1984JSY67Q5PYAYF47FNCXF');
+		// 只迁移该计划的 active 订阅（sub-old 计划不符、sub-2 已取消）
+		expect(migrate).toHaveBeenCalledTimes(1);
+		expect(migrate).toHaveBeenCalledWith('sub-1', { targetVersion: 1, timing: 'immediate' });
+		expect(res.synchronization_summary.subscriptions_processed).toBe(1);
+		expect(res.message).toContain('已迁移 1 个订阅');
+	});
+
+	it('synchronizePlanPricesWithSubscription：迁移失败计数不吞错', async () => {
+		const migrate = vi.fn().mockRejectedValue(new Error('boom'));
+		mockClient({
+			customers: {
+				list: vi.fn().mockResolvedValue({
+					items: [
+						{
+							id: 'cust-1',
+							key: 'tenant-a',
+							name: 'Tenant A',
+							subscriptions: [
+								{ id: 'sub-1', plan: { id: '01M1984JSY67Q5PYAYF47FNCXF', key: 'drill_plan_220', version: 1 }, status: 'active' },
+							],
+						},
+					],
+					totalCount: 1,
+					page: 1,
+					pageSize: 100,
+				}),
+			},
+			subscriptions: {
+				migrate,
+			},
+		});
+		const res = await PlanApi.synchronizePlanPricesWithSubscription('01M1984JSY67Q5PYAYF47FNCXF');
+		expect(res.synchronization_summary.line_items_failed).toBe(1);
+		expect(res.message).toContain('1 个失败');
+	});
+
+	it('createPlan：lookup_key 含连字符等非法字符时规范化为 OM slug（e2e-plan-x → e2e_plan_x）', async () => {
+		const client = mockClient();
+		await PlanApi.createPlan({
+			name: 'Probe Plan',
+			lookup_key: 'E2E-Plan-X',
+		} as never);
+		expect(client.plans.create).toHaveBeenCalledWith(expect.objectContaining({ key: 'e2e_plan_x' }));
 	});
 
 	it('后端禁用时列表优雅降级为空', async () => {

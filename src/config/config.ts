@@ -195,6 +195,8 @@ export interface WebhooksConfig {
 interface FeaturesConfig {
 	/** Tenant IDs allowed to use gated UI features (e.g. customer org_type metadata filter). */
 	tenantFeatureAllowlist: string[];
+	/** Sidebar route paths to hide (e.g. backend-less domains in OpenMeter local mode); comma-separated via VITE_SIDEBAR_HIDDEN_ROUTES. */
+	sidebarHiddenRoutes: string[];
 }
 
 /** Primary defaults to **Geist** (Google Fonts in `src/index.css`). Override via `VITE_FONT_CONFIG`. */
@@ -264,6 +266,14 @@ function parseTenantFeatureAllowlist(): string[] {
 }
 
 const tenantFeatureAllowlist = parseTenantFeatureAllowlist();
+
+/** Comma-separated sidebar route paths → trimmed array（空串/未设置 → 空数组=不隐藏任何项）。 */
+function parseSidebarHiddenRoutes(raw: string | undefined): string[] {
+	return (raw ?? '')
+		.split(',')
+		.map((entry: string) => entry.trim())
+		.filter(Boolean);
+}
 
 export interface Config {
 	app: AppConfig;
@@ -380,6 +390,7 @@ export const config: Config = {
 	platform: platformConfig,
 	features: {
 		tenantFeatureAllowlist,
+		sidebarHiddenRoutes: parseSidebarHiddenRoutes(import.meta.env.VITE_SIDEBAR_HIDDEN_ROUTES),
 	},
 	webhooks: {
 		provider: resolveWebhookProvider(import.meta.env.VITE_WEBHOOK_PROVIDER, svixUrl),

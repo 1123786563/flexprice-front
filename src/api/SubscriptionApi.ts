@@ -271,29 +271,63 @@ class SubscriptionApi {
 		_id: string,
 		_payload: PreviewSubscriptionChangeRequest,
 	): Promise<PreviewSubscriptionChangeResponse> {
-		throw new Error('OpenMeter 暂不支持订阅变更预览');
+		// OM 无变更预览端点（change 直接生效）；给出操作指引而非笼统报错
+		throw new Error('OpenMeter 无订阅变更预览（change 即时生效或下周期生效），可直接执行变更');
 	}
 
+	/**
+	 * 订阅计划变更（升降级）→ OM subscriptions.change：目标计划经 plans.get 解析为 key+version；
+	 * effective_date 在未来 → next_billing_cycle，否则 immediate。
+	 * 行项目/权益覆盖类参数 OM 无对应，携带即明确报错。
+	 */
 	public static async executeSubscriptionChange(
-		_id: string,
-		_payload: ExecuteSubscriptionChangeRequest,
+		id: string,
+		payload: ExecuteSubscriptionChangeRequest,
 	): Promise<ExecuteSubscriptionChangeResponse> {
-		throw new Error('OpenMeter 暂不支持订阅升降级（可取消后重新创建）');
+		if (!payload.plan_id) throw new Error('缺少目标计划（plan_id）');
+		if (payload.override_line_items?.length || payload.entitlement_overrides?.length || payload.line_item_commitments) {
+			throw new Error('OpenMeter 变更不支持行项目/权益覆盖（价格由目标计划版本决定）');
+		}
+		const client = requireOpenMeterClient();
+		const plan = await client.plans.get(payload.plan_id);
+		if (!plan?.key) throw new Error(`目标计划 ${payload.plan_id} 不存在`);
+		const timing =
+			payload.effective_date && new Date(payload.effective_date).getTime() > Date.now()
+				? ('next_billing_cycle' as const)
+				: ('immediate' as const);
+		const result = await client.subscriptions.change(id, {
+			timing,
+			plan: { key: plan.key, ...(plan.version !== undefined ? { version: plan.version } : {}) },
+		});
+		if (!result?.next) throw new Error(`变更订阅 ${id} 失败`);
+		return {
+			subscription: mapOmSubscription(result.next),
+			proration_details: [],
+			message: `订阅已变更到计划 ${plan.name ?? plan.key}（${timing === 'immediate' ? '立即生效' : '下周期生效'}）`,
+		};
 	}
 
 	public static async previewSubscriptionModify(
 		_id: string,
-		_payload: ExecuteSubscriptionModifyRequest,
+		payload: ExecuteSubscriptionModifyRequest,
 	): Promise<SubscriptionModifyResponse> {
-		throw new Error('OpenMeter 暂不支持订阅中途修改预览');
+		throw new Error(buildModifyUnsupportedMessage(payload));
 	}
 
 	public static async executeSubscriptionModify(
 		_id: string,
-		_payload: ExecuteSubscriptionModifyRequest,
+		payload: ExecuteSubscriptionModifyRequest,
 	): Promise<SubscriptionModifyResponse> {
-		throw new Error('OpenMeter 暂不支持订阅中途修改（inheritance/quantity_change/grouped_invoicing）');
+		throw new Error(buildModifyUnsupportedMessage(payload));
 	}
+}
+
+/** modify 各类型的明确不支持理由（quantity_change 指出 OM 计费模型的差异）。 */
+function buildModifyUnsupportedMessage(payload: { type?: string }): string {
+	if (payload.type === 'quantity_change') {
+		return 'OpenMeter 按 plan 费率卡计费（无行项目数量概念），不支持数量调整；如需不同用量档位请变更到对应计划';
+	}
+	return `OpenMeter 暂不支持订阅中途修改（${payload.type ?? '未知类型'}：无对应计费模型）`;
 }
 
 export default SubscriptionApi;

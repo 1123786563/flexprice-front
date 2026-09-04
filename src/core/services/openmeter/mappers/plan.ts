@@ -5,7 +5,7 @@ import type { OpenMeterClient } from '@/core/services/openmeter';
 import { ENTITY_STATUS } from '@/models';
 import type { Metadata } from '@/models';
 import type { CreatePlanRequest, UpdatePlanRequest, ClonePlanRequest, PlanResponse } from '@/types/dto';
-import { iso } from './common';
+import { iso, normalizeOmKey } from './common';
 
 export type OmPlan = NonNullable<Awaited<ReturnType<OpenMeterClient['plans']['get']>>>;
 export type OmPlanPage = NonNullable<Awaited<ReturnType<OpenMeterClient['plans']['list']>>>;
@@ -51,13 +51,10 @@ export function mapOmPlan(om: OmPlan): PlanResponse {
 	};
 }
 
-/** OM key 要求 slug 形态；从展示名兜底生成（非 [a-z0-9_] 折叠为 _）。 */
+/** OM key 要求 slug 形态；统一走 common.normalizeOmKey（连字符折叠为下划线）。 */
 export function slugifyPlanKey(source: string): string {
-	const slug = source
-		.toLowerCase()
-		.replace(/[^a-z0-9_]+/g, '_')
-		.replace(/^_+|_+$/g, '');
-	return slug || 'plan';
+	const normalized = normalizeOmKey(source);
+	return normalized === 'key' ? 'plan' : normalized;
 }
 
 /**
@@ -67,7 +64,8 @@ export function slugifyPlanKey(source: string): string {
  */
 export function buildOmPlanCreate(req: CreatePlanRequest): OmPlanCreate {
 	if (req.display_order !== undefined) warnDisplayOrderOnce();
-	const key = req.lookup_key?.trim() || slugifyPlanKey(req.name);
+	// OM key 校验 ^[a-z0-9]+(_[a-z0-9]+)*$（连字符等非法）；用户提供的 lookup_key 同样要过规范化
+	const key = slugifyPlanKey(req.lookup_key?.trim() || req.name);
 	return {
 		name: req.name,
 		key,
@@ -108,12 +106,12 @@ export function buildOmPlanUpdate(current: OmPlan, req: UpdatePlanRequest): OmPl
 	};
 }
 
-/** clonePlan：现计划 phases 深拷贝 + 新 name/key 组装 PlanCreate。 */
+/** clonePlan：现计划 phases 深拷贝 + 新 name/key 组装 PlanCreate（key 同样过 OM 规范化）。 */
 export function buildOmPlanClone(current: OmPlan, req: ClonePlanRequest): OmPlanCreate {
 	if (req.display_order !== undefined) warnDisplayOrderOnce();
 	return {
 		name: req.name,
-		key: req.lookup_key,
+		key: slugifyPlanKey(req.lookup_key),
 		...((req.description ?? current.description) ? { description: req.description ?? current.description } : {}),
 		...(req.metadata && Object.keys(req.metadata).length ? { metadata: { ...req.metadata } } : {}),
 		currency: current.currency,
