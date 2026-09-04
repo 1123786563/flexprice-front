@@ -3,6 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ComponentPropsWithoutRef } from 'react';
 
+import { OIDC_PENDING_KEY, OIDC_STATE_KEY } from './OidcSignin';
+
 const navigateMock = vi.fn();
 
 vi.mock('react-router', () => ({ useNavigate: () => navigateMock }));
@@ -43,8 +45,8 @@ describe('OidcSignin', () => {
 		render(<OidcSignin />);
 		await userEvent.click(screen.getByRole('button'));
 
-		const nonce = sessionStorage.getItem('oidc_login_state');
-		expect(sessionStorage.getItem('oidc_login_pending')).toBe('true');
+		const nonce = sessionStorage.getItem(OIDC_STATE_KEY);
+		expect(sessionStorage.getItem(OIDC_PENDING_KEY)).toBe('true');
 		expect(nonce).toMatch(/^[0-9a-f]{32}$/);
 		expect(window.location.href).toBe('http://backend.test/auth/oidc/login?state=' + nonce);
 	});
@@ -54,9 +56,9 @@ describe('OidcSignin', () => {
 
 		render(<OidcSignin />);
 		await userEvent.click(screen.getByRole('button'));
-		const first = sessionStorage.getItem('oidc_login_state');
+		const first = sessionStorage.getItem(OIDC_STATE_KEY);
 		await userEvent.click(screen.getByRole('button'));
-		const second = sessionStorage.getItem('oidc_login_state');
+		const second = sessionStorage.getItem(OIDC_STATE_KEY);
 
 		expect(first).not.toEqual(second);
 	});

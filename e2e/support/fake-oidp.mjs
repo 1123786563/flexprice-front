@@ -18,6 +18,11 @@ const b64u = (value) => Buffer.from(value).toString('base64url');
 function signIDToken() {
 	const now = Math.floor(Date.now() / 1000);
 	const header = b64u(JSON.stringify({ alg: 'RS256', typ: 'JWT', kid: 'e2e-key' }));
+	// Claim shape deliberately mirrors the Go test fakeIDP
+	// (openmeter/auth/handler_test.go): this IdP sends only the
+	// "organization" claim while the Go fakeIDP sends only "owner" — the two
+	// fixtures exercise both claim paths; keep them in sync when changing
+	// shapes.
 	const payload = b64u(
 		JSON.stringify({
 			iss: issuer,
@@ -58,7 +63,18 @@ createServer((req, res) => {
 				keys: [{ kty: jwk.kty, alg: 'RS256', use: 'sig', kid: 'e2e-key', n: jwk.n, e: jwk.e }],
 			});
 		case '/login/oauth/authorize': {
-			const redirect = new URL(parsed.searchParams.get('redirect_uri'));
+			// A missing or malformed redirect_uri would throw inside the request
+			// handler and kill the process; answer 400 instead so a buggy client
+			// surfaces as a failed test, not a dead IdP.
+			let redirect;
+
+			try {
+				redirect = new URL(parsed.searchParams.get('redirect_uri'));
+			} catch {
+				res.writeHead(400, { 'Content-Type': 'application/json' });
+				return res.end(JSON.stringify({ error: 'invalid_request', error_description: 'missing or invalid redirect_uri' }));
+			}
+
 			redirect.searchParams.set('code', 'e2e-code');
 			redirect.searchParams.set('state', parsed.searchParams.get('state') ?? '');
 

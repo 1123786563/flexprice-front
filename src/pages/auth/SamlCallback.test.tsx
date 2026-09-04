@@ -46,6 +46,10 @@ describe('SamlCallback OIDC branch', () => {
 			expect(navigateMock).toHaveBeenCalledWith('/', { replace: true });
 		});
 		expect(window.location.hash).toBe('');
+		// A successful login consumes both markers: the armed state must not
+		// survive into the authenticated app.
+		expect(sessionStorage.getItem(OIDC_PENDING_KEY)).toBeNull();
+		expect(sessionStorage.getItem(OIDC_STATE_KEY)).toBeNull();
 	});
 
 	it('rejects a fragment whose nonce does not match', async () => {
@@ -85,6 +89,10 @@ describe('SamlCallback OIDC branch', () => {
 			expect(screen.getByText('sso.missingToken')).toBeInTheDocument();
 		});
 		expect(localStorage.getItem('token')).toBeNull();
+		// The early return happens before the markers are touched, so the login
+		// stays armed for a retry; pin that deliberately retained state.
+		expect(sessionStorage.getItem(OIDC_PENDING_KEY)).toBe('true');
+		expect(sessionStorage.getItem(OIDC_STATE_KEY)).toBe('nonce-123');
 	});
 
 	it('pins current behavior: empty tenant_id is stored as-is (risk R6 follow-up)', async () => {

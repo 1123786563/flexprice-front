@@ -43,6 +43,13 @@ test('replaying the callback URL in a fresh tab is rejected', async ({ browser }
 
 	await page.waitForURL('**/auth/callback**');
 
+	// page.goto resolving only proves the page loaded — the effect that rejects
+	// the token runs after React mounts. Waiting for the rendered rejection
+	// (sso.unsolicitedToken, en locale / fallback) pins that the refusal actually
+	// happened before we inspect storage; otherwise a regression that ADOPTS the
+	// token could still pass the null-localStorage assertion by racing it.
+	await page.getByText('did not come from a sign-in you started').waitFor();
+
 	const stored = await page.evaluate(() => localStorage.getItem('token'));
 	expect(stored).toBeNull();
 
