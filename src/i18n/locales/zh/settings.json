@@ -1,0 +1,133 @@
+{
+	"notifications": {
+		"tabs": {
+			"notifications": "通知"
+		},
+		"status": {
+			"enabled": "已启用",
+			"disabled": "已禁用"
+		},
+		"types": {
+			"balanceThreshold": "额度余额阈值",
+			"entitlementsReset": "额度重置",
+			"invoiceCreated": "账单创建",
+			"invoiceUpdated": "账单更新"
+		},
+		"channels": {
+			"title": "通知渠道",
+			"description": "通知规则投递事件的 Webhook 目标地址",
+			"create": "新建渠道",
+			"table": {
+				"name": "名称",
+				"type": "类型",
+				"url": "URL",
+				"status": "状态"
+			},
+			"empty": {
+				"title": "暂无通知渠道",
+				"subtitle": "创建一个 Webhook 渠道以开始接收通知"
+			},
+			"deleteConfirm": "确认删除渠道「{{name}}」？向其投递的规则将停止工作。",
+			"drawer": {
+				"createTitle": "新建渠道",
+				"editTitle": "编辑渠道",
+				"description": "Webhook 渠道在规则触发时接收 HTTP 回调",
+				"name": "名称",
+				"namePlaceholder": "例如 billing-webhook",
+				"url": "Webhook URL",
+				"urlPlaceholder": "https://example.com/webhook",
+				"urlInvalid": "URL 必须以 http:// 或 https:// 开头",
+				"customHeaders": "自定义请求头",
+				"addHeader": "添加请求头",
+				"headerKeyPlaceholder": "请求头名称",
+				"headerValuePlaceholder": "请求头值",
+				"signingSecret": "签名密钥",
+				"signingSecretPlaceholder": "whsec_...",
+				"signingSecretDescription": "可选的 whsec_… 密钥，用于在你的接收端校验 Webhook 签名",
+				"enabled": "启用",
+				"enabledDescription": "禁用的渠道在投递时会被跳过"
+			},
+			"toast": {
+				"created": "渠道已创建",
+				"updated": "渠道已更新",
+				"deleted": "渠道已删除",
+				"failed": "保存渠道失败",
+				"deleteFailed": "删除渠道失败"
+			}
+		},
+		"rules": {
+			"title": "通知规则",
+			"description": "在额度余额阈值、额度重置和账单事件发生时触发通知",
+			"create": "新建规则",
+			"table": {
+				"name": "名称",
+				"type": "类型",
+				"channels": "渠道",
+				"status": "状态"
+			},
+			"empty": {
+				"title": "暂无通知规则",
+				"subtitle": "创建一条规则并挂载到渠道以接收通知"
+			},
+			"deleteConfirm": "确认删除规则「{{name}}」？你将不再收到它的通知。",
+			"thresholdTypes": {
+				"balanceValue": "剩余额度",
+				"usagePercentage": "用量百分比",
+				"usageValue": "用量数值"
+			},
+			"drawer": {
+				"createTitle": "新建规则",
+				"editTitle": "编辑规则",
+				"description": "选择触发条件以及接收通知的渠道",
+				"type": "类型",
+				"name": "名称",
+				"namePlaceholder": "例如 余额低于 20%",
+				"channels": "渠道",
+				"channelsPlaceholder": "选择渠道",
+				"channelsDescription": "至少需要选择一个渠道",
+				"thresholds": "阈值",
+				"addThreshold": "添加阈值",
+				"thresholdValuePlaceholder": "数值",
+				"features": "功能过滤",
+				"featuresPlaceholder": "全部功能",
+				"featuresDescription": "可选 — 将规则限制在所选功能范围内",
+				"enabled": "启用",
+				"enabledDescription": "禁用的规则不会触发"
+			},
+			"toast": {
+				"created": "规则已创建",
+				"updated": "规则已更新",
+				"deleted": "规则已删除",
+				"failed": "保存规则失败",
+				"deleteFailed": "删除规则失败"
+			}
+		},
+		"events": {
+			"title": "通知事件",
+			"description": "规则触发的通知投递记录",
+			"resend": "重发",
+			"table": {
+				"id": "事件 ID",
+				"type": "类型",
+				"rule": "规则",
+				"status": "投递状态",
+				"createdAt": "创建时间"
+			},
+			"empty": {
+				"title": "暂无通知事件",
+				"subtitle": "规则开始触发后，事件会显示在这里"
+			},
+			"states": {
+				"SUCCESS": "成功",
+				"FAILED": "失败",
+				"SENDING": "发送中",
+				"PENDING": "等待中",
+				"RESENDING": "重发中"
+			},
+			"toast": {
+				"resent": "通知已重发",
+				"resendFailed": "重发通知失败"
+			}
+		}
+	}
+}

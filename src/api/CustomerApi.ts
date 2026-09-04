@@ -1,7 +1,8 @@
 // src/api/CustomerApi.ts
 // OpenMeter 承载：客户 CRUD 走 OM customers（key↔external_id、primaryEmail↔email、
 // billingAddress 嵌套↔打平）。OM 无对应能力（门户 session、税率覆盖）明确报错。
-import { Pagination, Subscription } from '@/models';
+import { Pagination, Subscription, ENTITY_STATUS } from '@/models';
+import { FEATURE_TYPE } from '@/models/Feature';
 import {
 	ListCustomersResponse,
 	CustomerResponse,
@@ -120,9 +121,56 @@ class CustomerApi {
 		return mapOmCustomer(om);
 	}
 
+	/**
+	 * 客户维度 entitlement 实例（OM v2：customers/{id}/entitlements）。
+	 * sources 是 Flexprice 的 plan→subscription 下发链，OM 无此概念（entitlement 直接挂客户），
+	 * 恒为空数组；feature 档案经一次 features.list 批量补全。
+	 */
 	public static async getEntitlements(payload: GetCustomerEntitlementPayload): Promise<GetCustomerEntitlementsResponse> {
-		// entitlements 域由 EntitlementApi 承载；此处保持空态避免半成品映射
-		return { customer_id: payload.customer_id, features: [] };
+		const client = getOpenMeterClient();
+		if (!client || !payload.customer_id) return { customer_id: payload.customer_id, features: [] };
+		// features.list 返回裸数组（非分页对象）
+		const [page, featureItems] = await Promise.all([
+			client.customers.entitlements.list(payload.customer_id),
+			client.features.list({ limit: 100 }).catch(() => []),
+		]);
+		const items = page?.items ?? [];
+		const featureById = new Map(featureItems.map((f) => [f.id, f]));
+		const omToFlexpriceFeature = (f: { id: string; key: string; name?: string; meterSlug?: string } | undefined) => ({
+			id: f?.id ?? '',
+			name: f?.name ?? f?.key ?? '',
+			description: '',
+			lookup_key: f?.key ?? '',
+			meter_id: f?.meterSlug ?? '',
+			type: FEATURE_TYPE.METERED,
+			unit_singular: '',
+			unit_plural: '',
+			metadata: {},
+			status: ENTITY_STATUS.PUBLISHED,
+			tenant_id: '',
+			environment_id: '',
+			created_by: '',
+			updated_by: '',
+			created_at: '',
+			updated_at: '',
+		});
+		const omEntitlementToCustomer = (om: (typeof items)[number]) => {
+			const isActive = (!om.activeFrom || new Date(om.activeFrom) <= new Date()) && (!om.activeTo || new Date(om.activeTo) > new Date());
+			const metered = om.type === 'metered' ? om : null;
+			const staticEnt = om.type === 'static' ? om : null;
+			return {
+				entitlement: {
+					is_enabled: isActive,
+					is_soft_limit: metered?.isSoftLimit ?? false,
+					static_values: staticEnt?.config ? [staticEnt.config] : [],
+					usage_limit: metered?.issueAfterReset ?? 0,
+					usage_reset_period: metered?.usagePeriod ? String((metered.usagePeriod as { iso?: string }).iso ?? '') : '',
+				},
+				feature: omToFlexpriceFeature(featureById.get(om.featureId) ?? { id: om.featureId, key: om.featureKey }),
+				sources: [],
+			};
+		};
+		return { customer_id: payload.customer_id, features: items.map(omEntitlementToCustomer) };
 	}
 
 	public static async getUsageSummary(payload: GetCustomerEntitlementPayload): Promise<GetUsageSummaryResponse> {

@@ -1786,5 +1786,137 @@
 		"sectionIndia": "India hosting",
 		"benefitIn1": "Faster if you and your users are based in India",
 		"benefitIn2": "Hosted in Mumbai, India (ap-south-1)"
+	},
+	"notifications": {
+		"tabs": {
+			"notifications": "Notifications"
+		},
+		"status": {
+			"enabled": "Enabled",
+			"disabled": "Disabled"
+		},
+		"types": {
+			"balanceThreshold": "Balance threshold",
+			"entitlementsReset": "Entitlements reset",
+			"invoiceCreated": "Invoice created",
+			"invoiceUpdated": "Invoice updated"
+		},
+		"channels": {
+			"title": "Notification channels",
+			"description": "Webhook destinations that notification rules deliver events to",
+			"create": "New channel",
+			"table": {
+				"name": "Name",
+				"type": "Type",
+				"url": "URL",
+				"status": "Status"
+			},
+			"empty": {
+				"title": "No notification channels yet",
+				"subtitle": "Create a webhook channel to start receiving notifications"
+			},
+			"deleteConfirm": "Delete channel \"{{name}}\"? Rules delivering to it will stop working.",
+			"drawer": {
+				"createTitle": "Create channel",
+				"editTitle": "Edit channel",
+				"description": "Webhook channel receives HTTP callbacks when a rule triggers",
+				"name": "Name",
+				"namePlaceholder": "e.g. billing-webhook",
+				"url": "Webhook URL",
+				"urlPlaceholder": "https://example.com/webhook",
+				"urlInvalid": "URL must start with http:// or https://",
+				"customHeaders": "Custom headers",
+				"addHeader": "Add header",
+				"headerKeyPlaceholder": "Header name",
+				"headerValuePlaceholder": "Header value",
+				"signingSecret": "Signing secret",
+				"signingSecretPlaceholder": "whsec_...",
+				"signingSecretDescription": "Optional whsec_… secret used to validate webhook signatures on your endpoint",
+				"enabled": "Enabled",
+				"enabledDescription": "Disabled channels are skipped during delivery"
+			},
+			"toast": {
+				"created": "Channel created",
+				"updated": "Channel updated",
+				"deleted": "Channel deleted",
+				"failed": "Failed to save channel",
+				"deleteFailed": "Failed to delete channel"
+			}
+		},
+		"rules": {
+			"title": "Notification rules",
+			"description": "Trigger notifications on entitlement balance thresholds, entitlement resets and invoice events",
+			"create": "New rule",
+			"table": {
+				"name": "Name",
+				"type": "Type",
+				"channels": "Channels",
+				"status": "Status"
+			},
+			"empty": {
+				"title": "No notification rules yet",
+				"subtitle": "Create a rule and attach it to a channel to get notified"
+			},
+			"deleteConfirm": "Delete rule \"{{name}}\"? You will no longer receive its notifications.",
+			"thresholdTypes": {
+				"balanceValue": "Remaining balance",
+				"usagePercentage": "Usage percentage",
+				"usageValue": "Usage value"
+			},
+			"drawer": {
+				"createTitle": "Create rule",
+				"editTitle": "Edit rule",
+				"description": "Pick what triggers the notification and which channels receive it",
+				"type": "Type",
+				"name": "Name",
+				"namePlaceholder": "e.g. Balance below 20%",
+				"channels": "Channels",
+				"channelsPlaceholder": "Select channels",
+				"channelsDescription": "At least one channel is required",
+				"thresholds": "Thresholds",
+				"addThreshold": "Add threshold",
+				"thresholdValuePlaceholder": "Value",
+				"features": "Feature filter",
+				"featuresPlaceholder": "All features",
+				"featuresDescription": "Optional — restrict the rule to the selected features",
+				"enabled": "Enabled",
+				"enabledDescription": "Disabled rules never trigger"
+			},
+			"toast": {
+				"created": "Rule created",
+				"updated": "Rule updated",
+				"deleted": "Rule deleted",
+				"failed": "Failed to save rule",
+				"deleteFailed": "Failed to delete rule"
+			}
+		},
+		"events": {
+			"title": "Notification events",
+			"description": "Delivery log of notifications triggered by rules",
+			"resend": "Resend",
+			"table": {
+				"id": "Event ID",
+				"type": "Type",
+				"rule": "Rule",
+				"status": "Delivery status",
+				"createdAt": "Created at"
+			},
+			"empty": {
+				"title": "No notification events yet",
+				"subtitle": "Events appear here once rules start firing"
+			},
+			"states": {
+				"SUCCESS": "Success",
+				"FAILED": "Failed",
+				"SENDING": "Sending",
+				"PENDING": "Pending",
+				"RESENDING": "Resending"
+			},
+			"toast": {
+				"resent": "Notification resent",
+				"resendFailed": "Failed to resend notification"
+			}
+		},
+		"ossLimitNotice": "OpenMeter community edition ships a noop webhook delivery adapter: creating channels or rules is rejected by the backend (not implemented), while listing works. Full notification capability requires an OpenMeter distribution with a real webhook sender."
 	}
 }

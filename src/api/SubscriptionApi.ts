@@ -4,6 +4,7 @@
 // 禁止假成功（深化项见 docs/superpowers/plans/2026-09-04-full-openmeter-backend-switch.md）。
 import { SubscriptionUsage } from '@/models';
 import { ENTITY_STATUS } from '@/models';
+import { ADDON_ASSOCIATION_STATUS } from '@/models/AddonAssociation';
 import { SUBSCRIPTION_CANCELLATION_TYPE } from '@/models/Subscription';
 import {
 	ListSubscriptionsPayload,
@@ -221,8 +222,32 @@ class SubscriptionApi {
 		unsupported('为订阅添加附加组件');
 	}
 
-	public static async getActiveAddons(_subscriptionId: string): Promise<ListAddonAssociationsResponse> {
-		return emptyPage() as ListAddonAssociationsResponse;
+	public static async getActiveAddons(subscriptionId: string): Promise<ListAddonAssociationsResponse> {
+		if (!subscriptionId) return emptyPage() as ListAddonAssociationsResponse;
+		const client = getOpenMeterClient();
+		if (!client) return emptyPage() as ListAddonAssociationsResponse;
+		const addons = (await client.subscriptionAddons.list(subscriptionId)) ?? [];
+		return {
+			items: addons.map((a) => ({
+				id: a.id,
+				environment_id: '',
+				// Flexprice 语义：关联实体=订阅本体
+				entity_id: a.subscriptionId ?? subscriptionId,
+				entity_type: 'SUBSCRIPTION',
+				addon_id: a.addon?.id ?? '',
+				start_date: a.activeFrom instanceof Date ? a.activeFrom.toISOString() : String(a.activeFrom ?? ''),
+				end_date: a.activeTo instanceof Date ? a.activeTo.toISOString() : a.activeTo ? String(a.activeTo) : undefined,
+				addon_status: a.activeTo ? ADDON_ASSOCIATION_STATUS.INACTIVE : ADDON_ASSOCIATION_STATUS.ACTIVE,
+				tenant_id: '',
+				status: 'published',
+				created_at: a.createdAt instanceof Date ? a.createdAt.toISOString() : String(a.createdAt ?? ''),
+				updated_at: a.updatedAt instanceof Date ? a.updatedAt.toISOString() : String(a.updatedAt ?? ''),
+				created_by: '',
+				updated_by: '',
+				quantity: a.quantity,
+			})) as AddonAssociationResponse[],
+			pagination: { limit: addons.length, offset: 0, total: addons.length },
+		};
 	}
 
 	public static async removeAddonFromSubscription(_payload: RemoveAddonRequest): Promise<{ message: string }> {

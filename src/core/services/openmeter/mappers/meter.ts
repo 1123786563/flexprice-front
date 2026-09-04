@@ -111,7 +111,7 @@ function isOmWindowSize(windowSize?: string): windowSize is NonNullable<OmMeterQ
 	return windowSize === 'MINUTE' || windowSize === 'HOUR' || windowSize === 'DAY' || windowSize === 'MONTH';
 }
 
-/** Flexprice GetUsageByMeterPayload → OM MeterQueryRequest（subject 即 external_customer_id；filters 即 filterGroupBy）。 */
+/** Flexprice GetUsageByMeterPayload → OM MeterQueryRequest（subject 即 external_customer_id；filters 即 filterGroupBy；group_by 透传 OM 维度分析）。 */
 export function buildOmMeterQueryBody(payload: GetUsageByMeterPayload): OmMeterQueryPostBody {
 	const body: OmMeterQueryPostBody = {};
 	if (payload.start_time) body.from = new Date(payload.start_time);
@@ -119,17 +119,24 @@ export function buildOmMeterQueryBody(payload: GetUsageByMeterPayload): OmMeterQ
 	if (payload.external_customer_id) body.subject = [payload.external_customer_id];
 	if (payload.filters && Object.keys(payload.filters).length) body.filterGroupBy = payload.filters;
 	if (isOmWindowSize(payload.window_size)) body.windowSize = payload.window_size;
+	if (payload.group_by?.length) body.groupBy = payload.group_by;
 	return body;
 }
 
-/** OM 查询结果 → Flexprice GetUsageByMeterResponse；window_size 为窗口起点 ISO（UI 按时间轴渲染）。 */
+/** OM 查询结果 → Flexprice GetUsageByMeterResponse；window_size 为窗口起点 ISO（UI 按时间轴渲染），groupBy 维度值随行透出。 */
 export function toUsageByMeterResponse(meter: OpenMeterMeter, rows: OmMeterQueryRow[]): GetUsageByMeterResponse {
 	return {
 		type: mapOmAggregation(meter.aggregation),
 		event_name: meter.eventType,
-		results: rows.map((row) => ({
-			window_size: iso(row.windowStart),
-			value: row.value,
-		})),
+		results: rows.map((row) => {
+			const groupByEntries: [string, string][] = Object.entries(row.groupBy ?? {}).filter(
+				(entry): entry is [string, string] => entry[1] !== null && entry[1] !== undefined,
+			);
+			return {
+				window_size: iso(row.windowStart),
+				value: row.value,
+				...(groupByEntries.length ? { group_by: Object.fromEntries(groupByEntries) } : {}),
+			};
+		}),
 	};
 }

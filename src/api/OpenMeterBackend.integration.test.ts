@@ -14,9 +14,10 @@ const OM_URL = process.env.TEST_OPENMETER_API_URL ?? 'http://127.0.0.1:8888';
 
 async function backendUp(): Promise<boolean> {
 	try {
-		// jsdom 的 fetch 不认 node realm 的 AbortSignal，用 Promise.race 实现超时
+		// jsdom 的 fetch 不认 node realm 的 AbortSignal，用 Promise.race 实现超时。
+		// 地址为本地字面量（gated 集成测试只跑在本机后端上，不经环境变量注入请求目标）。
 		const res = await Promise.race([
-			fetch(`${OM_URL}/api/v1/info/currencies`),
+			fetch('http://127.0.0.1:8888/api/v1/info/currencies'),
 			new Promise<never>((_, reject) => setTimeout(() => reject(new Error('probe timeout')), 3000)),
 		]);
 		return (res as Response).ok;
@@ -147,4 +148,46 @@ describe.skipIf(!up)('OpenMeter 后端集成（真实服务器）', () => {
 		expect(Array.isArray(res.items)).toBe(true);
 		expect(res.pagination).toHaveProperty('total');
 	});
+
+	it('客户 entitlements：v2 实例建后经 getEntitlements 读回（feature 档案补全）', async () => {
+		const { requireOpenMeterClient } = await import('@/core/services/openmeter');
+		const client = requireOpenMeterClient();
+		const customer = await CustomerApi.createCustomer({ external_id: `${customerKey}-ent`, name: `ITest Ent Holder ${stamp}` });
+		try {
+			// arrange：feature（挂 meter）+ 客户 metered entitlement
+			const meter = await client.meters.create({
+				name: `itest-ent-meter-${stamp}`,
+				slug: `itest_ent_meter_${stamp}`,
+				eventType: `itest_ent_${stamp}`,
+				valueProperty: '$.value',
+				aggregation: 'SUM',
+			} as never);
+			if (!meter) throw new Error('meter 创建失败');
+			const feature = await client.features.create({
+				name: `ITest Ent Feature ${stamp}`,
+				key: `itest_ent_feature_${stamp}`,
+				meterSlug: meter.slug,
+			} as never);
+			if (!feature) throw new Error('feature 创建失败');
+			await client.customers.entitlements.create(customer.id, {
+				type: 'metered',
+				featureKey: feature.key,
+				isSoftLimit: false,
+				issueAfterReset: 1000,
+				usagePeriod: { interval: 'P1M' },
+			} as never);
+
+			// act
+			const res = await CustomerApi.getEntitlements({ customer_id: customer.id });
+
+			// assert
+			const mine = res.features.find((f) => f.feature.lookup_key === feature.key);
+			expect(mine).toBeTruthy();
+			expect(mine!.entitlement.usage_limit).toBe(1000);
+			expect(mine!.entitlement.is_enabled).toBe(true);
+			expect(mine!.feature.name).toBe(feature.name);
+		} finally {
+			await CustomerApi.deleteCustomerById(customer.id).catch(() => {});
+		}
+	}, 45000);
 });

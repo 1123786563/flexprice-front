@@ -157,6 +157,8 @@ export interface GetUsageByMeterPayload {
 	external_customer_id?: string;
 	filters?: Record<string, string[]>;
 	window_size?: string;
+	/** OpenMeter 维度分析：按 meter 的 groupBy 属性拆分结果行。 */
+	group_by?: string[];
 }
 
 export interface GetUsageByMeterResponse {
@@ -165,6 +167,8 @@ export interface GetUsageByMeterResponse {
 	results: {
 		window_size: string;
 		value: number;
+		/** group_by 查询时每行的维度值（如 {plan: "pro"}）。 */
+		group_by?: Record<string, string>;
 	}[];
 }
 

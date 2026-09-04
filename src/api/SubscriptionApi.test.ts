@@ -45,6 +45,9 @@ function mockClient() {
 			change: vi.fn().mockResolvedValue({ current: OM_SUB, next: OM_SUB }),
 			migrate: vi.fn().mockResolvedValue({ current: OM_SUB, next: OM_SUB }),
 		},
+		subscriptionAddons: {
+			list: vi.fn().mockResolvedValue([]),
+		},
 		plans: {
 			get: vi.fn().mockResolvedValue({ id: 'plan-1', key: 'drill_plan_220', version: 1, name: 'Drill Plan' }),
 		},
@@ -148,12 +151,63 @@ describe('SubscriptionApi（OpenMeter 承载）', () => {
 		await expect(SubscriptionApi.createSubscriptionLineItem('sub-1', {} as never)).rejects.toThrow(/暂不支持/);
 	});
 
-	it('行项目/附加组件读接口空态', async () => {
+	it('getActiveAddons：OM subscriptionAddons.list → AddonAssociationResponse（活跃/过期状态）', async () => {
+		const activeFrom = new Date('2026-08-30T11:51:18Z');
+		const client = mockClient();
+		client.subscriptionAddons = {
+			list: vi.fn().mockResolvedValue([
+				{
+					id: 'sa-1',
+					name: 'Addon A',
+					addon: { id: 'addon-1', key: 'addon_a', version: 1, instanceType: 'single' },
+					quantity: 2,
+					subscriptionId: 'sub-1',
+					activeFrom,
+					activeTo: null,
+					createdAt: activeFrom,
+					updatedAt: activeFrom,
+				},
+				{
+					id: 'sa-2',
+					name: 'Addon B',
+					addon: { id: 'addon-2', key: 'addon_b', version: 1, instanceType: 'single' },
+					quantity: 1,
+					subscriptionId: 'sub-1',
+					activeFrom,
+					activeTo: new Date('2026-09-01T00:00:00Z'),
+					createdAt: activeFrom,
+					updatedAt: activeFrom,
+				},
+			]),
+		};
+		const res = await SubscriptionApi.getActiveAddons('sub-1');
+		expect(client.subscriptionAddons.list).toHaveBeenCalledWith('sub-1');
+		expect(res.items).toHaveLength(2);
+		expect(res.items[0]).toMatchObject({
+			addon_id: 'addon-1',
+			entity_id: 'sub-1',
+			entity_type: 'SUBSCRIPTION',
+			addon_status: 'active',
+			quantity: 2,
+		});
+		// 有 activeTo 的实例视为 inactive
+		expect(res.items[1].addon_status).toBe('inactive');
+		expect(res.pagination.total).toBe(2);
+	});
+
+	it('getActiveAddons：空 id 与后端禁用优雅降级空态', async () => {
+		mockClient();
+		const empty = await SubscriptionApi.getActiveAddons('');
+		expect(empty.items).toEqual([]);
+		vi.mocked(getOpenMeterClient).mockReturnValue(null);
+		const disabled = await SubscriptionApi.getActiveAddons('sub-1');
+		expect(disabled.items).toEqual([]);
+	});
+
+	it('行项目读接口空态', async () => {
 		mockClient();
 		const lineItems = await SubscriptionApi.searchSubscriptionLineItems({ limit: 10 } as never);
 		expect(lineItems.items).toEqual([]);
-		const addons = await SubscriptionApi.getActiveAddons('sub-1');
-		expect(addons.items).toEqual([]);
 	});
 
 	it('后端禁用时搜索优雅降级为空', async () => {
