@@ -61,3 +61,5 @@ deploy-config.json
 
 # Ad-hoc GUI test evidence screenshots
 /gui-test-screenshots/
+.mimosa/
+.zcode/
