@@ -82,14 +82,23 @@ class SubscriptionApi {
 
 	/**
 	 * 创建订阅：OM 以 plan key+version 引用（currency/billing_period 由 plan 决定）。
-	 * plan_id 若是 OM plan id 则先解析为 key；start_date 超出 OM 通路时忽略。
+	 * plan_id 若是 OM plan id 则先解析为 key；draft 计划先 publish（Flexprice 心智：
+	 * 加完价格卡的计划创建订阅即可用），publish 失败（如仍无费率卡）明确报错。
 	 */
 	public static async createSubscription(payload: CreateSubscriptionRequest): Promise<SubscriptionResponse> {
 		const client = requireOpenMeterClient();
-		const plan = await client.plans.get(payload.plan_id).catch(() => null);
+		let plan = await client.plans.get(payload.plan_id).catch(() => null);
 		if (!plan?.key) throw new Error(`计划 ${payload.plan_id} 不存在，无法创建订阅`);
+		if (plan.status === 'draft') {
+			const published = await client.plans.publish(plan.id).catch(() => null);
+			if (!published) {
+				throw new Error('计划尚未发布：请先为计划添加至少一张价格卡（OpenMeter 要求 phase 含费率卡才能发布）');
+			}
+			plan = await client.plans.get(payload.plan_id);
+		}
+		if (!plan) throw new Error(`计划 ${payload.plan_id} 不存在，无法创建订阅`);
 		const created = await client.subscriptions.create({
-			plan: { key: plan.key, ...(plan.version !== undefined ? { version: plan.version } : {}) },
+			plan: { key: plan.key, ...(plan.version ? { version: plan.version } : {}) },
 			customerId: payload.customer_id,
 			...(payload.start_date ? { billingAnchor: new Date(payload.start_date) } : {}),
 		});

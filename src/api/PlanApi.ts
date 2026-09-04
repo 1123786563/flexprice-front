@@ -37,9 +37,21 @@ export interface GetPlansByFilterPayload extends Omit<QueryFilter, 'sort'>, Time
 }
 
 export class PlanApi {
+	/**
+	 * Flexprice 心智「计划创建即可用」：创建后立即尝试 publish。
+	 * OM publish 要求每个 phase 至少一张费率卡——新建计划还没有价格卡，publish 会
+	 * 400（plan_phase_has_no_rate_cards），容忍失败保持 draft；后续 createSubscription
+	 * 挂订阅前会再补 publish（届时价格卡已就位）。
+	 */
 	public static async createPlan(data: CreatePlanRequest): Promise<CreatePlanResponse> {
-		const om = await requireOpenMeterClient().plans.create(buildOmPlanCreate(data));
+		const client = requireOpenMeterClient();
+		const om = await client.plans.create(buildOmPlanCreate(data));
 		if (!om) throw new Error('创建计划失败');
+		if (om.status === 'draft') {
+			await client.plans.publish(om.id).catch(() => {
+				// 无价格卡的新计划不可 publish（draft 下 PriceApi 仍可追加费率卡）
+			});
+		}
 		return mapOmPlan(om);
 	}
 
