@@ -1,6 +1,7 @@
 // src/core/services/openmeter/index.ts
 import { OpenMeter as OpenMeterClient } from '@openmeter/sdk';
 import { config } from '@/config/config';
+import AuthService from '@/core/auth/AuthService';
 
 export interface UsageEventInput {
 	/** Meter event type — must match an OpenMeter meter's `eventType` to aggregate (e.g. `mcp_calls`). */
@@ -30,9 +31,17 @@ let clientInstance: OpenMeterClient | null = null;
 export function getOpenMeterClient(): OpenMeterClient | null {
 	if (!config.openmeter.enabled) return null;
 	if (!clientInstance) {
+		// Self-hosted management APIs require the session JWT minted at login
+		// (OIDC/SAML callback or password shim) — the SDK's `apiKey` option is its
+		// bearer-token hook, the same credential the axios client attaches in
+		// core/axios/config.ts. Read at construction: the client is a singleton and
+		// every flow that reaches the dashboard boots the SPA after the token is
+		// stored. An explicit VITE_OPENMETER_API_KEY still wins, keeping
+		// ingest-key-only setups working signed out.
+		const sessionToken = AuthService.peekStoredToken();
 		clientInstance = new OpenMeterClient({
 			baseUrl: config.openmeter.baseUrl,
-			...(config.openmeter.apiKey ? { apiKey: config.openmeter.apiKey } : {}),
+			...(config.openmeter.apiKey ? { apiKey: config.openmeter.apiKey } : sessionToken ? { apiKey: sessionToken } : {}),
 		});
 	}
 	return clientInstance;
