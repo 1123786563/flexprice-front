@@ -72,7 +72,8 @@ function mapOmSubscriptionAddon(association: OmSubscriptionAddon, subscriptionId
 		addon_id: association.addon?.id ?? '',
 		start_date: omDateToString(association.activeFrom),
 		end_date: association.activeTo ? omDateToString(association.activeTo) : undefined,
-		addon_status: association.activeTo ? ADDON_ASSOCIATION_STATUS.INACTIVE : ADDON_ASSOCIATION_STATUS.ACTIVE,
+		// OM 移除语义 = PATCH quantity=0：部分视图不回填 activeTo，qty 0 即已终止
+		addon_status: association.activeTo || association.quantity === 0 ? ADDON_ASSOCIATION_STATUS.INACTIVE : ADDON_ASSOCIATION_STATUS.ACTIVE,
 		tenant_id: '',
 		status: 'published',
 		created_at: omDateToString(association.createdAt),
