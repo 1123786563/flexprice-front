@@ -7,10 +7,10 @@ import { expect, test, type Page } from '@playwright/test';
 
 const CUST_KEY = 'tier1_cust_e2e19859';
 /** 钱包测试用：该客户发放过 25 USD credits。 */
-const CREDITS_CUST_ID = '01M1QTC5MMBBJB9TGNK5P3GVB9';
-/** addons/菜单测试用：planB（已关联 addon）上的活跃订阅。 */
-const SUB_ID = '01M1R3KGH1SEHWR0YYZEEARP9R';
-const FEATURE_ID = '01M1QTMSSKBJ2QCRW2BVREXJHF';
+const CREDITS_CUST_ID = '01M1RAQE65M79V90RA1AT405R9';
+/** addons/菜单测试用：planB（已关联 addon）上的活跃订阅（全新客户，保证 add 流程干净）。 */
+const SUB_ID = '01M1RCA0XVHR2MJSVF56M6188C';
+const FEATURE_ID = '01M1RAQVM1178R6Q2XT59ZFG87';
 const ADDON_NAME = 'Tier1 Addon2 e2e19859';
 
 async function loginViaCasdoor(page: Page): Promise<void> {

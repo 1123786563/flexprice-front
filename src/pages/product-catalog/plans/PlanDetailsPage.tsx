@@ -144,24 +144,24 @@ const PlanDetailsPage = () => {
 			return await PlanApi.deletePlan(planId!);
 		},
 		onSuccess: () => {
-			toast.success('Plan archived successfully');
+			toast.success(t('toast.plan.archived'));
 			navigate(RouteNames.plan);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to archive plan');
+			toast.error(error.message || t('toast.plan.archiveFailed'));
 		},
 	});
 
 	const { mutate: syncPlan, isPending: isSyncing } = useMutation({
 		mutationFn: () => PlanApi.synchronizePlanPricesWithSubscription(planId!),
 		onSuccess: () => {
-			toast.success('Sync has been started and will take up to 1 hour to complete.');
+			toast.success(t('toast.plan.syncStarted'));
 			awaitingPlanRefresh.current = true;
 			workflowKeyWhenSyncStarted.current = latestRun?.run_id;
 			void queryClient.invalidateQueries({ queryKey: ['planSyncWorkflows', planId] });
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Error synchronizing plan with subscriptions');
+			toast.error(error.message || t('toast.plan.syncFailed'));
 		},
 	});
 
@@ -234,12 +234,12 @@ const PlanDetailsPage = () => {
 	}
 
 	if (isError) {
-		toast.error('Error loading plan data');
+		toast.error(t('toast.plan.loadFailed'));
 		return null;
 	}
 
 	if (!planData) {
-		toast.error('No plan data available');
+		toast.error(t('toast.plan.notAvailable'));
 		return null;
 	}
 

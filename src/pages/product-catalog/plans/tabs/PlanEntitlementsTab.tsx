@@ -152,7 +152,7 @@ const PlanEntitlementsTab = () => {
 	}
 
 	if (isError) {
-		toast.error('Error loading entitlements');
+		toast.error(t('toast.entitlements.loadFailed'));
 		return null;
 	}
 

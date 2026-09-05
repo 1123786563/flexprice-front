@@ -265,21 +265,21 @@ class SubscriptionApi {
 	// =============================================================================
 
 	/**
-	 * 添加附加组件：OM v3 `POST /subscriptions/{id}/addons`。OM 无 start_date/cadence/
-	 * proration 概念，立即生效、数量固定 1；Flexprice 元数据并入 OM labels 便于回查。
-	 * npm SDK 类型（beta.232）与现役 v3 spec 不一致（SDK 要求 name/metadata，served spec
-	 * 是 additionalProperties:false 的 {addon, labels, quantity, timing}）——以 served
-	 * spec 为准做类型旁路，多发的字段会被后端 400 拒绝。
+	 * 添加附加组件：SDK 走 **v1** `POST /subscriptions/{id}/addons`（wire 为 camelCase，
+	 * 必填 `name`——与 v3 端点的 snake_case/{addon,labels,quantity,timing} 是两套形状）。
+	 * OM 无 start_date/cadence/proration 概念，立即生效、数量固定 1；name 取 addon 目录名，
+	 * Flexprice 元数据并入 OM metadata 便于回查。
 	 */
 	public static async addAddonToSubscription(payload: AddAddonRequest): Promise<AddonAssociationResponse> {
 		const client = requireOpenMeterClient();
-		const body = {
+		const addon = await client.addons.get(payload.addon_id).catch(() => null);
+		const created = await client.subscriptionAddons.create(payload.subscription_id, {
 			addon: { id: payload.addon_id },
+			name: addon?.name ?? payload.addon_id,
 			quantity: 1,
 			timing: 'immediate',
-			...(payload.metadata ? { labels: Object.fromEntries(Object.entries(payload.metadata).map(([k, v]) => [k, String(v)])) } : {}),
-		} as unknown as Parameters<OpenMeterClient['subscriptionAddons']['create']>[1];
-		const created = await client.subscriptionAddons.create(payload.subscription_id, body);
+			...(payload.metadata ? { metadata: Object.fromEntries(Object.entries(payload.metadata).map(([k, v]) => [k, String(v)])) } : {}),
+		});
 		if (!created) throw new Error('添加附加组件失败');
 		return mapOmSubscriptionAddon(created, payload.subscription_id);
 	}
@@ -304,13 +304,16 @@ class SubscriptionApi {
 	}
 
 	/**
-	 * 移除附加组件：OM 无 DELETE/定时移除，v1 PATCH quantity=0 即终止（立即生效）。
-	 * OM 不支持 Flexprice 的 proration/effective_date 语义，忽略并如实立即移除。
+	 * 移除附加组件：OM 无 DELETE/定时移除，v1 PATCH quantity=0 即终止（timing 必填，
+	 * 立即生效）。OM 不支持 Flexprice 的 proration/effective_date 语义，忽略并如实立即移除。
 	 */
 	public static async removeAddonFromSubscription(payload: RemoveAddonRequest): Promise<{ message: string }> {
 		const client = requireOpenMeterClient();
 		if (!payload.subscription_id) throw new Error('缺少 subscription_id，无法移除附加组件');
-		await client.subscriptionAddons.update(payload.subscription_id, payload.addon_association_id, { quantity: 0 });
+		await client.subscriptionAddons.update(payload.subscription_id, payload.addon_association_id, {
+			quantity: 0,
+			timing: 'immediate',
+		});
 		return { message: 'ok' };
 	}
 

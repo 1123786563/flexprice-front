@@ -164,23 +164,23 @@ const CreateInvoicePage: FC = () => {
 			});
 		},
 		onSuccess: (data) => {
-			toast.success('Invoice created successfully');
+			toast.success(t('toast.invoice.created'));
 			navigate(`${RouteNames.customers}/${customerId}/invoice/${data.id}`);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to create invoice');
+			toast.error(error.message || t('toast.invoice.createFailed'));
 		},
 	});
 
 	const handleSubmit = () => {
 		// Validate form
 		if (!customerId) {
-			toast.error('Customer ID is required');
+			toast.error(t('toast.invoice.customerIdRequired'));
 			return;
 		}
 
 		if (lineItems.length === 0) {
-			toast.error('At least one line item is required');
+			toast.error(t('toast.invoice.lineItemRequired'));
 			return;
 		}
 
@@ -189,7 +189,7 @@ const CreateInvoicePage: FC = () => {
 		);
 
 		if (hasEmptyFields) {
-			toast.error('Please fill in all line item fields with valid values');
+			toast.error(t('toast.invoice.lineItemsInvalid'));
 			return;
 		}
 

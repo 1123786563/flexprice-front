@@ -28,17 +28,17 @@ const ResendVerification = () => {
 			});
 		},
 		onSuccess: () => {
-			toast.success('Verification email has been resent. Please check your inbox.');
+			toast.success(t('toast.verification.resent'));
 			setResendSuccess(true);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to resend verification email');
+			toast.error(error.message || t('toast.verification.resendFailed'));
 		},
 	});
 
 	const handleResend = () => {
 		if (!email) {
-			toast.error('Please enter your email address');
+			toast.error(t('toast.verification.enterEmail'));
 			return;
 		}
 		resendVerification(email);

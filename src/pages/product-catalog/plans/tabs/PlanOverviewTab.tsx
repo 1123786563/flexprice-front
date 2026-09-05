@@ -7,9 +7,11 @@ import { refetchQueries } from '@/core/services/tanstack/ReactQueryProvider';
 import { Loader } from '@/components/atoms';
 import toast from 'react-hot-toast';
 import { DataType, FilterOperator } from '@/types/common/QueryBuilder';
+import { useTranslation } from 'react-i18next';
 
 const PlanOverviewTab = () => {
 	const { planId } = useParams<{ planId: string }>();
+	const { t } = useTranslation('catalog');
 
 	const {
 		data: planData,
@@ -31,9 +33,9 @@ const PlanOverviewTab = () => {
 
 	useEffect(() => {
 		if (isPlanError) {
-			toast.error('Error loading plan data');
+			toast.error(t('toast.plan.loadFailed'));
 		}
-	}, [isPlanError]);
+	}, [isPlanError, t]);
 
 	if (isPlanLoading) {
 		return <Loader />;

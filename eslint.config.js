@@ -37,7 +37,6 @@ const noLiteralString = [
 				'Array\\..*',
 				'Math\\..*',
 				'JSON\\..*',
-				'toast\\..*',
 				'cn',
 				'clsx',
 				'cva',

@@ -43,7 +43,7 @@ const QuickBooksOAuthCallback = () => {
 
 		if (errorParam) {
 			setError(`OAuth error: ${errorParam}`);
-			toast.error(`${providerName} authorization failed: ${errorParam}`);
+			toast.error(t('toast.oauth.authorizationFailed', { providerName, errorParam }));
 			setTimeout(() => {
 				navigate(providerRoute);
 			}, 3000);
@@ -52,7 +52,7 @@ const QuickBooksOAuthCallback = () => {
 
 		if (!code || !state) {
 			setError('Missing required OAuth parameters');
-			toast.error(`${providerName} authorization failed: Missing required parameters`);
+			toast.error(t('toast.oauth.missingRequiredParams', { providerName }));
 			setTimeout(() => {
 				navigate(providerRoute);
 			}, 3000);
@@ -61,7 +61,7 @@ const QuickBooksOAuthCallback = () => {
 
 		if (!sessionId) {
 			setError('Session expired or not found');
-			toast.error('OAuth session expired. Please try connecting again.');
+			toast.error(t('toast.oauth.sessionExpired'));
 			setTimeout(() => {
 				navigate(providerRoute);
 			}, 3000);
@@ -70,7 +70,7 @@ const QuickBooksOAuthCallback = () => {
 
 		if (isQuickBooks && !realmId) {
 			setError('Missing QuickBooks realm ID');
-			toast.error('QuickBooks authorization failed: Missing realm ID');
+			toast.error(t('toast.quickBooks.missingRealmId'));
 			setTimeout(() => {
 				navigate(providerRoute);
 			}, 3000);
@@ -79,13 +79,13 @@ const QuickBooksOAuthCallback = () => {
 
 		if (!isQuickBooks && !zohoOrganizationId) {
 			setError('Zoho organization ID is missing. Please restart the connection flow.');
-			toast.error('Zoho organization ID not found. Please reconnect.');
+			toast.error(t('toast.zoho.organizationIdNotFound'));
 			setTimeout(() => {
 				navigate(providerRoute);
 			}, 3000);
 			return;
 		}
-	}, [code, state, sessionId, realmId, errorParam, navigate, providerRoute, providerName, isQuickBooks, zohoOrganizationId]);
+	}, [code, state, sessionId, realmId, errorParam, navigate, providerRoute, providerName, isQuickBooks, zohoOrganizationId, t]);
 
 	const { mutate: completeOAuth, isPending } = useMutation({
 		mutationFn: async () => {
@@ -121,7 +121,7 @@ const QuickBooksOAuthCallback = () => {
 		},
 		onSuccess: () => {
 			cleanupSession();
-			toast.success(`${providerName} connected successfully!`);
+			toast.success(t('toast.oauth.connected', { providerName }));
 			navigate(providerRoute);
 		},
 		onError: (error: Error) => {

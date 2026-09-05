@@ -43,7 +43,7 @@ const SignupConfirmation = () => {
 			}
 
 			if (!session) {
-				toast.error('No session found');
+				toast.error(t('toast.signupConfirmation.noSession'));
 				navigate('/auth');
 				return;
 			}
@@ -62,7 +62,7 @@ const SignupConfirmation = () => {
 		},
 		onError: async (error: Error) => {
 			await supabase.auth.signOut();
-			toast.error(error.message || 'Failed to signup');
+			toast.error(error.message || t('toast.signupConfirmation.failed'));
 			navigate('/auth');
 		},
 	});

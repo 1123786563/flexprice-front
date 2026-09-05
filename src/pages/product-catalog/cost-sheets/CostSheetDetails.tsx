@@ -194,11 +194,11 @@ const CostSheetDetails = () => {
 			return await CostSheetApi.DeleteCostSheet(id!);
 		},
 		onSuccess: () => {
-			toast.success('Cost Sheet archived successfully');
+			toast.success(t('toast.costSheet.archived'));
 			navigate(RouteNames.costSheets);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to archive cost sheet');
+			toast.error(error.message || t('toast.costSheet.archiveFailed'));
 		},
 	});
 
@@ -286,12 +286,12 @@ const CostSheetDetails = () => {
 	}
 
 	if (isError) {
-		toast.error('Error loading cost sheet data');
+		toast.error(t('toast.costSheet.loadFailed'));
 		return null;
 	}
 
 	if (!costSheetData) {
-		toast.error('No cost sheet data available');
+		toast.error(t('toast.costSheet.notAvailable'));
 		return null;
 	}
 

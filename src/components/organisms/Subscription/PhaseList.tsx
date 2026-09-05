@@ -58,6 +58,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
 	onConvertBackToSubscription,
 }) => {
 	const { t } = useTranslation('customers');
+	const { t: tb } = useTranslation('billing');
 	const [editingIndex, setEditingIndex] = useState<number | null>(null);
 	const [isCreating, setIsCreating] = useState(false);
 
@@ -68,12 +69,12 @@ const PhaseList: React.FC<PhaseListProps> = ({
 		if (phases.length === 0) {
 			// Validate that subscription end date is set
 			if (!subscriptionEndDate) {
-				toast.error('Please set a subscription end date before adding phases.');
+				toast.error(tb('toast.phase.subscriptionEndDateRequired'));
 				return;
 			}
 
 			if (!subscriptionData) {
-				toast.error('Subscription data is not available.');
+				toast.error(tb('toast.phase.subscriptionDataUnavailable'));
 				return;
 			}
 
@@ -98,7 +99,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
 		if (phases.length > 0) {
 			const lastPhase = phases[phases.length - 1];
 			if (!lastPhase.end_date) {
-				toast.error('Please set an end date for the previous phase before adding a new phase.');
+				toast.error(tb('toast.phase.previousEndDateRequired'));
 				return;
 			}
 		}
@@ -285,7 +286,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
 				// Validate: new start_date must be after previous phase's start_date
 				const previousPhaseStartDate = new Date(previousPhase.start_date);
 				if (newStartDate <= previousPhaseStartDate) {
-					toast.error("Phase start date must be after the previous phase's start date.");
+					toast.error(tb('toast.phase.startDateAfterPrevious'));
 					return;
 				}
 
@@ -311,7 +312,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
 				if (nextPhase.end_date) {
 					const nextPhaseEndDate = new Date(nextPhase.end_date);
 					if (newEndDate >= nextPhaseEndDate) {
-						toast.error("Phase end date must be before the next phase's end date.");
+						toast.error(tb('toast.phase.endDateBeforeNext'));
 						return;
 					}
 				}

@@ -14,6 +14,7 @@ import { API_DOCS_TAGS } from '@/constants/apiDocsTags';
 
 const S3Exports = () => {
 	const { t } = useTranslation('settings');
+	const { t: tDev } = useTranslation('developers');
 	const { i18n } = useTranslation();
 	const navigate = useNavigate();
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -60,11 +61,11 @@ const S3Exports = () => {
 	const { mutate: deleteConnection, isPending: isDeletingConnection } = useMutation({
 		mutationFn: (id: string) => ConnectionApi.Delete(id),
 		onSuccess: () => {
-			toast.success('Connection deleted successfully');
+			toast.success(tDev('toast.connection.deleted'));
 			refetchConnections();
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to delete connection');
+			toast.error(error.message || tDev('toast.connection.deleteFailed'));
 		},
 	});
 

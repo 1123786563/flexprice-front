@@ -244,7 +244,7 @@ const EntityChargesPage: React.FC<EntityChargesPageProps> = ({ entityType, entit
 		const allPrices = [...state.recurringCharges, ...state.usageCharges];
 
 		if (allPrices.length === 0) {
-			toast.error('No prices to create');
+			toast.error(t('toast.prices.noneToCreate'));
 			return;
 		}
 
@@ -310,7 +310,7 @@ const EntityChargesPage: React.FC<EntityChargesPageProps> = ({ entityType, entit
 		try {
 			// Create prices using bulk API - wait for success response
 			await createBulkPrices(bulkPriceRequest);
-			toast.success(`Prices created successfully for ${entityType.toLowerCase()}`);
+			toast.success(t('toast.prices.created', { entityType: entityType.toLowerCase() }));
 			refetchQueries(['fetchPlan', entityId]);
 			if (entityType === ENTITY_TYPE.ADDON) {
 				refetchQueries(['fetchAddon', entityId]);
@@ -323,12 +323,21 @@ const EntityChargesPage: React.FC<EntityChargesPageProps> = ({ entityType, entit
 		} catch (error: unknown) {
 			logger.error('Error saving charges:', error);
 			const errorMessage =
-				error instanceof Error
-					? error.message || 'An error occurred while processing charges'
-					: 'An error occurred while processing charges';
+				error instanceof Error ? error.message || t('toast.charges.processingFailed') : t('toast.charges.processingFailed');
 			toast.error(errorMessage);
 		}
-	}, [state.recurringCharges, state.usageCharges, priceEntityType, entityId, createBulkPrices, navigate, entityType, routeName, onSuccess]);
+	}, [
+		state.recurringCharges,
+		state.usageCharges,
+		priceEntityType,
+		entityId,
+		createBulkPrices,
+		navigate,
+		entityType,
+		routeName,
+		onSuccess,
+		t,
+	]);
 
 	// Fixed charges handlers
 	const handleRecurringChargeAdd = useCallback((index: number, charge: Partial<InternalPrice>) => {
@@ -398,9 +407,9 @@ const EntityChargesPage: React.FC<EntityChargesPageProps> = ({ entityType, entit
 	// ===== ERROR HANDLING =====
 	useEffect(() => {
 		if (isError && error) {
-			toast.error(`Error fetching ${entityType.toLowerCase()} data`);
+			toast.error(t('toast.entity.loadFailed', { entityType: entityType.toLowerCase() }));
 		}
-	}, [isError, error, entityType]);
+	}, [isError, error, entityType, t]);
 
 	// ===== LOADING & ERROR STATES =====
 	if (isLoading) return <Loader />;

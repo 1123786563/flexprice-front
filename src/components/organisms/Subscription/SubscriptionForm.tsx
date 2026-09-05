@@ -171,6 +171,7 @@ const SubscriptionForm = ({
 	};
 }) => {
 	const { t } = useTranslation(['customers', 'common']);
+	const { t: tb } = useTranslation('billing');
 	const isCustomerSelectionPending = !!customerPicker && !customerPicker.value;
 	// Fetch plan prices via shared hook (same cache key + canonical active filter as CreateCustomerSubscriptionPage)
 	const { data: selectedPlanPrices } = usePlanPrices(state.selectedPlan);
@@ -376,7 +377,7 @@ const SubscriptionForm = ({
 
 	const handleBillingPeriodChange = (value: string) => {
 		if (!selectedPlanPrices?.items) {
-			toast.error('Invalid billing period.');
+			toast.error(tb('toast.subscription.invalidBillingPeriod'));
 			return;
 		}
 

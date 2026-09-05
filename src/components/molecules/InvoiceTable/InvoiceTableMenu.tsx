@@ -25,6 +25,7 @@ interface Props {
 const InvoiceTableMenu: FC<Props> = ({ data }) => {
 	const navigate = useNavigate();
 	const { t: tc } = useTranslation('common');
+	const { t: tb } = useTranslation('billing');
 	const { can } = useCurrentUserPermissions();
 	const canWrite = can('invoice', 'write');
 	const writeDeniedReason = canWrite ? undefined : "You don't have permission to modify invoices";
@@ -34,11 +35,11 @@ const InvoiceTableMenu: FC<Props> = ({ data }) => {
 			return await InvoiceApi.triggerCommunication(invoice_id);
 		},
 		onSuccess: () => {
-			toast.success('Communication triggered');
+			toast.success(tb('toast.invoice.communicationTriggered'));
 			void refetchInvoiceQueries();
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Unable to trigger communication');
+			toast.error(error.message || tb('toast.invoice.communicationFailed'));
 		},
 	});
 
@@ -47,10 +48,10 @@ const InvoiceTableMenu: FC<Props> = ({ data }) => {
 			return await InvoiceApi.downloadInvoicePdf(invoice_id);
 		},
 		onSuccess: () => {
-			toast.success('Invoice downloaded');
+			toast.success(tb('toast.invoice.downloaded'));
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Unable to download invoice');
+			toast.error(error.message || tb('toast.invoice.downloadFailed'));
 		},
 	});
 
@@ -61,13 +62,13 @@ const InvoiceTableMenu: FC<Props> = ({ data }) => {
 		},
 		onSuccess: (rows) => {
 			if (rows === 0) {
-				toast.error('No billable line items to export');
+				toast.error(tb('toast.invoice.noBillableItems'));
 			} else {
-				toast.success('Invoice CSV downloaded');
+				toast.success(tb('toast.invoice.csvDownloaded'));
 			}
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Unable to download invoice CSV');
+			toast.error(error.message || tb('toast.invoice.csvDownloadFailed'));
 		},
 	});
 
@@ -76,11 +77,11 @@ const InvoiceTableMenu: FC<Props> = ({ data }) => {
 			return await InvoiceApi.recalculateInvoice(invoice_id);
 		},
 		onSuccess: () => {
-			toast.success('Invoice recalculation has been triggered. The replacement invoice will be available once the process completes.');
+			toast.success(tb('toast.invoice.recalculationTriggered'));
 			void refetchInvoiceQueries();
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Unable to recalculate invoice');
+			toast.error(error.message || tb('toast.invoice.recalculationFailed'));
 		},
 	});
 

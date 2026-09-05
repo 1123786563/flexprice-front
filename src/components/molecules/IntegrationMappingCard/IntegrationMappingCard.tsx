@@ -71,6 +71,7 @@ const IntegrationMappingCard: FC<IntegrationMappingCardProps> = ({
 	isActionDisabled = false,
 }) => {
 	const { t } = useTranslation('common');
+	const { t: tSettings } = useTranslation('settings');
 	const queryClient = useQueryClient();
 	const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 	const [linkDialogOpen, setLinkDialogOpen] = useState(false);
@@ -144,10 +145,10 @@ const IntegrationMappingCard: FC<IntegrationMappingCardProps> = ({
 				method,
 			}),
 		onSuccess: () => {
-			toast.success('Integration sync triggered successfully');
+			toast.success(tSettings('toast.integration.syncTriggered'));
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to trigger sync');
+			toast.error(error.message || tSettings('toast.integration.syncFailed'));
 		},
 	});
 
@@ -160,14 +161,14 @@ const IntegrationMappingCard: FC<IntegrationMappingCardProps> = ({
 				provider_entity_id: providerEntityId,
 			}),
 		onSuccess: () => {
-			toast.success('Integration linked successfully');
+			toast.success(tSettings('toast.integration.linked'));
 			setLinkDialogOpen(false);
 			setProviderEntityId('');
 			setLinkTarget(null);
 			queryClient.invalidateQueries({ queryKey: ['integrationMappings', entityType, entityId] });
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to link integration');
+			toast.error(error.message || tSettings('toast.integration.linkFailed'));
 		},
 	});
 
@@ -179,20 +180,20 @@ const IntegrationMappingCard: FC<IntegrationMappingCardProps> = ({
 				provider_type: delinkTarget!.provider_type,
 			}),
 		onSuccess: () => {
-			toast.success('Integration unlinked successfully');
+			toast.success(tSettings('toast.integration.unlinked'));
 			setDelinkDialogOpen(false);
 			setDelinkTarget(null);
 			queryClient.invalidateQueries({ queryKey: ['integrationMappings', entityType, entityId] });
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to unlink integration');
+			toast.error(error.message || tSettings('toast.integration.unlinkFailed'));
 		},
 	});
 
 	const { mutate: setupMoyasarAutopay } = useMutation({
 		mutationFn: () => PaymentApi.getMoyasarSetupIntent(entityId, window.location.href),
 		onSuccess: (res) => window.open(res.checkout_url, '_blank'),
-		onError: (error: Error) => toast.error(error.message || 'Failed to start autopay setup'),
+		onError: (error: Error) => toast.error(error.message || tSettings('toast.integration.autopaySetupFailed')),
 	});
 
 	const handleLinkClick = useCallback((row: IntegrationRow) => {
@@ -221,7 +222,7 @@ const IntegrationMappingCard: FC<IntegrationMappingCardProps> = ({
 			return;
 		}
 		if (!providerEntityId.trim()) {
-			toast.error('Provider Entity ID is required');
+			toast.error(tSettings('toast.integration.providerEntityIdRequired'));
 			return;
 		}
 		linkIntegration();

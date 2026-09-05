@@ -49,7 +49,7 @@ const DebitCard: FC<DebitCardProps> = ({ walletId, currency, conversion_rate = 1
 			return WalletApi.debitWallet(payload);
 		},
 		onSuccess: async () => {
-			toast.success('Wallet debited successfully');
+			toast.success(t('toast.walletDebit.success'));
 			onSuccess?.();
 			setDebitPayload({
 				credits: undefined,
@@ -58,7 +58,7 @@ const DebitCard: FC<DebitCardProps> = ({ walletId, currency, conversion_rate = 1
 			await refetchWalletData();
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to debit wallet');
+			toast.error(error.message || t('toast.walletDebit.failed'));
 		},
 	});
 
@@ -66,12 +66,12 @@ const DebitCard: FC<DebitCardProps> = ({ walletId, currency, conversion_rate = 1
 	const handleDebit = useCallback(() => {
 		// Comprehensive validation before debit
 		if (!walletId) {
-			toast.error('Wallet ID is required');
+			toast.error(t('toast.walletDebit.walletIdRequired'));
 			return;
 		}
 
 		if (!debitPayload.credits || debitPayload.credits <= 0) {
-			toast.error('Please enter a valid credits amount');
+			toast.error(t('toast.walletDebit.invalidAmount'));
 			return;
 		}
 

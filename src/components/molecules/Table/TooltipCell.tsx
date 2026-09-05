@@ -12,7 +12,7 @@ const TooltipCell: FC<Props> = ({ tooltipContent, tooltipText }) => {
 	const { t } = useTranslation('common');
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText(tooltipText);
-		toast.success('Copied to clipboard');
+		toast.success(t('toast.copySuccess'));
 	};
 
 	return (

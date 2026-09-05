@@ -35,12 +35,11 @@ const RemoveCouponDialog: FC<Props> = ({ subscriptionId, association, open, onOp
 		setIsRemoving(true);
 		try {
 			await SubscriptionApi.executeSubscriptionModify(subscriptionId, buildPayload());
-			toast.success('Coupon removed successfully');
+			toast.success(t('toast.coupon.removed'));
 			onSuccess();
 			onOpenChange(false);
 		} catch (err: unknown) {
-			const message = err instanceof Error ? err.message : 'Remove failed';
-			toast.error(message);
+			toast.error(err instanceof Error ? err.message : t('toast.coupon.removeFailed'));
 		} finally {
 			setIsRemoving(false);
 		}

@@ -79,14 +79,13 @@ const ApplyTaxDialog: FC<Props> = ({ subscriptionId, open, onOpenChange, onSucce
 		setIsApplying(true);
 		try {
 			await SubscriptionApi.executeSubscriptionModify(subscriptionId, buildPayload());
-			toast.success('Tax applied successfully');
+			toast.success(t('toast.tax.applied'));
 			onSuccess();
 			onOpenChange(false);
 			setTaxRateId('');
 			setEffectiveDate(undefined);
 		} catch (err: unknown) {
-			const message = err instanceof Error ? err.message : 'Apply failed';
-			toast.error(message);
+			toast.error(err instanceof Error ? err.message : t('toast.tax.applyFailed'));
 		} finally {
 			setIsApplying(false);
 		}

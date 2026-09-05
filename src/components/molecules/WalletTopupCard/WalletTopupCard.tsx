@@ -116,12 +116,12 @@ const TopupCard: FC<TopupCardProps> = ({ walletId, currency, conversion_rate = 1
 		const { credits_type, credits_to_add, expiry_date_utc } = topupPayload;
 
 		if (!credits_type) {
-			toast.error('Please select a credits type');
+			toast.error(t('toast.walletTopup.selectCreditsType'));
 			return false;
 		}
 
 		if (!credits_to_add || credits_to_add <= 0) {
-			toast.error('Please enter a valid credits amount');
+			toast.error(t('toast.walletTopup.invalidAmount'));
 			return false;
 		}
 
@@ -130,14 +130,14 @@ const TopupCard: FC<TopupCardProps> = ({ walletId, currency, conversion_rate = 1
 
 			if (minExpiryDate) {
 				if (expiryDateOnly.getTime() < minExpiryDate.getTime()) {
-					toast.error('Expiry date must be after the current subscription period end');
+					toast.error(t('toast.walletTopup.expiryAfterSubscriptionEnd'));
 					return false;
 				}
 			} else {
 				const today = new Date();
 				today.setHours(0, 0, 0, 0);
 				if (expiryDateOnly.getTime() < today.getTime()) {
-					toast.error('Expiry date cannot be in the past');
+					toast.error(t('toast.walletTopup.expiryInPast'));
 					return false;
 				}
 			}
@@ -195,9 +195,9 @@ const TopupCard: FC<TopupCardProps> = ({ walletId, currency, conversion_rate = 1
 				openPaymentUrl(checkoutUrl);
 				onCheckoutUrl?.(checkoutUrl);
 			} else if (getTransactionReason(mode) === WALLET_TRANSACTION_REASON.PURCHASED_CREDIT_INVOICED) {
-				toast.success('Invoice created successfully. Credits will be added once the invoice is paid.');
+				toast.success(t('toast.walletTopup.invoiceCreated'));
 			} else {
-				toast.success('Wallet topped up successfully');
+				toast.success(t('toast.walletTopup.success'));
 			}
 			onSuccess?.();
 			setTopupPayload({
@@ -212,7 +212,7 @@ const TopupCard: FC<TopupCardProps> = ({ walletId, currency, conversion_rate = 1
 			await refetchWalletData();
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to topup wallet');
+			toast.error(error.message || t('toast.walletTopup.failed'));
 		},
 	});
 
@@ -240,7 +240,7 @@ const TopupCard: FC<TopupCardProps> = ({ walletId, currency, conversion_rate = 1
 			setCheckoutPopup((prev) => ({ ...prev, isCopied: true }));
 			setTimeout(() => setCheckoutPopup((prev) => ({ ...prev, isCopied: false })), 2000);
 		} catch {
-			toast.error('Could not copy the link');
+			toast.error(t('toast.walletTopup.copyFailed'));
 		}
 	};
 

@@ -13,6 +13,7 @@ import { formatEntityType } from '@/utils/common/helper_functions';
 
 const ExportManagement = () => {
 	const { t } = useTranslation('settings');
+	const { t: tDev } = useTranslation('developers');
 	const { i18n } = useTranslation();
 	const { connectionId } = useParams<{ connectionId: string }>();
 	const navigate = useNavigate();
@@ -45,11 +46,11 @@ const ExportManagement = () => {
 	const { mutate: deleteTask, isPending: isDeletingTask } = useMutation({
 		mutationFn: (id: string) => TaskApi.deleteScheduledTask(id),
 		onSuccess: () => {
-			toast.success('Export task deleted successfully');
+			toast.success(tDev('toast.export.deleted'));
 			refetchTasks();
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to delete export task');
+			toast.error(error.message || tDev('toast.export.deleteFailed'));
 		},
 	});
 

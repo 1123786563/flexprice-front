@@ -26,10 +26,43 @@ export const OIDC_PENDING_KEY = 'oidc_login_pending';
  */
 export const OIDC_STATE_KEY = 'oidc_login_state';
 
+/**
+ * sessionStorage key stamping when this tab last launched an OIDC login.
+ *
+ * The auto-redirect on the auth page uses it as a bounce guard: if the round
+ * trip comes straight back (provider down, misconfigured client, denied
+ * consent), re-launching on every mount would loop the browser between the
+ * app and the provider forever. A recent stamp means the next auth-page mount
+ * renders the normal login screen instead, where the manual SSO button and a
+ * visible error can take over.
+ */
+export const OIDC_AUTO_REDIRECT_AT_KEY = 'oidc_auto_redirect_at';
+
+/** How long after an auto-redirect launch the auth page suppresses another one. */
+export const OIDC_AUTO_REDIRECT_COOLDOWN_MS = 10_000;
+
 function newLoginNonce(): string {
 	const bytes = new Uint8Array(16);
 	crypto.getRandomValues(bytes);
 	return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * Launch the OIDC round trip: store this tab's login markers and navigate the
+ * whole tab to the backend's login endpoint, which forwards to the provider.
+ *
+ * Shared by the manual SSO button and the auth page's signed-out
+ * auto-redirect, so both paths set the same markers the callback page checks
+ * and the same bounce-guard stamp.
+ */
+export function startOidcLogin(): void {
+	const nonce = newLoginNonce();
+	sessionStorage.setItem(OIDC_PENDING_KEY, 'true');
+	sessionStorage.setItem(OIDC_STATE_KEY, nonce);
+	sessionStorage.setItem(OIDC_AUTO_REDIRECT_AT_KEY, String(Date.now()));
+
+	const base = config.auth.oidcLoginUrl.replace(/\/$/, '');
+	window.location.href = `${base}?state=${encodeURIComponent(nonce)}`;
 }
 
 /**
@@ -49,12 +82,7 @@ const OidcSignin = () => {
 	const { t } = useTranslation('auth');
 
 	const handleOidcLogin = () => {
-		const nonce = newLoginNonce();
-		sessionStorage.setItem(OIDC_PENDING_KEY, 'true');
-		sessionStorage.setItem(OIDC_STATE_KEY, nonce);
-
-		const base = config.auth.oidcLoginUrl.replace(/\/$/, '');
-		window.location.href = `${base}?state=${encodeURIComponent(nonce)}`;
+		startOidcLogin();
 	};
 
 	return (

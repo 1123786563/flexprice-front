@@ -35,12 +35,11 @@ const RemoveTaxDialog: FC<Props> = ({ subscriptionId, association, open, onOpenC
 		setIsRemoving(true);
 		try {
 			await SubscriptionApi.executeSubscriptionModify(subscriptionId, buildPayload());
-			toast.success('Tax removed successfully');
+			toast.success(t('toast.tax.removed'));
 			onSuccess();
 			onOpenChange(false);
 		} catch (err: unknown) {
-			const message = err instanceof Error ? err.message : 'Remove failed';
-			toast.error(message);
+			toast.error(err instanceof Error ? err.message : t('toast.tax.removeFailed'));
 		} finally {
 			setIsRemoving(false);
 		}

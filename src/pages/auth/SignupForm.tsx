@@ -63,7 +63,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ switchTab }) => {
 		},
 		onSuccess: (data) => {
 			if (config.app.env !== APP_ENV.SelfHosted) {
-				toast.success('Account created successfully! Please check your email to confirm your account.');
+				toast.success(t('toast.signup.success'));
 				switchTab(AuthTab.LOGIN);
 			} else {
 				// Store token in a consistent format
@@ -78,7 +78,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ switchTab }) => {
 		},
 
 		onError: (error: Error) => {
-			toast.error(error.message || 'An unexpected error occurred during signup');
+			toast.error(error.message || t('toast.signup.failed'));
 		},
 	});
 
@@ -138,7 +138,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ switchTab }) => {
 			setIsLoading(false);
 
 			if (error) {
-				toast.error(error.message || 'Something went wrong');
+				toast.error(error.message || t('toast.signup.genericError'));
 				return;
 			}
 			navigate(`/auth/verify-email?email=${encodeURIComponent(signupData.email)}&new=true`);

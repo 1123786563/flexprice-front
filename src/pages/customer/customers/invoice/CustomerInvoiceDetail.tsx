@@ -72,10 +72,10 @@ const CustomerInvoiceDetail: FC<Props> = ({ invoice_id, breadcrumb_index }) => {
 	const { mutateAsync: downloadInvoicePdfAsync, isPending: isPdfDownloadPending } = useMutation({
 		mutationFn: async () => InvoiceApi.downloadInvoicePdf(invoice_id),
 		onSuccess: () => {
-			toast.success('Invoice downloaded');
+			toast.success(t('toast.invoice.downloaded'));
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Unable to download invoice');
+			toast.error(error.message || t('toast.invoice.downloadFailed'));
 		},
 	});
 
@@ -127,7 +127,7 @@ const CustomerInvoiceDetail: FC<Props> = ({ invoice_id, breadcrumb_index }) => {
 	if (isLoading) return <Loader />;
 
 	if (isError) {
-		toast.error('Something went wrong');
+		toast.error(t('toast.invoice.somethingWentWrong'));
 		return null;
 	}
 
@@ -167,9 +167,9 @@ const CustomerInvoiceDetail: FC<Props> = ({ invoice_id, breadcrumb_index }) => {
 					onSelectCsv={() => {
 						const rows = InvoiceApi.downloadInvoiceCsv(data);
 						if (rows === 0) {
-							toast.error('No billable line items to export');
+							toast.error(t('toast.invoice.noBillableItems'));
 						} else {
-							toast.success('Invoice CSV downloaded');
+							toast.success(t('toast.invoice.csvDownloaded'));
 						}
 					}}
 				/>

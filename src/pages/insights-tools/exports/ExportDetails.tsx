@@ -15,6 +15,7 @@ import { formatEntityType } from '@/utils/common/helper_functions';
 
 const ExportDetails = () => {
 	const { t } = useTranslation('settings');
+	const { t: tDev } = useTranslation('developers');
 	const { i18n } = useTranslation();
 	const { connectionId, exportId } = useParams<{ connectionId: string; exportId: string }>();
 	const navigate = useNavigate();
@@ -45,11 +46,11 @@ const ExportDetails = () => {
 	const { mutate: toggleTask, isPending: isTogglingTask } = useMutation({
 		mutationFn: ({ id, enabled }: { id: string; enabled: boolean }) => TaskApi.updateScheduledTask(id, { enabled }),
 		onSuccess: () => {
-			toast.success('Export task updated successfully');
+			toast.success(tDev('toast.export.updated'));
 			refetchExport();
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to update export task');
+			toast.error(error.message || tDev('toast.export.updateFailed'));
 		},
 	});
 
@@ -58,11 +59,11 @@ const ExportDetails = () => {
 		mutationFn: ({ id, startTime, endTime }: { id: string; startTime?: string; endTime?: string }) =>
 			TaskApi.forceRunScheduledTask(id, startTime && endTime ? { start_time: startTime, end_time: endTime } : undefined),
 		onSuccess: () => {
-			toast.success('Export task started successfully');
+			toast.success(tDev('toast.export.started'));
 			setIsForceRunDrawerOpen(false);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to start export task');
+			toast.error(error.message || tDev('toast.export.startFailed'));
 		},
 	});
 
@@ -70,11 +71,11 @@ const ExportDetails = () => {
 	const { mutate: deleteTask, isPending: isDeletingTask } = useMutation({
 		mutationFn: (id: string) => TaskApi.deleteScheduledTask(id),
 		onSuccess: () => {
-			toast.success('Export task deleted successfully');
+			toast.success(tDev('toast.export.deleted'));
 			navigate(`/tools/exports/s3/${connectionId}/export`);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to delete export task');
+			toast.error(error.message || tDev('toast.export.deleteFailed'));
 		},
 	});
 

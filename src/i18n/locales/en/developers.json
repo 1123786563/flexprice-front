@@ -486,5 +486,19 @@
 			"sortTimeWindow": "Time window",
 			"chartSeriesUsage": "Usage"
 		}
+	},
+	"toast": {
+		"export": {
+			"updated": "Export task updated successfully",
+			"updateFailed": "Failed to update export task",
+			"started": "Export task started successfully",
+			"startFailed": "Failed to start export task",
+			"deleted": "Export task deleted successfully",
+			"deleteFailed": "Failed to delete export task"
+		},
+		"connection": {
+			"deleted": "Connection deleted successfully",
+			"deleteFailed": "Failed to delete connection"
+		}
 	}
 }

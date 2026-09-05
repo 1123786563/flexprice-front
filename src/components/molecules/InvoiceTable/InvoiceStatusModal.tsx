@@ -82,18 +82,18 @@ const InvoiceStatusModal: FC<InvoiceStatusProps> = ({ isOpen, onOpenChange, invo
 				// update invoice status to draft
 				// update payment status to pending
 			} else if (status === 'DRAFT') {
-				toast.error('Draft status is yet to be implemented');
+				toast.error(t('toast.invoiceStatus.draftNotImplemented'));
 				// return await InvoiceApi.voidInvoice(invoice?.id as string);
 				// update invoice status to draft
 				// update payment status to pending
 			}
 		},
 		async onSuccess() {
-			toast.success('Invoice status updated successfully');
+			toast.success(t('toast.invoiceStatus.updated'));
 			await refetchInvoiceQueries();
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to update invoice status');
+			toast.error(error.message || t('toast.invoiceStatus.updateFailed'));
 		},
 	});
 

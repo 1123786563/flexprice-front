@@ -52,12 +52,12 @@ const PlanCreditGrantsTab = () => {
 			return await CreditGrantApi.create(grantWithPlanId);
 		},
 		onSuccess: () => {
-			toast.success('Credit grant added successfully');
+			toast.success(t('toast.creditGrant.added'));
 			setCreditGrantModalOpen(false);
 			refetchQueries(['planCreditGrants', planId!]);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to add credit grant');
+			toast.error(error.message || t('toast.creditGrant.addFailed'));
 		},
 	});
 
@@ -93,7 +93,7 @@ const PlanCreditGrantsTab = () => {
 	}
 
 	if (isError) {
-		toast.error('Error loading credit grants');
+		toast.error(t('toast.creditGrant.loadFailed'));
 		return null;
 	}
 

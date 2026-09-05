@@ -80,13 +80,13 @@ const DuplicatePlanDialog: FC<DuplicatePlanDialogProps> = ({
 	const { mutate: clonePlan, isPending } = useMutation({
 		mutationFn: (payload: ClonePlanRequest) => PlanApi.clonePlan(planId, payload),
 		onSuccess: (data) => {
-			toast.success('Plan duplicated successfully');
+			toast.success(t('toast.plan.duplicated'));
 			onOpenChange(false);
 			refetchQueries(refetchQueryKeys);
 			navigate(`${RouteNames.plan}/${data.id}`);
 		},
 		onError: (error: Error) => {
-			const message = error.message || 'Failed to duplicate plan. Please try again.';
+			const message = error.message || t('toast.plan.duplicateFailed');
 			toast.error(message);
 			if (message.toLowerCase().includes('name') || message.toLowerCase().includes('lookup')) {
 				setErrors((prev) => ({ ...prev, name: message, lookup_key: message }));

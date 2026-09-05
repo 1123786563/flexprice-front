@@ -79,6 +79,7 @@ type Params = {
 };
 
 const ChargeRowMenu = ({ row, onEditPrice, onEditDetails, onTerminatePrice, canWritePrice }: ChargeActionHandlers & { row: Price }) => {
+	const { t } = useTranslation('catalog');
 	const [isOpen, setIsOpen] = useState(false);
 	const actionsDisabled = !!row.end_date || !canWritePrice;
 
@@ -100,7 +101,7 @@ const ChargeRowMenu = ({ row, onEditPrice, onEditDetails, onTerminatePrice, canW
 						onSelect: (e: Event) => {
 							e.preventDefault();
 							setIsOpen(false);
-							void copyToClipboard(row.id, 'Price ID copied to clipboard').catch(() => undefined);
+							void copyToClipboard(row.id, t('toast.price.idCopied')).catch(() => undefined);
 						},
 					},
 					{
@@ -293,11 +294,11 @@ const AddonDetails = () => {
 			return await AddonApi.Delete(id!);
 		},
 		onSuccess: () => {
-			toast.success('Addon archived successfully');
+			toast.success(t('toast.addon.archived'));
 			navigate(RouteNames.addons);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to archive addon');
+			toast.error(error.message || t('toast.addon.archiveFailed'));
 		},
 	});
 
@@ -317,7 +318,7 @@ const AddonDetails = () => {
 			void refetchQueries(['fetchAddon']);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Error terminating price');
+			toast.error(error.message || t('toast.addon.terminatePriceFailed'));
 		},
 	});
 
@@ -347,7 +348,7 @@ const AddonDetails = () => {
 			if (!selectedPriceForTermination) return;
 			try {
 				await deletePrice({ priceId: selectedPriceForTermination.id, data: endDate ? { end_date: endDate } : undefined });
-				toast.success('Price terminated successfully');
+				toast.success(t('toast.price.terminated'));
 				setShowTerminateModal(false);
 				setSelectedPriceForTermination(null);
 			} catch {
@@ -373,12 +374,12 @@ const AddonDetails = () => {
 	}
 
 	if (isError) {
-		toast.error('Error loading addon data');
+		toast.error(t('toast.addon.loadFailed'));
 		return null;
 	}
 
 	if (!addonData) {
-		toast.error('No addon data available');
+		toast.error(t('toast.addon.notAvailable'));
 		return null;
 	}
 

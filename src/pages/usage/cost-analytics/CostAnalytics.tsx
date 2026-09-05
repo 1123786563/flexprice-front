@@ -13,6 +13,7 @@ import { CostDataTable } from '@/components/molecules';
 
 const CostAnalyticsPage: React.FC = () => {
 	const { t } = useTranslation('developers');
+	const { t: tCommon } = useTranslation('common');
 	const { updateBreadcrumb } = useBreadcrumbsStore();
 
 	// Filter states
@@ -86,7 +87,7 @@ const CostAnalyticsPage: React.FC = () => {
 	}, []);
 
 	if (costError) {
-		toast.error('Error fetching cost data');
+		toast.error(tCommon('toast.costAnalytics.fetchFailed'));
 	}
 
 	const handleDateRangeChange = ({ startDate: newStartDate, endDate: newEndDate }: { startDate?: Date; endDate?: Date }) => {

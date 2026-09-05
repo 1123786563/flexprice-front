@@ -75,6 +75,7 @@ const PriceDropdown: FC<PriceDropdownProps> = ({
 	canWritePrice,
 	writeDeniedTooltip,
 }) => {
+	const { t } = useTranslation('catalog');
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleClick = (e: React.MouseEvent) => {
@@ -96,7 +97,7 @@ const PriceDropdown: FC<PriceDropdownProps> = ({
 							e.preventDefault();
 							setIsOpen(false);
 							navigator.clipboard.writeText(row.id);
-							toast.success('Price ID copied to clipboard');
+							toast.success(t('toast.price.idCopied'));
 						},
 					},
 					{
@@ -290,7 +291,7 @@ const PlanPriceTable: FC<PlanChargesTableProps> = ({ plan, onPriceUpdate }) => {
 			return await PriceApi.DeletePrice(priceId, data);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Error deleting price');
+			toast.error(error.message || t('toast.price.deleteFailed'));
 		},
 	});
 
@@ -330,8 +331,11 @@ const PlanPriceTable: FC<PlanChargesTableProps> = ({ plan, onPriceUpdate }) => {
 
 				const priceName = selectedPriceForTermination.meter?.name || selectedPriceForTermination.description || 'Price';
 				const message = endDate
-					? `${priceName} will be terminated on ${formatDateTimeWithSecondsAndTimezone(new Date(endDate))}.`
-					: `${priceName} has been terminated immediately.`;
+					? t('toast.price.terminationScheduled', {
+							name: priceName,
+							date: formatDateTimeWithSecondsAndTimezone(new Date(endDate)),
+						})
+					: t('toast.price.terminatedImmediately', { name: priceName });
 				toast.success(message);
 
 				onPriceUpdate?.();
@@ -340,7 +344,7 @@ const PlanPriceTable: FC<PlanChargesTableProps> = ({ plan, onPriceUpdate }) => {
 				console.error('Error terminating price:', error);
 			}
 		},
-		[selectedPriceForTermination, deletePrice, onPriceUpdate],
+		[selectedPriceForTermination, deletePrice, onPriceUpdate, t],
 	);
 
 	const handleTerminateCancel = useCallback(() => {

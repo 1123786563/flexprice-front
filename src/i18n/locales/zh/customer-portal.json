@@ -25,12 +25,21 @@
 		"loadTransactions": "加载交易失败",
 		"loadAnalytics": "加载分析数据失败",
 		"loadCostAnalytics": "加载成本分析失败",
-		"loadUsageBreakdown": "加载使用量明细失败"
+		"loadUsageBreakdown": "加载使用量明细失败",
+		"topUp": "发起充值失败",
+		"saveAutoTopUp": "保存自动充值设置失败",
+		"loadPaymentMethods": "加载支付方式失败",
+		"addPaymentMethod": "发起添加支付方式失败",
+		"payInvoice": "支付发票失败",
+		"setDefaultPaymentMethod": "更新默认支付方式失败",
+		"deletePaymentMethod": "移除支付方式失败",
+		"checkoutUnavailable": "无法打开支付页面。请重试。"
 	},
 	"toast": {
 		"invoiceDownloaded": "发票已下载",
 		"invoiceCsvDownloaded": "发票 CSV 已下载",
-		"noBillableLineItems": "没有可导出的计费行项目"
+		"noBillableLineItems": "没有可导出的计费行项目",
+		"invoicePaymentStarted": "付款已提交"
 	},
 	"datePreset": {
 		"today": "今天",
@@ -110,7 +119,17 @@
 		"emptyDescription": "尚未生成任何发票",
 		"noMatchTitle": "未找到发票",
 		"noMatchDescription": "没有符合您搜索条件的发票",
-		"numberPrefix": "INV-{{id}}"
+		"numberPrefix": "INV-{{id}}",
+		"pay": "支付",
+		"columnInvoice": "发票",
+		"columnAction": "操作",
+		"payNow": "立即支付",
+		"view": "查看",
+		"viewInvoice": "查看发票",
+		"downloadInvoice": "下载发票",
+		"notPayable": "此发票不处于待支付状态。",
+		"notDownloadable": "只有已确认的发票才能下载。",
+		"rowActions": "发票 {{invoice}} 的操作"
 	},
 	"wallet": {
 		"defaultName": "钱包",
@@ -122,7 +141,8 @@
 		"emptyDescription": "此账户尚未设置钱包",
 		"transactionHistory": "交易历史",
 		"noTransactionsTitle": "无交易",
-		"noTransactionsDescription": "您的交易历史将显示在这里"
+		"noTransactionsDescription": "您的交易历史将显示在这里",
+		"moreActions": "更多钱包操作"
 	},
 	"usageAnalytics": {
 		"noDataTitle": "未找到使用量数据",
@@ -151,5 +171,145 @@
 		"margin": "利润",
 		"marginPercent": "利润率 %",
 		"cpm": "CPM"
+	},
+	"topUp": {
+		"title": "添加积分",
+		"description": "为您的余额充值。系统将引导您前往安全的支付页面完成付款。",
+		"creditsLabel": "积分",
+		"creditsPlaceholder": "输入金额",
+		"chargeSummary": "将向您收取 {{amount}}",
+		"action": "继续前往支付",
+		"successPending": "充值请求已提交——付款完成后您的余额将更新",
+		"descriptionLabel": "描述（可选）",
+		"descriptionPlaceholder": "这次充值用于什么？",
+		"payNow": "立即支付",
+		"useSavedMethod": "使用我保存的银行卡支付（{{method}}）",
+		"useSavedMethodTitle": "已保存的银行卡",
+		"useSavedMethodHint": "直接使用已保存的银行卡扣款，无需打开支付页面。",
+		"checkoutUnavailable": "此账户尚未设置在线支付，因此将改为生成发票。",
+		"useSavedMethodEmptyLabel": "使用我保存的银行卡",
+		"savedMethodUnsupported": "您的支付服务商不支持使用已保存的银行卡扣款。",
+		"savedMethodNone": "尚未保存银行卡——请前往付款标签页添加。",
+		"cardSavedNotice": "您的银行卡已安全保存，供日后付款使用。",
+		"providerLabel": "支付服务商",
+		"providerHint": "选择用于完成此次付款的服务商。",
+		"paid": "付款完成——您的积分已添加。"
+	},
+	"autoTopUp": {
+		"title": "自动充值",
+		"description": "余额不足时自动添加积分。",
+		"on": "开启",
+		"off": "关闭",
+		"thresholdLabel": "余额低于此值时自动充值",
+		"thresholdHelp": "触发自动充值的余额",
+		"amountLabel": "充值金额",
+		"amountHelp": "每次添加的金额",
+		"save": "保存设置",
+		"saved": "自动充值设置已保存",
+		"summary": "余额低于 {{threshold}} 时，自动添加 {{amount}}。",
+		"offSummary": "自动充值已关闭。",
+		"manage": "管理",
+		"enable": "启用",
+		"cancel": "取消",
+		"enableLabel": "启用自动充值",
+		"cooloffLabel": "下次自动充值前的等待时间",
+		"cooloffHelp": "一次充值后需等待这段时间才能再次自动充值",
+		"cooloffPlaceholder": "无冷却期",
+		"cooloffUnitLabel": "单位",
+		"cooloffUnits": {
+			"second": "秒",
+			"minute": "分钟",
+			"hour": "小时",
+			"day": "天"
+		},
+		"noSavedCard": "未找到已保存的支付方式。",
+		"enableHint": "我们会自动为您的余额充值，确保服务永不中断。",
+		"needsCardHint": "添加支付方式以启用自动充值。",
+		"enableTitle": "自动充值",
+		"thresholdPlaceholder": "例如：20",
+		"amountPlaceholder": "例如：100",
+		"cooloffTitle": "冷却期",
+		"cooloffValueLabel": "时长",
+		"cooloffOnHint": "充值后，我们会等待这段时间才会再次充值，即使余额仍然不足。",
+		"cooloffOffHint": "关闭冷却期后，自动充值之间无需等待。"
+	},
+	"paymentMethods": {
+		"title": "支付方式",
+		"description": "为发票和自动充值保存的银行卡。",
+		"add": "添加银行卡",
+		"cardLabel": "{{brand}} •••• {{last4}}",
+		"expires": "有效期至 {{expiry}}",
+		"default": "默认",
+		"emptyTitle": "暂无支付方式",
+		"emptyDescription": "添加银行卡以支付发票并启用自动充值",
+		"setDefault": "设为默认",
+		"defaultUpdated": "默认支付方式已更新",
+		"expired": "已过期",
+		"remove": "移除",
+		"removeTitle": "移除支付方式",
+		"removeConfirm": "此银行卡将无法再用于付款或自动充值。",
+		"cancel": "取消",
+		"removed": "支付方式已移除",
+		"added": "支付方式已添加",
+		"providerUnavailable": "暂时无法加载您保存的银行卡。",
+		"retryHint": "请刷新页面重试。",
+		"unsupportedTitle": "支付方式不可用",
+		"unsupportedDescription": "此账户没有支持保存银行卡的支付服务商。",
+		"rowActions": "{{method}} 的操作",
+		"alreadyDefault": "这已经是您的默认银行卡。",
+		"setDefaultUnsupported": "您的支付服务商不支持设置默认银行卡。",
+		"expiredCannotDefault": "已过期的银行卡无法设为默认。"
+	},
+	"invoiceDetail": {
+		"title": "发票",
+		"amountDue": "应付金额",
+		"amountTotal": "总额",
+		"billingPeriod": "账单周期",
+		"issued": "开票日期",
+		"dueDate": "到期日",
+		"lineItems": "行项目",
+		"quantity": "数量 {{quantity}}",
+		"noLineItems": "此发票没有行项目",
+		"subtotal": "小计",
+		"discount": "折扣",
+		"tax": "税费",
+		"total": "总计",
+		"amountPaid": "已付金额",
+		"download": "下载",
+		"payUnavailableHint": "在线支付暂未开通。请联系支持团队处理此发票。"
+	},
+	"accountSummary": {
+		"balance": "余额",
+		"amountDue": "应付金额",
+		"nextBilling": "下次账单"
+	},
+	"checkoutLink": {
+		"copy": "复制链接",
+		"copied": "链接已复制",
+		"copyFailed": "无法复制链接",
+		"paymentTitle": "完成您的付款",
+		"paymentDescription": "如果支付页面未打开，请使用以下链接。",
+		"paymentOpen": "打开支付页面",
+		"setupTitle": "添加您的银行卡",
+		"setupDescription": "如果安全的银行卡表单未打开，请使用以下链接。",
+		"setupOpen": "打开银行卡表单"
+	},
+	"checkoutReturn": {
+		"completed": "付款完成——您的余额已更新。",
+		"failed": "付款未完成。",
+		"expired": "该付款会话已过期。请重试。"
+	},
+	"paymentProviders": {
+		"chargebee": "Chargebee",
+		"razorpay": "Razorpay",
+		"stripe": "Stripe",
+		"nomod": "Nomod",
+		"moyasar": "Moyasar",
+		"paddle": "Paddle",
+		"whop": "Whop"
+	},
+	"section": {
+		"emptyTitle": "此处暂无内容",
+		"emptyDescription": "此部分尚未配置任何内容。"
 	}
 }

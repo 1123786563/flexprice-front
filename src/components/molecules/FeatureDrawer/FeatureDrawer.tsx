@@ -46,12 +46,12 @@ const FeatureDrawer: FC<Props> = ({ data, open, onOpenChange, trigger, refetchQu
 			return FeatureApi.updateFeature(data.id, updateData);
 		},
 		onSuccess: () => {
-			toast.success('Feature updated successfully');
+			toast.success(t('toast.feature.updated'));
 			onOpenChange?.(false);
 			refetchQueries(refetchQueryKeys);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to update feature. Please try again.');
+			toast.error(error.message || t('toast.feature.updateFailed'));
 		},
 	});
 

@@ -29,6 +29,7 @@ interface Props {
  */
 const AddonCreditGrantsSection = ({ addonId }: Props) => {
 	const { t } = useTranslation(['catalog', 'common']);
+	const { t: tb } = useTranslation('billing');
 	const [creditGrantModalOpen, setCreditGrantModalOpen] = useState(false);
 	const { can, isLoading: permissionsLoading } = useCurrentUserPermissions();
 	const canWriteCreditGrant = can('creditgrant', 'write');
@@ -58,12 +59,12 @@ const AddonCreditGrantsSection = ({ addonId }: Props) => {
 			return await CreditGrantApi.create(grantWithAddonId);
 		},
 		onSuccess: () => {
-			toast.success('Credit grant added successfully');
+			toast.success(tb('toast.creditGrant.added'));
 			setCreditGrantModalOpen(false);
 			refetchQueries(['addonCreditGrants', addonId]);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to add credit grant');
+			toast.error(error.message || tb('toast.creditGrant.addFailed'));
 		},
 	});
 
@@ -96,9 +97,9 @@ const AddonCreditGrantsSection = ({ addonId }: Props) => {
 
 	useEffect(() => {
 		if (isError) {
-			toast.error('Error loading credit grants');
+			toast.error(tb('toast.creditGrant.loadFailed'));
 		}
-	}, [isError]);
+	}, [isError, tb]);
 
 	if (isLoading || permissionsLoading) {
 		return <Loader />;

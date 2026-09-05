@@ -4,6 +4,7 @@ import { BUCKET_SIZE } from '@/models/Meter';
 import { getAllISOCodes } from 'iso-country-currency';
 import { v4 as uuidv4 } from 'uuid';
 import toast from 'react-hot-toast';
+import i18n from 'i18next';
 
 export function getCurrencySymbol(currency: string): string {
 	try {
@@ -311,7 +312,7 @@ export const copyToClipboard = async (textToCopy: string, toastMessage: string):
 		await navigator.clipboard.writeText(textToCopy);
 		toast.success(toastMessage);
 	} catch (error) {
-		toast.error('Failed to copy to clipboard. Please try again.');
+		toast.error(i18n.t('common:toast.copyFailed'));
 		throw error;
 	}
 };

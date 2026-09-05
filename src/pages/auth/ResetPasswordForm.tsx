@@ -40,22 +40,22 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ switchTab }) => {
 			if (error) throw error;
 		},
 		onSuccess: async () => {
-			toast.success('Password updated. Please sign in with your new password.');
+			toast.success(t('toast.resetPassword.updated'));
 			await supabase.auth.signOut();
 			switchTab(AuthTab.LOGIN);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to update password. Please try again.');
+			toast.error(error.message || t('toast.resetPassword.updateFailed'));
 		},
 	});
 
 	const handleSubmit = () => {
 		if (!password.trim()) {
-			toast.error('Please enter a new password');
+			toast.error(t('toast.resetPassword.enterNewPassword'));
 			return;
 		}
 		if (password !== confirmPassword) {
-			toast.error('Passwords do not match');
+			toast.error(t('toast.resetPassword.passwordsDoNotMatch'));
 			return;
 		}
 		updatePasswordMutation.mutate(password);

@@ -85,13 +85,12 @@ const ApplyCouponDialog: FC<Props> = ({ subscriptionId, lineItems, prefilledLine
 		setIsApplying(true);
 		try {
 			await SubscriptionApi.executeSubscriptionModify(subscriptionId, buildPayload());
-			toast.success('Coupon applied successfully');
+			toast.success(t('toast.coupon.applied'));
 			onSuccess();
 			onOpenChange(false);
 			reset();
 		} catch (err: unknown) {
-			const message = err instanceof Error ? err.message : 'Apply failed';
-			toast.error(message);
+			toast.error(err instanceof Error ? err.message : t('toast.coupon.applyFailed'));
 		} finally {
 			setIsApplying(false);
 		}

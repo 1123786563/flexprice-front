@@ -191,19 +191,19 @@ const CustomerAnalyticsTab = () => {
 
 	useEffect(() => {
 		if (customerError) {
-			toast.error('Error fetching customer data');
+			toast.error(t('toast.analytics.fetchCustomerFailed'));
 		}
 	}, [customerError]);
 
 	useEffect(() => {
 		if (usageError) {
-			toast.error('Error fetching usage data');
+			toast.error(t('toast.analytics.fetchUsageFailed'));
 		}
 	}, [usageError]);
 
 	useEffect(() => {
 		if (costError) {
-			toast.error('Error fetching cost data');
+			toast.error(t('toast.analytics.fetchCostFailed'));
 		}
 	}, [costError]);
 

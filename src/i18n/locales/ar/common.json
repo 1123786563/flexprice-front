@@ -70,6 +70,19 @@
 		"maxLength": "يجب أن لا يتجاوز {{max}} حرفاً",
 		"invalidFormat": "تنسيق غير صالح"
 	},
+	"search": {
+		"loadingOptions": "جارٍ تحميل الخيارات...",
+		"searching": "جارٍ البحث...",
+		"errorLoadingOptions": "خطأ في تحميل الخيارات",
+		"pleaseRetry": "يرجى المحاولة مجدداً",
+		"noOptionsAvailable": "لا توجد خيارات متاحة",
+		"tryDifferentTerm": "جرّب مصطلح بحث مختلف",
+		"items": "{{count}} عنصر",
+		"selectAll": "اختر الكل",
+		"placeholderShort": "بحث...",
+		"resultsCountSingular": "{{count}} نتيجة",
+		"resultsCountPlural": "{{count}} نتائج"
+	},
 	"table": {
 		"noResults": "لا توجد نتائج",
 		"empty": "لا توجد بيانات بعد",
@@ -137,6 +150,7 @@
 	},
 	"actionButton": {
 		"confirmActionOnEntity": "هل أنت متأكد أنك تريد {{action}} هذا {{entity}}؟",
+		"confirmActionOnEntityPrefix": "هل أنت متأكد أنك تريد {{action}}",
 		"archiveFailed": "تعذّر أرشفة {{entity}}. يرجى المحاولة مجدداً.",
 		"actionFailedGeneric": "تعذّر إكمال هذا الإجراء لـ {{entity}}. يرجى المحاولة مجدداً."
 	},
@@ -159,6 +173,10 @@
 	},
 	"emptyPage": {
 		"learnMore": "اعرف المزيد"
+	},
+	"queryableDataArea": {
+		"errorFetching": "خطأ في جلب البيانات",
+		"defaultPromoImageUrl": "https://mintlify.s3.us-west-1.amazonaws.com/flexprice/UsageBaseMetering(1).jpg"
 	},
 	"chrome": {
 		"help": "مساعدة",
@@ -321,7 +339,21 @@
 		"deleteSuccess": "تم حذف {{entity}} بنجاح",
 		"copySuccess": "تم النسخ إلى الحافظة",
 		"genericError": "حدث خطأ ما. يرجى المحاولة مجدداً.",
-		"networkError": "خطأ في الشبكة. يرجى التحقق من اتصالك."
+		"networkError": "خطأ في الشبكة. يرجى التحقق من اتصالك.",
+		"copyFailed": "فشل النسخ إلى الحافظة. يرجى المحاولة مجدداً.",
+		"dashboard": {
+			"fetchMonitoringFailed": "حدث خطأ في جلب بيانات المراقبة",
+			"fetchSubscriptionDataFailed": "حدث خطأ في جلب بيانات الاشتراك",
+			"fetchInvoiceDataFailed": "حدث خطأ في جلب بيانات الفواتير",
+			"fetchRevenueDataFailed": "حدث خطأ في جلب بيانات الإيرادات"
+		},
+		"costAnalytics": {
+			"fetchFailed": "حدث خطأ في جلب بيانات التكاليف"
+		},
+		"pricing": {
+			"descriptionRequired": "يرجى إدخال وصف التسعير أولاً.",
+			"setupSuccess": "تم إعداد التسعير الخاص بك!"
+		}
 	},
 	"confirm": {
 		"archiveTitle": "أرشفة {{entity}}؟",
@@ -333,19 +365,6 @@
 		"noData": "لا توجد بيانات",
 		"noResults": "لا توجد نتائج تطابق بحثك",
 		"getStarted": "ابدأ بإنشاء أول {{entity}} لك"
-	},
-	"search": {
-		"loadingOptions": "جارٍ تحميل الخيارات...",
-		"searching": "جارٍ البحث...",
-		"errorLoadingOptions": "خطأ في تحميل الخيارات",
-		"pleaseRetry": "يرجى المحاولة مجدداً",
-		"noOptionsAvailable": "لا توجد خيارات متاحة",
-		"tryDifferentTerm": "جرّب مصطلح بحث مختلف",
-		"items": "{{count}} عنصر",
-		"selectAll": "اختر الكل",
-		"placeholderShort": "بحث...",
-		"resultsCountSingular": "{{count}} نتيجة",
-		"resultsCountPlural": "{{count}} نتائج"
 	},
 	"form": {
 		"key": "المفتاح",
@@ -801,9 +820,5 @@
 		"integrations": "التكاملات",
 		"pricingWidget": "أداة التسعير",
 		"settings": "الإعدادات"
-	},
-	"queryableDataArea": {
-		"errorFetching": "خطأ في جلب البيانات",
-		"defaultPromoImageUrl": "https://mintlify.s3.us-west-1.amazonaws.com/flexprice/UsageBaseMetering(1).jpg"
 	}
 }

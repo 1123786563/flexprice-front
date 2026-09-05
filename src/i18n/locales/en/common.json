@@ -339,7 +339,21 @@
 		"deleteSuccess": "{{entity}} deleted successfully",
 		"copySuccess": "Copied to clipboard",
 		"genericError": "Something went wrong. Please try again.",
-		"networkError": "Network error. Please check your connection."
+		"networkError": "Network error. Please check your connection.",
+		"copyFailed": "Failed to copy to clipboard. Please try again.",
+		"dashboard": {
+			"fetchMonitoringFailed": "Error fetching monitoring data",
+			"fetchSubscriptionDataFailed": "Error fetching subscription data",
+			"fetchInvoiceDataFailed": "Error fetching invoice data",
+			"fetchRevenueDataFailed": "Error fetching revenue data"
+		},
+		"costAnalytics": {
+			"fetchFailed": "Error fetching cost data"
+		},
+		"pricing": {
+			"descriptionRequired": "Please enter a pricing description first.",
+			"setupSuccess": "Your pricing has been set up!"
+		}
 	},
 	"confirm": {
 		"archiveTitle": "Archive {{entity}}?",

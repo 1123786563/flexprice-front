@@ -278,7 +278,7 @@ const UsagePricingForm: FC<Props> = ({
 					...prev,
 					tieredModelError: 'Tiers are required when billing model is TIERED',
 				}));
-				toast.error('Tiers are required when billing model is TIERED');
+				toast.error(t('toast.pricing.tiersRequired'));
 				return false;
 			}
 
@@ -292,7 +292,7 @@ const UsagePricingForm: FC<Props> = ({
 						...prev,
 						tieredModelError: `Unit amount is required for tier ${i + 1}`,
 					}));
-					toast.error(`Unit amount is required for tier ${i + 1}`);
+					toast.error(t('toast.pricing.unitAmountRequired', { tier: i + 1 }));
 					return false;
 				}
 
@@ -303,7 +303,7 @@ const UsagePricingForm: FC<Props> = ({
 						...prev,
 						tieredModelError: `Unit amount must be greater than or equal to 0 for tier ${i + 1}`,
 					}));
-					toast.error(`Unit amount must be greater than or equal to 0 for tier ${i + 1}`);
+					toast.error(t('toast.pricing.unitAmountMustBePositive', { tier: i + 1 }));
 					return false;
 				}
 
@@ -315,7 +315,7 @@ const UsagePricingForm: FC<Props> = ({
 							...prev,
 							tieredModelError: `Flat amount must be greater than or equal to 0 for tier ${i + 1}`,
 						}));
-						toast.error(`Flat amount must be greater than or equal to 0 for tier ${i + 1}`);
+						toast.error(t('toast.pricing.flatAmountMustBePositive', { tier: i + 1 }));
 						return false;
 					}
 				}
@@ -329,7 +329,7 @@ const UsagePricingForm: FC<Props> = ({
 						...prev,
 						tieredModelError: `Up to value is required for tier ${i + 1}`,
 					}));
-					toast.error(`Up to value is required for tier ${i + 1}`);
+					toast.error(t('toast.pricing.upToValueRequired', { tier: i + 1 }));
 					return false;
 				}
 
@@ -340,7 +340,7 @@ const UsagePricingForm: FC<Props> = ({
 							...prev,
 							tieredModelError: `From value cannot be greater than up to in tier ${i + 1}`,
 						}));
-						toast.error(`From value cannot be greater than up to in tier ${i + 1}`);
+						toast.error(t('toast.pricing.fromValueCannotExceedUpTo', { tier: i + 1 }));
 						return false;
 					}
 				}

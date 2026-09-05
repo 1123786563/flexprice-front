@@ -65,10 +65,10 @@ const PlanInformationTab = () => {
 			setLocalMetadata(newMetadata);
 			setShowMetadataModal(false);
 			refetchQueries(['fetchPlan', planId]);
-			toast.success('Metadata updated successfully');
+			toast.success(t('toast.metadata.updated'));
 		} catch (e) {
 			logger.error('Failed to update metadata', e);
-			toast.error('Failed to update metadata');
+			toast.error(t('toast.metadata.updateFailed'));
 		}
 	};
 
@@ -83,7 +83,7 @@ const PlanInformationTab = () => {
 	}
 
 	if (isError || !planData) {
-		toast.error('Error loading plan data');
+		toast.error(t('toast.plan.loadFailed'));
 		return null;
 	}
 

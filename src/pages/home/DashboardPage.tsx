@@ -102,7 +102,7 @@ const DashboardPage = () => {
 
 	useEffect(() => {
 		if (monitoringError) {
-			toast.error('Error fetching monitoring data');
+			toast.error(t('toast.dashboard.fetchMonitoringFailed'));
 		}
 	}, [monitoringError]);
 
@@ -118,9 +118,9 @@ const DashboardPage = () => {
 
 	// Handle errors
 	useEffect(() => {
-		if (subscriptionsError) toast.error('Error fetching subscription data');
-		// if (revenueError) toast.error('Error fetching revenue data');
-		invoiceErrors.forEach(() => toast.error('Error fetching invoice data'));
+		if (subscriptionsError) toast.error(t('toast.dashboard.fetchSubscriptionDataFailed'));
+		// if (revenueError) toast.error(t('toast.dashboard.fetchRevenueDataFailed'));
+		invoiceErrors.forEach(() => toast.error(t('toast.dashboard.fetchInvoiceDataFailed')));
 	}, [subscriptionsError, /* revenueError, */ invoiceErrors]);
 
 	// Skeleton loader for Events Monitoring Chart

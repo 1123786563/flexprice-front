@@ -56,17 +56,18 @@ const PAYMENT_STATUS_CONFIG = {
 const PaymentTableMenu: FC<PaymentTableMenuProps> = ({ payment }) => {
 	const navigate = useNavigate();
 	const { t: tc } = useTranslation('common');
+	const { t: tb } = useTranslation('billing');
 	const handleCopyPaymentLink = useCallback(async () => {
 		if (!payment.payment_url) return;
 
 		try {
 			await navigator.clipboard.writeText(payment.payment_url);
-			toast.success('Payment link copied to clipboard!');
+			toast.success(tb('toast.payment.linkCopied'));
 		} catch (error) {
 			console.error('Failed to copy payment link:', error);
-			toast.error('Failed to copy payment link. Please try again.');
+			toast.error(tb('toast.payment.linkCopyFailed'));
 		}
-	}, [payment.payment_url]);
+	}, [payment.payment_url, tb]);
 
 	const menuOptions = useMemo((): DropdownMenuOption[] => {
 		const isPaymentLink = payment.payment_method_type.toUpperCase() === PAYMENT_METHOD_TYPE.PAYMENT_LINK;

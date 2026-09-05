@@ -47,9 +47,11 @@ function mockClient() {
 		},
 		subscriptionAddons: {
 			list: vi.fn().mockResolvedValue([]),
+			create: vi.fn(),
 		},
 		addons: {
 			list: vi.fn().mockResolvedValue({ items: [], totalCount: 0, page: 1, pageSize: 1000 }),
+			get: vi.fn(),
 		},
 		plans: {
 			get: vi.fn().mockResolvedValue({ id: 'plan-1', key: 'drill_plan_220', version: 1, name: 'Drill Plan' }),
@@ -167,6 +169,7 @@ describe('SubscriptionApi（OpenMeter 承载）', () => {
 				page: 1,
 				pageSize: 1000,
 			}),
+			get: vi.fn(),
 		};
 		client.subscriptionAddons = {
 			list: vi.fn().mockResolvedValue([
@@ -193,6 +196,7 @@ describe('SubscriptionApi（OpenMeter 承载）', () => {
 					updatedAt: activeFrom,
 				},
 			]),
+			create: vi.fn(),
 		};
 		const res = await SubscriptionApi.getActiveAddons('sub-1');
 		expect(client.subscriptionAddons.list).toHaveBeenCalledWith('sub-1');
@@ -216,6 +220,43 @@ describe('SubscriptionApi（OpenMeter 承载）', () => {
 		vi.mocked(getOpenMeterClient).mockReturnValue(null);
 		const disabled = await SubscriptionApi.getActiveAddons('sub-1');
 		expect(disabled.items).toEqual([]);
+	});
+
+	it('addAddonToSubscription：v1 wire（name 必填 + metadata 承载 Flexprice 元数据）', async () => {
+		const client = mockClient();
+		client.addons = {
+			...client.addons,
+			get: vi.fn().mockResolvedValue({ id: 'addon-1', key: 'addon_a', name: 'Addon A' }),
+		};
+		client.subscriptionAddons = {
+			...client.subscriptionAddons,
+			create: vi.fn().mockResolvedValue({
+				id: 'sa-new',
+				name: 'Addon A',
+				addon: { id: 'addon-1', key: 'addon_a', version: 1, instanceType: 'single' },
+				quantity: 1,
+				subscriptionId: 'sub-1',
+				activeFrom: new Date('2026-09-05T00:00:00Z'),
+				activeTo: null,
+				createdAt: new Date('2026-09-05T00:00:00Z'),
+				updatedAt: new Date('2026-09-05T00:00:00Z'),
+			}),
+		};
+		const res = await SubscriptionApi.addAddonToSubscription({
+			subscription_id: 'sub-1',
+			addon_id: 'addon-1',
+			metadata: { origin: 'tier1' },
+		});
+		// v1 端点必填 name（camelCase wire），labels 不被接受
+		expect(client.subscriptionAddons.create).toHaveBeenCalledWith('sub-1', {
+			addon: { id: 'addon-1' },
+			name: 'Addon A',
+			quantity: 1,
+			timing: 'immediate',
+			metadata: { origin: 'tier1' },
+		});
+		expect(res.addon_id).toBe('addon-1');
+		expect(res.entity_id).toBe('sub-1');
 	});
 
 	it('行项目读接口空态', async () => {

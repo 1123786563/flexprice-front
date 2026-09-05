@@ -233,7 +233,7 @@ const RecordPaymentTopup: FC<Props> = ({
 			return await PaymentApi.createPayment(payload);
 		},
 		onSuccess: (payment: Payment) => {
-			toast.success('Payment recorded successfully');
+			toast.success(t('toast.payment.recorded'));
 
 			onOpenChange(false);
 
@@ -249,7 +249,7 @@ const RecordPaymentTopup: FC<Props> = ({
 			onSuccess?.(payment);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to record payment. Please try again.');
+			toast.error(error.message || t('toast.payment.recordFailed'));
 		},
 	});
 
@@ -261,11 +261,11 @@ const RecordPaymentTopup: FC<Props> = ({
 		try {
 			await navigator.clipboard.writeText(paymentUrlPopup.paymentUrl);
 			setPaymentUrlPopup((prev) => ({ ...prev, isCopied: true }));
-			toast.success('Payment URL copied to clipboard!');
+			toast.success(t('toast.payment.urlCopied'));
 			setTimeout(() => setPaymentUrlPopup((prev) => ({ ...prev, isCopied: false })), 2000);
 		} catch (error) {
 			console.error('Failed to copy payment URL:', error);
-			toast.error('Failed to copy payment URL. Please try again or copy manually.');
+			toast.error(t('toast.payment.urlCopyFailed'));
 		}
 	};
 

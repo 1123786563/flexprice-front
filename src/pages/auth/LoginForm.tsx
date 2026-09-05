@@ -69,13 +69,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ switchTab }) => {
 			navigate(RouteNames.home);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Something went wrong. Please try again.');
+			toast.error(error.message || t('toast.login.failed'));
 		},
 	});
 
 	const handleLogin = async () => {
 		if (!email || !password) {
-			toast.error('Please enter both email and password');
+			toast.error(t('toast.login.enterEmailAndPassword'));
 			return;
 		}
 
@@ -96,7 +96,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ switchTab }) => {
 
 			userContext.setUser(data);
 			navigate('/');
-			toast.success('Login successful');
+			toast.success(t('toast.login.success'));
 		} else {
 			localLogin();
 		}

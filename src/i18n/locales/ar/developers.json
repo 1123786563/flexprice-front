@@ -2,6 +2,7 @@
 	"labels": {
 		"missingValue": "—",
 		"name": "الاسم",
+		"account": "الحساب",
 		"token": "الرمز",
 		"type": "النوع",
 		"roles": "الأدوار",
@@ -138,7 +139,13 @@
 		"rolesHint": "حدد دوراً واحداً أو أكثر لتحديد صلاحيات حساب الخدمة هذا",
 		"loadingRoles": "جارٍ تحميل الأدوار...",
 		"noRolesAvailable": "لا أدوار متاحة",
-		"submit": "إنشاء حساب خدمة"
+		"submit": "إنشاء حساب خدمة",
+		"editTitle": "تعديل حساب الخدمة",
+		"editDescription": "حدّث اسم حساب الخدمة هذا.",
+		"namePlaceholder": "مثال: خدمة استيعاب الأحداث",
+		"saveButton": "حفظ التغييرات",
+		"updateSuccess": "تم تحديث حساب الخدمة بنجاح",
+		"updateFailed": "فشل تحديث حساب الخدمة"
 	},
 	"webhooks": {
 		"toastFetchError": "خطأ في جلب لوحة الويب هوكس: {{message}}",
@@ -151,17 +158,174 @@
 			"heading": "الويب هوكس",
 			"description": "الويب هوكس غير مفعّلة. يرجى التواصل مع الدعم لتفعيلها."
 		},
+		"tabs": {
+			"endpoints": "نقاط النهاية",
+			"eventCatalog": "كتالوج الأحداث",
+			"logs": "السجلات",
+			"activity": "النشاط"
+		},
 		"endpoints": {
+			"heading": "نقاط النهاية",
+			"addEndpoint": "إضافة نقطة نهاية",
+			"loadFailed": "فشل تحميل نقاط النهاية.",
+			"columns": {
+				"endpoint": "نقطة النهاية",
+				"errorRate": "معدل الأخطاء"
+			},
+			"empty": {
+				"title": "أعد نقطة نهاية للبدء",
+				"subtitle": "للاطلاع على قائمة الأحداث التي يمكنك الاشتراك فيها، ألقِ نظرة على <link>كتالوج الأحداث</link>."
+			},
+			"deleteConfirm": "حذف نقطة النهاية {{url}}؟",
+			"deleteSuccess": "تم حذف نقطة النهاية",
+			"deleteFailed": "فشل حذف نقطة النهاية",
+			"secret": {
+				"reveal": "إظهار السرّ",
+				"hide": "إخفاء السرّ",
+				"loading": "جارٍ التحميل…",
+				"loadFailed": "فشل تحميل السرّ",
+				"masked": "••••••••••••",
+				"copy": "نسخ السرّ",
+				"copied": "تم نسخ السرّ إلى الحافظة"
+			},
 			"form": {
+				"newEndpointTitle": "نقطة نهاية جديدة",
+				"urlLabel": "عنوان نقطة النهاية",
+				"urlPlaceholder": "مثال: https://www.example.com/webhook",
+				"urlHint": "سيتلقى هذا العنوان طلب POST لكل حدث مشترك فيه.",
 				"urlHintPrefix": "قم بإعداد نقطة نهاية أو اختبر",
 				"svixPlayLink": "باستخدام Svix Play",
 				"svixPlayTooltip": "يمنحكم Svix Play فوراً نقطة نهاية فريدة لاستقبال وفحص الويب هوكس الواردة.",
 				"svixPlayTooltipAria": "حول Svix Play",
 				"svixPlayGenerating": "جارٍ الإنشاء…",
-				"svixPlayFailed": "تعذّر إنشاء رابط Svix Play"
+				"svixPlayFailed": "تعذّر إنشاء رابط Svix Play",
+				"descriptionLabel": "الوصف",
+				"descriptionPlaceholder": "وصف اختياري للغرض من نقطة النهاية هذه.",
+				"subscribeToEvents": "الاشتراك في الأحداث",
+				"searchEventsPlaceholder": "بحث في الأحداث…",
+				"submit": "إضافة نقطة نهاية",
+				"submitting": "جارٍ الإضافة…",
+				"addSuccess": "تمت إضافة نقطة النهاية",
+				"addFailed": "فشل إضافة نقطة النهاية"
+			},
+			"detail": {
+				"backToEndpoint": "تفاصيل نقطة النهاية",
+				"tabs": {
+					"overview": "نظرة عامة",
+					"testing": "الاختبار",
+					"advanced": "متقدم"
+				},
+				"createdAt": "تاريخ الإنشاء",
+				"updatedAt": "آخر تحديث",
+				"subscribedEvents": "الأحداث المشترك فيها",
+				"allEvents": "جميع الأحداث",
+				"eventsSaved": "تم تحديث الأحداث المشترك فيها",
+				"eventsSaveFailed": "فشل تحديث الأحداث المشترك فيها",
+				"signingSecret": "سرّ التوقيع",
+				"enableEndpoint": "تفعيل نقطة النهاية",
+				"disableEndpoint": "تعطيل نقطة النهاية",
+				"disabledBadge": "معطّلة",
+				"enableSuccess": "تم تفعيل نقطة النهاية",
+				"disableSuccess": "تم تعطيل نقطة النهاية",
+				"toggleFailed": "فشل تحديث نقطة النهاية",
+				"description": "الوصف",
+				"noDescription": "لا يوجد وصف",
+				"descriptionSaved": "تم تحديث الوصف",
+				"descriptionSaveFailed": "فشل تحديث الوصف",
+				"deliveryStats": "إحصائيات التسليم (آخر 24 ساعة)",
+				"noDeliveries": "لم تُستلم أي رسائل خلال آخر 24 ساعة",
+				"throttling": "تحديد معدل نقطة النهاية",
+				"throttlePlaceholder": "مثال: 10",
+				"throttleValue": "{{rate}} طلبات / ثانية",
+				"noThrottle": "لم يُضبط معدل للتحديد",
+				"throttleSaved": "تم تحديث تحديد المعدل",
+				"throttleSaveFailed": "فشل تحديث تحديد المعدل",
+				"customHeaders": "رؤوس مخصصة",
+				"headerKeyPlaceholder": "المفتاح",
+				"headerValuePlaceholder": "القيمة",
+				"headersSaveFailed": "فشل تحديث الرؤوس المخصصة"
+			},
+			"testing": {
+				"heading": "مثال ويب هوك",
+				"description": "لاختبار تكاملك، أرسل نبضة (ping) إلى نقطة النهاية هذه بحدث مثال.",
+				"note": "الرسائل الفاشلة المرسلة بهذه الطريقة لن يُعاد إرسالها.",
+				"sendEvent": "إرسال حدث",
+				"selectEventType": "اختر نوع الحدث",
+				"sendExample": "إرسال المثال",
+				"sendSuccess": "تم إرسال حدث المثال",
+				"sendFailed": "فشل إرسال حدث المثال"
+			},
+			"attempts": {
+				"heading": "محاولات الرسائل",
+				"columns": {
+					"status": "الحالة",
+					"eventType": "نوع الحدث",
+					"messageId": "معرّف الرسالة",
+					"timestamp": "الطابع الزمني",
+					"replay": "إعادة الإرسال"
+				},
+				"filters": {
+					"all": "الكل",
+					"succeeded": "ناجحة",
+					"failed": "فاشلة"
+				},
+				"status": {
+					"succeeded": "ناجحة",
+					"failed": "فاشلة",
+					"sending": "جارٍ الإرسال",
+					"pending": "معلقة",
+					"unknown": "غير معروفة"
+				},
+				"empty": {
+					"title": "لا توجد رسائل بعد",
+					"subtitle": "لم تتلقَ نقطة النهاية هذه أي رسائل بعد."
+				},
+				"loadFailed": "فشل تحميل محاولات الرسائل.",
+				"replaySuccess": "أُدرجت الرسالة في قائمة إعادة التسليم",
+				"replayFailed": "فشلت إعادة إرسال الرسالة"
+			}
+		},
+		"messages": {
+			"loadFailed": "فشل تحميل الرسالة.",
+			"content": "محتوى الرسالة",
+			"raw": "خام",
+			"createdAt": "تاريخ الإنشاء",
+			"attempts": {
+				"heading": "محاولات الويب هوك",
+				"emptyTitle": "لا توجد محاولات بعد",
+				"empty": "لا توجد محاولات تسليم لهذه الرسالة بعد.",
+				"httpResponseCode": "رمز استجابة HTTP",
+				"response": "الاستجابة",
+				"webhookHeaders": "رؤوس الويب هوك"
+			}
+		},
+		"eventCatalog": {
+			"heading": "أنواع الأحداث",
+			"filterPlaceholder": "تصفية أنواع الأحداث…",
+			"allEvents": "جميع الأحداث",
+			"empty": "لم يتم العثور على أنواع أحداث.",
+			"loadFailed": "فشل تحميل كتالوج الأحداث."
+		},
+		"logs": {
+			"heading": "سجلات الرسائل",
+			"loadFailed": "فشل تحميل سجلات الرسائل.",
+			"empty": {
+				"title": "لا توجد رسائل بعد",
+				"subtitle": "ستظهر الأحداث المسلّمة هنا بمجرد بدء نقاط النهاية في استقبال الحركة."
+			},
+			"columns": {
+				"eventType": "نوع الحدث",
+				"messageId": "معرّف الرسالة",
+				"timestamp": "الطابع الزمني"
 			}
 		},
 		"activity": {
+			"heading": "محاولات التسليم السابقة",
+			"subheading": "محاولات التسليم عبر جميع نقاط النهاية.",
+			"successfulAttempts": "المحاولات الناجحة",
+			"failedAttempts": "المحاولات الفاشلة",
+			"recentActivity": "النشاط الأخير",
+			"noActivity": "لم يُسجَّل أي نشاط خلال آخر 6 ساعات.",
 			"loadFailed": "تعذّر تحميل النشاط"
 		}
 	},
@@ -321,6 +485,20 @@
 			},
 			"sortTimeWindow": "النافذة الزمنية",
 			"chartSeriesUsage": "الاستخدام"
+		}
+	},
+	"toast": {
+		"export": {
+			"updated": "تم تحديث مهمة التصدير بنجاح",
+			"updateFailed": "فشل تحديث مهمة التصدير",
+			"started": "تم بدء مهمة التصدير بنجاح",
+			"startFailed": "فشل بدء مهمة التصدير",
+			"deleted": "تم حذف مهمة التصدير بنجاح",
+			"deleteFailed": "فشل حذف مهمة التصدير"
+		},
+		"connection": {
+			"deleted": "تم حذف الاتصال بنجاح",
+			"deleteFailed": "فشل حذف الاتصال"
 		}
 	}
 }

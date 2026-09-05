@@ -3,6 +3,7 @@
 		"save": "保存",
 		"cancel": "取消",
 		"add": "添加",
+		"adding": "添加中...",
 		"edit": "编辑",
 		"archive": "归档",
 		"delete": "删除",
@@ -35,7 +36,8 @@
 		"sync": "同步",
 		"linking": "正在链接...",
 		"unlink": "取消链接",
-		"unlinking": "正在取消链接..."
+		"unlinking": "正在取消链接...",
+		"rowActions": "行操作"
 	},
 	"status": {
 		"active": "活跃",
@@ -159,7 +161,12 @@
 		"searchPlaceholderExtended": "搜索功能、计划、客户...",
 		"searchCommandsAriaLabel": "搜索命令",
 		"keyboardShortcutsSrOnly": "键盘：",
-		"keyboardShortcutsHint": "↑↓ 导航 · Enter 选择 · Esc 关闭 · 随时按 {{shortcut}} 打开",
+		"footerNavigate": "导航",
+		"footerSelect": "选择",
+		"footerClose": "关闭",
+		"footerOpenAnytime": "随时打开",
+		"keyEnter": "Enter",
+		"keyEscape": "Esc",
 		"shortcutToast": "随时按 {{shortcut}} 打开命令面板",
 		"keyboardShortcutTitle": "Command + K",
 		"kbdDisplay": "⌘ + K"
@@ -214,7 +221,9 @@
 		"dialogTitle": "支付链接已创建",
 		"successBanner": "您的支付链接已成功创建！",
 		"goToLink": "前往支付链接",
-		"getLink": "获取链接"
+		"getLink": "获取链接",
+		"linkLabel": "支付链接",
+		"blockedHint": "如果页面未自动打开，请复制此链接并在新标签页中打开。"
 	},
 	"errorPage": {
 		"title": "出现了问题",
@@ -248,7 +257,9 @@
 		"keyboardTip": "按 Tab 导航，按 Enter 选择",
 		"notFoundTitle": "404 错误页面",
 		"notFoundSubtitle": "哎呀！看起来您走错了方向",
-		"notFoundBackToHome": "返回首页"
+		"notFoundBackToHome": "返回首页",
+		"forbiddenTitle": "无访问权限",
+		"forbiddenSubtitle": "您没有权限查看此页面。请联系租户管理员获取访问权限。"
 	},
 	"copyId": {
 		"genericLabel": "复制 ID",
@@ -273,7 +284,8 @@
 		"timezoneLocal": "本地",
 		"timezoneUtc": "UTC",
 		"timezoneSectionAriaLabel": "时区",
-		"timezoneSectionLabel": "时区"
+		"timezoneSectionLabel": "时区",
+		"clear": "清除日期"
 	},
 	"breadcrumb": {
 		"navAriaLabel": "面包屑",
@@ -302,6 +314,7 @@
 			"tools": "工具",
 			"imports": "导入",
 			"exports": "导出",
+			"usageSyncs": "使用量同步",
 			"developers": "开发者",
 			"eventsDebugger": "事件调试器",
 			"apiKeys": "API 密钥",
@@ -326,7 +339,21 @@
 		"deleteSuccess": "{{entity}} 删除成功",
 		"copySuccess": "已复制到剪贴板",
 		"genericError": "出现了问题。请重试。",
-		"networkError": "网络错误。请检查您的连接。"
+		"networkError": "网络错误。请检查您的连接。",
+		"copyFailed": "复制到剪贴板失败，请重试。",
+		"dashboard": {
+			"fetchMonitoringFailed": "获取监控数据失败",
+			"fetchSubscriptionDataFailed": "获取订阅数据失败",
+			"fetchInvoiceDataFailed": "获取发票数据失败",
+			"fetchRevenueDataFailed": "获取营收数据失败"
+		},
+		"costAnalytics": {
+			"fetchFailed": "获取成本数据失败"
+		},
+		"pricing": {
+			"descriptionRequired": "请先输入定价描述。",
+			"setupSuccess": "您的定价已设置完成！"
+		}
 	},
 	"confirm": {
 		"archiveTitle": "归档 {{entity}}？",
@@ -357,6 +384,9 @@
 		"unlinkConfirmDescription": "这将移除此实体与 {{provider}} 之间的链接。您之后可以重新链接。"
 	},
 	"labels": {
+		"addonWriteDeniedTooltip": "您没有权限管理此订阅的附加组件。请联系租户管理员获取访问权限。",
+		"couponWriteDeniedTooltip": "您没有权限管理此订阅的优惠券。请联系租户管理员获取访问权限。",
+		"taxWriteDeniedTooltip": "您没有权限管理此订阅的税费。请联系租户管理员获取访问权限。",
 		"payload": "载荷",
 		"sort": "排序",
 		"na": "--",
@@ -521,6 +551,53 @@
 		"recurring": "周期性",
 		"previewBooleanNotIncluded": "{{name}} 不包含"
 	},
+	"usageWidgets": {
+		"quotaTitle": "使用量配额",
+		"unknownFeature": "未知功能",
+		"unlimited": "无限",
+		"revenue": "总支出",
+		"cost": "成本",
+		"margin": "利润",
+		"marginPercent": "利润率 %",
+		"cpm": "CPM",
+		"trendTitle": "使用量趋势",
+		"breakdownTitle": "使用量明细",
+		"feature": "功能",
+		"totalUsage": "总使用量",
+		"totalCost": "总成本",
+		"noGroup": "无分组",
+		"expandAllAria": "全部展开",
+		"collapseAllAria": "全部折叠",
+		"unknownRow": "未知",
+		"cellEmDash": "—",
+		"cellEmpty": "--",
+		"singlePointLabel": "{{date}} 的使用量 · {{value}}",
+		"quotaEmptyTitle": "未配置使用量配额",
+		"quotaEmptyDescription": "当您的计划包含计量功能时，配额将显示在这里。",
+		"trendEmptyTitle": "暂无使用量数据",
+		"trendEmptyDescription": "此期间未记录任何使用量。",
+		"breakdownEmptyTitle": "此期间没有使用量",
+		"breakdownEmptyDescription": "请尝试选择其他日期范围。"
+	},
+	"creditWidgets": {
+		"defaultName": "钱包",
+		"balance": "余额",
+		"credits": "积分",
+		"valueSuffix": "值",
+		"emptyTitle": "无钱包",
+		"emptyDescription": "此账户尚未设置钱包",
+		"status": {
+			"active": "活跃",
+			"frozen": "已冻结",
+			"closed": "已关闭"
+		},
+		"transactionHistory": "交易历史",
+		"transactionsUnit": "笔交易",
+		"noTransactionsTitle": "暂无交易",
+		"noTransactionsDescription": "您的交易历史将显示在这里",
+		"fallbackWalletName": "钱包 {{id}}",
+		"overdrawnHint": "您当前的使用量已超过可用积分。"
+	},
 	"taxAssociation": {
 		"dialogTitle": "关联税率",
 		"taxRateRequired": "税率为必填项",
@@ -564,7 +641,10 @@
 		"commitmentUsageOnlyHint": "只能为基于使用量的费用配置承诺。",
 		"saveChanges": "保存更改",
 		"submitAddAddon": "添加附加项",
-		"chargeFallbackLabel": "费用"
+		"chargeFallbackLabel": "费用",
+		"columnPrice": "价格",
+		"labelStartDate": "开始日期（可选）",
+		"placeholderStartDate": "选择开始日期"
 	},
 	"priceTooltip": {
 		"volumeTierPricing": "阶梯分级定价",
@@ -663,19 +743,28 @@
 		"flexpriceLogoAlt": "Flexprice",
 		"welcomeHeading": "欢迎来到 Flexprice",
 		"welcomeSubtext": "让我们完成您的工作区设置 — 完成此表单即可开始。",
+		"getStarted": "开始使用",
+		"reviewCompanyLogoAlt": "{{company}} logo",
 		"orgNameLabel": "组织名称",
 		"orgNamePlaceholder": "输入您的组织名称",
-		"websiteUrlLabel": "网站 URL",
-		"websiteUrlPlaceholder": "例如 https://example.com",
-		"websiteUrlDescription": "输入您组织的网站链接",
-		"roleQuestion": "您在组织中担任什么角色？",
-		"rolePlaceholder": "您的角色",
-		"teamSizeQuestion": "您的团队规模有多大？",
-		"teamSizePlaceholder": "团队规模",
-		"pricingModelQuestion": "您为 Flexprice 选择什么定价模型？",
-		"pricingModelPlaceholder": "您目前如何定价？",
 		"referralQuestion": "您是如何了解到我们的？",
-		"referralPlaceholder": "您在哪里听说我们的？"
+		"referralPlaceholder": "您在哪里听说我们的？",
+		"referralRequired": "请选择您如何找到我们",
+		"orgNameRequired": "组织名称为必填项",
+		"orgNameIsFlexprice": "哎呀！那是我们。请输入您的组织名称。",
+		"orgNameIsFlexpriceToast": "那是我们，请输入您的组织名称。",
+		"orgNameBannedWord": "组织名称不能包含“{{word}}”一词。请选择其他名称。",
+		"successToast": "设置完成！",
+		"completeFailed": "完成入门引导失败。请重试。",
+		"referralSources": {
+			"linkedin": "LinkedIn",
+			"x": "X（原 Twitter）",
+			"reddit": "Reddit",
+			"blogs": "博客",
+			"aiSearch": "ChatGPT / Perplexity / Gemini",
+			"hackerNews": "HackerNews",
+			"productHunt": "Product Hunt"
+		}
 	},
 	"pricingSetupPage": {
 		"closeReturnDashboardAria": "关闭并返回仪表盘",
@@ -721,6 +810,7 @@
 		"tools": "工具",
 		"imports": "导入",
 		"exports": "导出",
+		"usageSyncs": "使用量同步",
 		"developers": "开发者",
 		"eventsDebugger": "事件调试器",
 		"apiKeys": "API 密钥",
@@ -730,9 +820,5 @@
 		"integrations": "集成",
 		"pricingWidget": "定价组件",
 		"settings": "设置"
-	},
-	"fundingStrip": {
-		"announcement": "Flexprice 完成 150 万美元种子轮融资",
-		"knowMore": "了解更多"
 	}
 }

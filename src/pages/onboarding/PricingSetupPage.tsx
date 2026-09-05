@@ -165,7 +165,7 @@ const PricingSetupPage = () => {
 		const raw = promptRef.current?.value ?? lastPromptDraftRef.current;
 		const promptText = raw.trim();
 		if (!promptText) {
-			toast.error('Please enter a pricing description first.');
+			toast.error(t('toast.pricing.descriptionRequired'));
 			return;
 		}
 		lastPromptDraftRef.current = raw;
@@ -218,7 +218,7 @@ const PricingSetupPage = () => {
 				setCurrentStep(step);
 			});
 			setCompletedSteps(new Set(stepOrder));
-			toast.success('Your pricing has been set up!');
+			toast.success(t('toast.pricing.setupSuccess'));
 			void queryClient.invalidateQueries({ queryKey: [SIDEBAR_PRICING_PROMO_QUERY_KEY], exact: false });
 			window.setTimeout(() => navigate(RouteNames.plan), POST_SETUP_NAVIGATE_DELAY_MS);
 		} catch (err) {

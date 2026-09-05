@@ -1012,10 +1012,10 @@ const AddFeaturePage = () => {
 			await refetchQueries(['fetchFeatures']);
 			void queryClient.invalidateQueries({ queryKey: [SIDEBAR_PRICING_PROMO_QUERY_KEY], exact: false });
 			navigate(RouteNames.features);
-			toast.success('Feature created successfully');
+			toast.success(t('toast.feature.created'));
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'An error occurred while creating feature. Please try again.');
+			toast.error(error.message || t('toast.feature.createFailed'));
 		},
 	});
 

@@ -55,6 +55,7 @@
 		}
 	},
 	"apiKeys": {
+		"writeDeniedTooltip": "您没有权限管理 API 密钥。请联系租户管理员获取访问权限。",
 		"toastFetchError": "获取密钥失败",
 		"paginationUnit": "密钥",
 		"emptyCard": {
@@ -78,6 +79,7 @@
 		}
 	},
 	"serviceAccounts": {
+		"writeDeniedTooltip": "您没有权限管理服务账号。请联系租户管理员获取访问权限。",
 		"toastFetchError": "获取服务账号失败",
 		"paginationUnit": "服务账号",
 		"noRoles": "无角色",
@@ -483,6 +485,20 @@
 			},
 			"sortTimeWindow": "时间窗口",
 			"chartSeriesUsage": "用量"
+		}
+	},
+	"toast": {
+		"export": {
+			"updated": "导出任务更新成功",
+			"updateFailed": "更新导出任务失败",
+			"started": "导出任务已成功启动",
+			"startFailed": "启动导出任务失败",
+			"deleted": "导出任务删除成功",
+			"deleteFailed": "删除导出任务失败"
+		},
+		"connection": {
+			"deleted": "连接删除成功",
+			"deleteFailed": "删除连接失败"
 		}
 	}
 }

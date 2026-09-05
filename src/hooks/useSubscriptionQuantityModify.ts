@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import SubscriptionApi from '@/api/SubscriptionApi';
 import { refetchQueries } from '@/core/services/tanstack/ReactQueryProvider';
 import { refetchSubscriptionQueries } from '@/core/services/tanstack/queryKeys';
@@ -16,6 +17,7 @@ export interface UseSubscriptionQuantityModifyResult {
 }
 
 export function useSubscriptionQuantityModify(subscriptionId: string | undefined): UseSubscriptionQuantityModifyResult {
+	const { t } = useTranslation('billing');
 	const {
 		mutateAsync: preview,
 		reset: resetPreview,
@@ -29,7 +31,7 @@ export function useSubscriptionQuantityModify(subscriptionId: string | undefined
 			return SubscriptionApi.previewSubscriptionModify(subscriptionId, payload);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to preview subscription change');
+			toast.error(error.message || t('toast.subscription.previewFailed'));
 		},
 	});
 
@@ -45,7 +47,7 @@ export function useSubscriptionQuantityModify(subscriptionId: string | undefined
 			return SubscriptionApi.executeSubscriptionModify(subscriptionId, payload);
 		},
 		onSuccess: async () => {
-			toast.success('Quantity updated successfully');
+			toast.success(t('toast.subscription.quantityUpdated'));
 			resetPreview();
 			if (subscriptionId) {
 				await refetchQueries(['subscriptionEdit', subscriptionId]);
@@ -53,7 +55,7 @@ export function useSubscriptionQuantityModify(subscriptionId: string | undefined
 			await refetchSubscriptionQueries();
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to apply subscription change');
+			toast.error(error.message || t('toast.subscription.applyFailed'));
 		},
 	});
 
