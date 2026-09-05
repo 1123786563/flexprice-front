@@ -36,6 +36,8 @@ import { useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams, useOutletContext } from 'react-router';
 import CreateCustomerWalletModal from '../customers/CreateCustomerWalletModal';
+import CustomerCreditsCard from './CustomerCreditsCard';
+import CustomerChargesCard from './CustomerChargesCard';
 import { EllipsisVertical, Info, Pencil, Trash2, Wallet as WalletIcon, Bell, Minus, RefreshCw } from 'lucide-react';
 import { getCurrencySymbol } from '@/utils/common/helper_functions';
 import useQueryParams from '@/hooks/useQueryParams';
@@ -142,11 +144,11 @@ const CustomerWalletTab = () => {
 		onSuccess: async () => {
 			setShowAutoTopupModal(false);
 			await refetchQueries(['fetchWallets', customerId!]);
-			toast.success('Auto top-up settings updated successfully');
+			toast.success(t('toast.wallet.autoTopupUpdated'));
 		},
 		onError: (error: Error) => {
 			logger.error('Failed to update auto top-up settings', error);
-			toast.error(error.message || 'Failed to update auto top-up settings');
+			toast.error(error.message || t('toast.wallet.autoTopupUpdateFailed'));
 		},
 	});
 
@@ -233,12 +235,18 @@ const CustomerWalletTab = () => {
 
 	// Handle errors
 	if (isError || isTransactionError) {
-		toast.error('An error occurred while fetching wallet details');
+		toast.error(t('toast.wallet.fetchDetailsFailed'));
 	}
 
 	// Render wallet details
 	return (
 		<div className='space-y-6'>
+			{/* OpenMeter Credits（v3 账本余额）：与本地钱包记录独立，始终展示真实后端余额 */}
+			{customerId && <CustomerCreditsCard customerId={customerId} />}
+
+			{/* OpenMeter 客户费用项（v3 charges，只读） */}
+			{customerId && <CustomerChargesCard customerId={customerId} />}
+
 			<ApiDocsContent tags={API_DOCS_TAGS.Wallets} />
 
 			{/* Create Wallet Modal */}
@@ -314,10 +322,10 @@ const CustomerWalletTab = () => {
 						});
 						setShowAlertDialog(false);
 						refetchQueries(['fetchWallets', customerId!]);
-						toast.success('Alert settings updated successfully');
+						toast.success(t('toast.wallet.alertSettingsUpdated'));
 					} catch (e) {
 						logger.error('Failed to update alert settings', e);
-						toast.error('Failed to update alert settings');
+						toast.error(t('toast.wallet.alertSettingsUpdateFailed'));
 					}
 				}}
 				onClose={() => setShowAlertDialog(false)}

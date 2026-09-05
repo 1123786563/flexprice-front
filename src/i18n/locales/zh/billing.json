@@ -136,6 +136,8 @@
 	},
 	"creditNotes": {
 		"title": "贷项通知单",
+		"writeDeniedTooltip": "您没有权限创建贷项通知单。请联系租户管理员获取访问权限。",
+		"addCreditNote": "添加贷项通知单",
 		"empty": "未找到贷项通知单",
 		"toast": {
 			"fetchListError": "获取贷项通知单时出错"
@@ -255,6 +257,7 @@
 			},
 			"inheritedReadOnlyTooltip": "继承的订阅为只读。请在父订阅上进行更改。",
 			"cancelAction": "取消",
+			"writeDeniedTooltip": "您没有权限管理订阅。请联系租户管理员获取访问权限。",
 			"entityNameForActions": "订阅"
 		},
 		"empty": "未找到订阅",
@@ -372,7 +375,8 @@
 			"columns": {
 				"charge": "费用",
 				"type": "类型",
-				"commitment": "承诺"
+				"commitment": "承诺",
+				"price": "价格"
 			},
 			"chargeFallback": "费用",
 			"commitmentNotAvailable": "不可用",
@@ -455,6 +459,11 @@
 			"selectTaxRatePlaceholder": "选择税率",
 			"effectiveDateOptional": "生效日期（可选）",
 			"pickDate": "选择日期"
+		},
+		"configureAddonDialog": {
+			"title": "配置附加组件",
+			"empty": "未找到此附加组件的费用。",
+			"loadError": "无法加载此附加组件的费用。"
 		}
 	},
 	"payments": {
@@ -527,6 +536,7 @@
 		}
 	},
 	"taxes": {
+		"writeDeniedTooltip": "您没有权限管理税率。请联系租户管理员获取访问权限。",
 		"title": "税率",
 		"empty": "未找到税率",
 		"taxRateDetails": "税率详情",
@@ -740,6 +750,7 @@
 		"saveCommitment": "保存承诺",
 		"updateCommitment": "更新承诺",
 		"billingPeriodLabels": {
+			"DAILY": "每日",
 			"MONTHLY": "每月",
 			"QUARTERLY": "每季度",
 			"HALF_YEARLY": "每半年",
@@ -872,7 +883,10 @@
 			"typeFree": "免费",
 			"typeFreeDesc": "无需付费授予积分。",
 			"typePurchased": "购买",
-			"typePurchasedDesc": "添加需要付费的积分。"
+			"typePurchasedDesc": "添加需要付费的积分。",
+			"skipInvoice": "跳过发票",
+			"generateInvoiceAction": "生成发票",
+			"checkoutLink": "支付链接"
 		},
 		"debit": {
 			"title": "手动扣款",
@@ -1020,5 +1034,108 @@
 		"saveChanges": "保存更改",
 		"saveSuccess": "提醒设置保存成功",
 		"saveError": "保存提醒设置失败"
+	},
+	"toast": {
+		"walletTopup": {
+			"selectCreditsType": "请选择积分类型",
+			"invalidAmount": "请输入有效的积分数额",
+			"expiryAfterSubscriptionEnd": "过期日期必须晚于当前订阅周期的结束日期",
+			"expiryInPast": "过期日期不能是过去的日期",
+			"invoiceCreated": "发票创建成功，积分将在发票支付后添加。",
+			"success": "钱包充值成功",
+			"failed": "钱包充值失败",
+			"copyFailed": "无法复制链接"
+		},
+		"setupLink": {
+			"created": "设置链接创建成功！",
+			"createFailed": "生成支付设置链接失败",
+			"intentFailed": "创建设置意图失败",
+			"noEnvironment": "未找到有效的环境",
+			"copied": "设置链接已复制到剪贴板！",
+			"copyFailed": "复制设置链接失败，请重试或手动复制。"
+		},
+		"invoice": {
+			"communicationTriggered": "通信已触发",
+			"communicationFailed": "无法触发通信",
+			"downloaded": "发票已下载",
+			"downloadFailed": "无法下载发票",
+			"noBillableItems": "没有可导出的计费行项目",
+			"csvDownloaded": "发票 CSV 已下载",
+			"csvDownloadFailed": "无法下载发票 CSV",
+			"recalculationTriggered": "发票重新计算已触发。处理完成后即可获取替换后的发票。",
+			"recalculationFailed": "无法重新计算发票",
+			"created": "发票创建成功",
+			"createFailed": "创建发票失败",
+			"customerIdRequired": "客户 ID 为必填项",
+			"lineItemRequired": "至少需要一条行项目",
+			"lineItemsInvalid": "请为所有行项目填写有效值",
+			"somethingWentWrong": "发生错误"
+		},
+		"phase": {
+			"subscriptionEndDateRequired": "请先设置订阅结束日期，再添加阶段。",
+			"subscriptionDataUnavailable": "订阅数据不可用。",
+			"previousEndDateRequired": "请先为上一个阶段设置结束日期，再添加新阶段。",
+			"startDateAfterPrevious": "阶段的开始日期必须晚于上一阶段的开始日期。",
+			"endDateBeforeNext": "阶段的结束日期必须早于下一阶段的结束日期。"
+		},
+		"subscription": {
+			"cancelled": "订阅取消成功",
+			"cancelFailed": "取消订阅失败",
+			"activated": "订阅激活成功",
+			"activateFailed": "激活订阅失败",
+			"invalidBillingPeriod": "无效的计费周期。",
+			"previewFailed": "预览订阅变更失败",
+			"quantityUpdated": "数量更新成功",
+			"applyFailed": "应用订阅变更失败",
+			"cancelScheduleRemoved": "已撤销定时取消",
+			"cancelScheduleRemoveFailed": "撤销定时取消失败",
+			"restored": "订阅已恢复",
+			"restoreFailed": "恢复订阅失败"
+		},
+		"payment": {
+			"recorded": "付款记录成功",
+			"recordFailed": "记录付款失败，请重试。",
+			"urlCopied": "付款 URL 已复制到剪贴板！",
+			"urlCopyFailed": "复制付款 URL 失败，请重试或手动复制。",
+			"linkCopied": "付款链接已复制到剪贴板！",
+			"linkCopyFailed": "复制付款链接失败，请重试。"
+		},
+		"walletDebit": {
+			"success": "钱包扣款成功",
+			"failed": "钱包扣款失败",
+			"walletIdRequired": "钱包 ID 为必填项",
+			"invalidAmount": "请输入有效的积分数额"
+		},
+		"invoiceStatus": {
+			"draftNotImplemented": "草稿状态尚未实现",
+			"updated": "发票状态更新成功",
+			"updateFailed": "更新发票状态失败"
+		},
+		"creditGrant": {
+			"added": "积分授予添加成功",
+			"addFailed": "添加积分授予失败",
+			"loadFailed": "加载积分授予失败"
+		},
+		"addon": {
+			"cancelled": "附加组件取消成功",
+			"cancelFailed": "取消附加组件失败",
+			"removeImmediateNote": "OpenMeter 模式下移除附加组件立即生效，不支持周期末生效或按比例折算。"
+		},
+		"wallet": {
+			"terminated": "钱包终止成功",
+			"terminateFailed": "终止钱包失败"
+		},
+		"tax": {
+			"removed": "税费移除成功",
+			"removeFailed": "移除失败",
+			"applied": "税费应用成功",
+			"applyFailed": "应用失败"
+		},
+		"coupon": {
+			"removed": "优惠券移除成功",
+			"removeFailed": "移除失败",
+			"applied": "优惠券应用成功",
+			"applyFailed": "应用失败"
+		}
 	}
 }

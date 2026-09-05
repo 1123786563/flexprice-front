@@ -1034,5 +1034,108 @@
 		"saveChanges": "حفظ التغييرات",
 		"saveSuccess": "تم حفظ إعدادات التنبيه بنجاح",
 		"saveError": "فشل حفظ إعدادات التنبيه"
+	},
+	"toast": {
+		"walletTopup": {
+			"selectCreditsType": "يرجى اختيار نوع الأرصدة",
+			"invalidAmount": "يرجى إدخال مبلغ أرصدة صالح",
+			"expiryAfterSubscriptionEnd": "يجب أن يكون تاريخ الانتهاء بعد نهاية فترة الاشتراك الحالية",
+			"expiryInPast": "لا يمكن أن يكون تاريخ الانتهاء في الماضي",
+			"invoiceCreated": "تم إنشاء الفاتورة بنجاح. ستُضاف الأرصدة بمجرد سداد الفاتورة.",
+			"success": "تم شحن المحفظة بنجاح",
+			"failed": "فشل شحن المحفظة",
+			"copyFailed": "تعذر نسخ الرابط"
+		},
+		"setupLink": {
+			"created": "تم إنشاء رابط الإعداد بنجاح!",
+			"createFailed": "فشل إنشاء رابط إعداد الدفع",
+			"intentFailed": "فشل إنشاء نية الإعداد",
+			"noEnvironment": "لم يتم العثور على بيئة نشطة",
+			"copied": "تم نسخ رابط الإعداد إلى الحافظة!",
+			"copyFailed": "فشل نسخ رابط الإعداد. يرجى المحاولة مرة أخرى أو النسخ يدويًا."
+		},
+		"invoice": {
+			"communicationTriggered": "تم إطلاق الاتصال",
+			"communicationFailed": "تعذر إطلاق الاتصال",
+			"downloaded": "تم تنزيل الفاتورة",
+			"downloadFailed": "تعذر تنزيل الفاتورة",
+			"noBillableItems": "لا توجد بنود قابلة للفوترة للتصدير",
+			"csvDownloaded": "تم تنزيل ملف CSV للفاتورة",
+			"csvDownloadFailed": "تعذر تنزيل ملف CSV للفاتورة",
+			"recalculationTriggered": "تم إطلاق إعادة احتساب الفاتورة. ستتوفر الفاتورة البديلة بمجرد اكتمال العملية.",
+			"recalculationFailed": "تعذر إعادة احتساب الفاتورة",
+			"created": "تم إنشاء الفاتورة بنجاح",
+			"createFailed": "فشل إنشاء الفاتورة",
+			"customerIdRequired": "معرّف العميل مطلوب",
+			"lineItemRequired": "يلزم وجود بند واحد على الأقل",
+			"lineItemsInvalid": "يرجى ملء جميع حقول البنود بقيم صالحة",
+			"somethingWentWrong": "حدث خطأ ما"
+		},
+		"phase": {
+			"subscriptionEndDateRequired": "يرجى تعيين تاريخ انتهاء الاشتراك قبل إضافة المراحل.",
+			"subscriptionDataUnavailable": "بيانات الاشتراك غير متوفرة.",
+			"previousEndDateRequired": "يرجى تعيين تاريخ انتهاء للمرحلة السابقة قبل إضافة مرحلة جديدة.",
+			"startDateAfterPrevious": "يجب أن يكون تاريخ بدء المرحلة بعد تاريخ بدء المرحلة السابقة.",
+			"endDateBeforeNext": "يجب أن يكون تاريخ انتهاء المرحلة قبل تاريخ انتهاء المرحلة التالية."
+		},
+		"subscription": {
+			"cancelled": "تم إلغاء الاشتراك بنجاح",
+			"cancelFailed": "فشل إلغاء الاشتراك",
+			"activated": "تم تنشيط الاشتراك بنجاح",
+			"activateFailed": "فشل تنشيط الاشتراك",
+			"invalidBillingPeriod": "فترة الفوترة غير صالحة.",
+			"previewFailed": "فشل معاينة تغيير الاشتراك",
+			"quantityUpdated": "تم تحديث الكمية بنجاح",
+			"applyFailed": "فشل تطبيق تغيير الاشتراك",
+			"cancelScheduleRemoved": "تم إلغاء الإلغاء المجدول",
+			"cancelScheduleRemoveFailed": "فشل إلغاء الإلغاء المجدول",
+			"restored": "تمت استعادة الاشتراك",
+			"restoreFailed": "فشل استعادة الاشتراك"
+		},
+		"payment": {
+			"recorded": "تم تسجيل الدفعة بنجاح",
+			"recordFailed": "فشل تسجيل الدفعة. يرجى المحاولة مرة أخرى.",
+			"urlCopied": "تم نسخ رابط الدفعة إلى الحافظة!",
+			"urlCopyFailed": "فشل نسخ رابط الدفعة. يرجى المحاولة مرة أخرى أو النسخ يدويًا.",
+			"linkCopied": "تم نسخ رابط الدفع إلى الحافظة!",
+			"linkCopyFailed": "فشل نسخ رابط الدفع. يرجى المحاولة مرة أخرى."
+		},
+		"walletDebit": {
+			"success": "تم خصم المحفظة بنجاح",
+			"failed": "فشل الخصم من المحفظة",
+			"walletIdRequired": "معرّف المحفظة مطلوب",
+			"invalidAmount": "يرجى إدخال مبلغ أرصدة صالح"
+		},
+		"invoiceStatus": {
+			"draftNotImplemented": "حالة المسودة لم تُنفذ بعد",
+			"updated": "تم تحديث حالة الفاتورة بنجاح",
+			"updateFailed": "فشل تحديث حالة الفاتورة"
+		},
+		"creditGrant": {
+			"added": "تمت إضافة المنحة الائتمانية بنجاح",
+			"addFailed": "فشلت إضافة المنحة الائتمانية",
+			"loadFailed": "حدث خطأ أثناء تحميل المنح الائتمانية"
+		},
+		"addon": {
+			"cancelled": "تم إلغاء الوظيفة الإضافية بنجاح",
+			"cancelFailed": "فشل إلغاء الوظيفة الإضافية",
+			"removeImmediateNote": "في وضع OpenMeter، يسري إلغاء الوظيفة الإضافية فورًا؛ لا يدعم التأثير في نهاية الفترة ولا الاحتساب التناسبي."
+		},
+		"wallet": {
+			"terminated": "تم إنهاء المحفظة بنجاح",
+			"terminateFailed": "فشل إنهاء المحفظة"
+		},
+		"tax": {
+			"removed": "تمت إزالة الضريبة بنجاح",
+			"removeFailed": "فشلت الإزالة",
+			"applied": "تم تطبيق الضريبة بنجاح",
+			"applyFailed": "فشل التطبيق"
+		},
+		"coupon": {
+			"removed": "تمت إزالة القسيمة بنجاح",
+			"removeFailed": "فشلت الإزالة",
+			"applied": "تم تطبيق القسيمة بنجاح",
+			"applyFailed": "فشل التطبيق"
+		}
 	}
 }

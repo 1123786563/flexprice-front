@@ -445,7 +445,9 @@
 		},
 		"detailsPage": {
 			"writeDeniedTooltip": "ليس لديك صلاحية تعديل هذه الخطة. اطلب الوصول من مسؤول المستأجر.",
-			"syncWriteDeniedTooltip": "ليس لديك صلاحية مزامنة أسعار هذه الخطة. اطلب الوصول من مسؤول المستأجر."
+			"syncWriteDeniedTooltip": "ليس لديك صلاحية مزامنة أسعار هذه الخطة. اطلب الوصول من مسؤول المستأجر.",
+			"unsyncedCountTooltip_one": "اشتراك واحد غير متزامن مع أسعار هذه الخطة.",
+			"unsyncedCountTooltip_other": "{{count}} اشتراكات غير متزامنة مع أسعار هذه الخطة."
 		},
 		"information": {
 			"loading": "جاري تحميل تفاصيل الخطة…",
@@ -786,12 +788,12 @@
 			"aggregationField": "حقل التجميع*",
 			"aggregationFieldPh": "tokens",
 			"aggregationFieldHelp": "حدد الخاصية في بيانات الحدث التي ستُجمَّع، مثل tokens وmessages_sent وstorage_used.",
-			"aggregationMultiplier": "مضاعف التجميع*",
 			"customExpressionButton": "تعبير مخصص",
 			"aggregationFieldButton": "حقل التجميع",
 			"customExpression": "تعبير مخصص*",
 			"customExpressionPh": "ceil(duration_ms / 1000)",
 			"customExpressionHelp": "اكتب صيغة CEL تُحسب لكل حدث لحساب الكمية. المتغيرات هي أسماء الخصائص ذات المستوى الأعلى في الأحداث (مثل duration_ms وtokens).\n\nالدوال المتاحة: max(a, b)، min(a, b)، abs(x)، ceil(x)، floor(x)، round(x)، pow(x, y)، sqrt(x)، log(x).\n\nأمثلة:\n• input_tokens + output_tokens\n• ceil(duration_ms / 1000)\n• min(usage, quota)\n• max(cores * hours * rate, 0.01)\n\nمتاح فقط لـ SUM وAVG وMAX وLATEST.",
+			"aggregationMultiplier": "مضاعف التجميع*",
 			"aggregationMultiplierPh": "1",
 			"aggregationMultiplierHelp": "حدد المضاعف للتجميع، مثل 1.5 أو 0.25 أو 1000.",
 			"groupByButton": "تجميع حسب",
@@ -818,7 +820,21 @@
 			"displayUnitName": "اسم وحدة العرض",
 			"usageReset": "إعادة ضبط الاستخدام ",
 			"bucketSize": "حجم الدفعة",
-			"groupBy": "تجميع حسب"
+			"groupBy": "تجميع حسب",
+			"title": "تكلفة الوحدة (OpenMeter)",
+			"desc": "تكلفة الوحدة في OpenMeter: النمط اليدوي مبلغ ثابت لكل وحدة (USD)؛ ونمط LLM يُحل من قاعدة تكاليف LLM حسب المزود/النموذج.",
+			"current": "الإعداد الحالي",
+			"manualAmount": "التكلفة لكل وحدة (USD)",
+			"set": "تعيين التكلفة",
+			"clear": "مسح",
+			"llmConfigured": "تُحل من قاعدة تكاليف LLM (حسب المزود/النموذج)",
+			"query": "استعلام تكلفة آخر 30 يومًا",
+			"queryResult": "نتيجة استعلام التكلفة",
+			"noCost": "لم تُعين تكلفة الوحدة",
+			"unitCostSaved": "تم تحديث تكلفة الوحدة",
+			"unitCostSaveFailed": "فشل تحديث تكلفة الوحدة",
+			"unitCostQueryFailed": "فشل استعلام التكلفة",
+			"currentValue": "الإعداد الحالي: ${{value}}"
 		}
 	},
 	"entityChargesPage": {
@@ -1024,6 +1040,22 @@
 			"enabled": "مفعّل",
 			"disabled": "معطّل",
 			"unknownFeature": "ميزة غير معروفة"
+		},
+		"subscriptionEdit": {
+			"columnSource": "المصدر",
+			"sourcePlan": "الخطة",
+			"sourceAddon": "الإضافة",
+			"sourceSubscription": "الاشتراك",
+			"sourceOverride": "تجاوز الاشتراك",
+			"resetAction": "إعادة التعيين إلى الافتراضي",
+			"resetConfirmTitle": "إعادة تعيين \"{{name}}\" إلى افتراضي الخطة؟",
+			"resetConfirmDescription": "يؤدي هذا إلى إزالة تجاوز الاشتراك، وسيسري استحقاق الخطة من جديد.",
+			"deleteConfirmTitle": "حذف استحقاق \"{{name}}\"؟",
+			"saveSuccess": "تم تحديث الاستحقاق بنجاح",
+			"saveFailed": "فشل تحديث الاستحقاق",
+			"deleteSuccess": "تمت إزالة الاستحقاق بنجاح",
+			"deleteFailed": "فشلت إزالة الاستحقاق",
+			"createRequiresParent": "لا يمكن إنشاء تجاوز دون استحقاق أصلي"
 		}
 	},
 	"premiumFeature": {
@@ -1070,5 +1102,81 @@
 		"toastScheduled": "سيسري {{name}} اعتبارًا من {{date}}.",
 		"toastUpdated": "تم تحديث {{name}} بنجاح.",
 		"fallbackPriceName": "سعر"
+	},
+	"toast": {
+		"plan": {
+			"archived": "تم أرشفة الخطة بنجاح",
+			"archiveFailed": "فشل أرشفة الخطة",
+			"syncStarted": "بدأت المزامنة وستستغرق حتى ساعة واحدة للإكمال.",
+			"syncFailed": "حدث خطأ أثناء مزامنة الخطة مع الاشتراكات",
+			"loadFailed": "حدث خطأ أثناء تحميل بيانات الخطة",
+			"notAvailable": "لا توجد بيانات متاحة للخطة",
+			"duplicated": "تم نسخ الخطة بنجاح",
+			"duplicateFailed": "فشل نسخ الخطة. يُرجى المحاولة مجددًا."
+		},
+		"pricing": {
+			"tiersRequired": "الشرائح مطلوبة عندما يكون نموذج التسعير TIERED",
+			"unitAmountRequired": "مبلغ الوحدة مطلوب للشريحة {{tier}}",
+			"unitAmountMustBePositive": "يجب أن يكون مبلغ الوحدة أكبر من أو يساوي 0 للشريحة {{tier}}",
+			"flatAmountMustBePositive": "يجب أن يكون المبلغ الثابت أكبر من أو يساوي 0 للشريحة {{tier}}",
+			"upToValueRequired": "قيمة \"حتى\" مطلوبة للشريحة {{tier}}",
+			"fromValueCannotExceedUpTo": "لا يمكن أن تكون قيمة \"من\" أكبر من قيمة \"حتى\" في الشريحة {{tier}}"
+		},
+		"addon": {
+			"archived": "تم أرشفة المكوّن الإضافي بنجاح",
+			"archiveFailed": "فشل أرشفة المكوّن الإضافي",
+			"terminatePriceFailed": "حدث خطأ أثناء إنهاء السعر",
+			"loadFailed": "حدث خطأ أثناء تحميل بيانات المكوّن الإضافي",
+			"notAvailable": "لا توجد بيانات متاحة للمكوّن الإضافي"
+		},
+		"price": {
+			"idCopied": "تم نسخ معرّف السعر إلى الحافظة",
+			"terminated": "تم إنهاء السعر بنجاح",
+			"deleteFailed": "حدث خطأ أثناء حذف السعر",
+			"terminationScheduled": "سيتم إنهاء {{name}} في {{date}}.",
+			"terminatedImmediately": "تم إنهاء {{name}} فورًا."
+		},
+		"metadata": {
+			"updated": "تم تحديث البيانات الوصفية بنجاح",
+			"updateFailed": "فشل تحديث البيانات الوصفية"
+		},
+		"feature": {
+			"created": "تم إنشاء الميزة بنجاح",
+			"createFailed": "حدث خطأ أثناء إنشاء الميزة. يُرجى المحاولة مجددًا.",
+			"updated": "تم تحديث الميزة بنجاح",
+			"updateFailed": "فشل تحديث الميزة. يُرجى المحاولة مجددًا.",
+			"archived": "تم أرشفة الميزة بنجاح",
+			"archiveFailed": "فشل أرشفة الميزة",
+			"loadFailed": "حدث خطأ أثناء جلب تفاصيل الميزة",
+			"alertSettingsUpdated": "تم تحديث إعدادات التنبيه بنجاح",
+			"alertSettingsFailed": "فشل تحديث إعدادات التنبيه"
+		},
+		"costSheet": {
+			"archived": "تم أرشفة جدول التكلفة بنجاح",
+			"archiveFailed": "فشل أرشفة جدول التكلفة",
+			"loadFailed": "حدث خطأ أثناء تحميل بيانات جدول التكلفة",
+			"notAvailable": "لا توجد بيانات متاحة لجدول التكلفة"
+		},
+		"prices": {
+			"noneToCreate": "لا توجد أسعار لإنشائها",
+			"created": "تم إنشاء الأسعار بنجاح لـ {{entityType}}"
+		},
+		"charges": {
+			"processingFailed": "حدث خطأ أثناء معالجة الرسوم"
+		},
+		"entity": {
+			"loadFailed": "حدث خطأ أثناء جلب بيانات {{entityType}}"
+		},
+		"creditGrant": {
+			"added": "تمت إضافة منحة الرصيد بنجاح",
+			"addFailed": "فشل إضافة منحة الرصيد",
+			"loadFailed": "حدث خطأ أثناء تحميل منح الرصيد"
+		},
+		"entitlements": {
+			"loadFailed": "حدث خطأ أثناء تحميل المزايا"
+		},
+		"coupon": {
+			"loadFailed": "حدث خطأ أثناء تحميل تفاصيل الكوبون"
+		}
 	}
 }

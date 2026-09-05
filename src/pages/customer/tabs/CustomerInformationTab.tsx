@@ -7,13 +7,16 @@ import { Country } from 'country-state-city';
 import { CreateCustomerDrawer, Detail, DetailsCard, MetadataModal, SaveCardModal } from '@/components/molecules';
 import FlexpriceTable, { ColumnData } from '@/components/molecules/Table';
 import { useParams, useOutletContext, useNavigate } from 'react-router';
-import { Pencil, CreditCard, Share2 } from 'lucide-react';
+import { Pencil, CreditCard, Share2, ExternalLink } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
+import toast from 'react-hot-toast';
 import { getTypographyClass } from '@/lib/typography';
 import { refetchQueries } from '@/core/services/tanstack/ReactQueryProvider';
 import { logger } from '@/utils/common/Logger';
 import { CONNECTION_PROVIDER_TYPE } from '@/models/Connection';
 import { useCustomerPortalUrl } from '@/hooks/useCustomerPortalUrl';
+import { config } from '@/config/config';
+import OmAppsApi from '@/api/OmAppsApi';
 import { RouteNames } from '@/core/routes/Routes';
 import { CustomerResponse } from '@/types/dto';
 import { uniq } from 'lodash';
@@ -129,6 +132,29 @@ const CustomerInformationTab = () => {
 	// Use customer portal hook with external_id
 	const { copyToClipboard } = useCustomerPortalUrl(customer?.external_id);
 
+	// OpenMeter 模式：已安装 Stripe 应用时提供「Stripe 账单门户」直达
+	const { data: omStripeApp } = useQuery({
+		queryKey: ['omStripeApp'],
+		queryFn: OmAppsApi.getInstalledStripeApp,
+		enabled: config.openmeter.enabled,
+	});
+	const [stripePortalLoading, setStripePortalLoading] = useState(false);
+	const openStripeBillingPortal = async () => {
+		if (!customer) return;
+		setStripePortalLoading(true);
+		try {
+			const session = await OmAppsApi.createStripePortalSession(customer.id || customer.external_id);
+			const url = session.returnUrl;
+			if (!url) throw new Error(t('tabPanels.information.stripePortalNoUrl'));
+			window.open(url, '_blank', 'noopener,noreferrer');
+		} catch (error) {
+			logger.error('Failed to open Stripe billing portal', error);
+			toast.error((error as Error).message || t('tabPanels.information.stripePortalFailed'));
+		} finally {
+			setStripePortalLoading(false);
+		}
+	};
+
 	// Check if Stripe connection is available
 	const hasStripeConnection =
 		connectionsResponse?.connections?.some((connection) => connection.provider_type === CONNECTION_PROVIDER_TYPE.STRIPE) || false;
@@ -212,6 +238,17 @@ const CustomerInformationTab = () => {
 					<div className='flex justify-between items-center'>
 						<h3 className={getTypographyClass('card-header') + '!text-[16px]'}>{t('overview.cardTitle')}</h3>
 						<div className='flex gap-2'>
+							{!isArchived && config.openmeter.enabled && !!omStripeApp && (
+								<Button
+									variant='outline'
+									size='sm'
+									disabled={stripePortalLoading}
+									onClick={() => void openStripeBillingPortal()}
+									className='!h-9 flex items-center gap-2'>
+									<ExternalLink className='size-4' />
+									{t('tabPanels.information.stripePortalButton')}
+								</Button>
+							)}
 							{!isArchived && hasStripeConnection && (
 								<Button variant='outline' size='sm' onClick={() => setShowSaveCardModal(true)} className='!h-9 flex items-center gap-2'>
 									<CreditCard className='size-4' />

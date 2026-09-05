@@ -576,6 +576,8 @@ export interface AddAddonRequest {
 
 export interface RemoveAddonRequest {
 	addon_association_id: string;
+	/** OpenMeter 移除走 v1 PATCH（quantity=0），必须同时携带所属订阅 id。 */
+	subscription_id?: string;
 	reason?: string;
 	proration_behavior?: ADDON_PRORATION_BEHAVIOR;
 	effective_date?: string;

@@ -38,10 +38,14 @@ import {
 } from '@/types/dto/Subscription';
 import { ListCreditGrantApplicationsResponse } from '@/types/dto';
 import { getOpenMeterClient, requireOpenMeterClient } from '@/core/services/openmeter';
+import type { OpenMeterClient } from '@/core/services/openmeter';
+import { omV1 } from '@/core/services/openmeter/omFetch';
 import { mapOmSubscription } from '@/core/services/openmeter/mappers/subscription';
 import type { OmSubscription } from '@/core/services/openmeter/mappers/subscription';
 import { mapOmCustomer } from '@/core/services/openmeter/mappers/customer';
 import type { Customer } from '@/models';
+
+type OmSubscriptionAddon = NonNullable<Awaited<ReturnType<OpenMeterClient['subscriptionAddons']['list']>>>[number];
 
 function emptyPage<T>(limit = 0): { items: T[]; pagination: { limit: number; offset: number; total: number } } {
 	return { items: [], pagination: { limit, offset: 0, total: 0 } };
@@ -49,6 +53,34 @@ function emptyPage<T>(limit = 0): { items: T[]; pagination: { limit: number; off
 
 function unsupported(operation: string): never {
 	throw new Error(`OpenMeter 后端暂不支持「${operation}」：订阅行项目/中途变更模型与 Flexprice 不对齐`);
+}
+
+const omDateToString = (value: Date | string | null | undefined): string =>
+	value instanceof Date ? value.toISOString() : value ? String(value) : '';
+
+/**
+ * OM 订阅附加组件关联 → Flexprice addon association 形状（list/create 共用）。
+ * OM 无 Flexprice 的 addon 嵌套价格概念，prices 留空由 UI 显示 '--'。
+ */
+function mapOmSubscriptionAddon(association: OmSubscriptionAddon, subscriptionId: string): AddonAssociationResponse {
+	return {
+		id: association.id,
+		environment_id: '',
+		// Flexprice 语义：关联实体=订阅本体
+		entity_id: association.subscriptionId ?? subscriptionId,
+		entity_type: 'SUBSCRIPTION',
+		addon_id: association.addon?.id ?? '',
+		start_date: omDateToString(association.activeFrom),
+		end_date: association.activeTo ? omDateToString(association.activeTo) : undefined,
+		addon_status: association.activeTo ? ADDON_ASSOCIATION_STATUS.INACTIVE : ADDON_ASSOCIATION_STATUS.ACTIVE,
+		tenant_id: '',
+		status: 'published',
+		created_at: omDateToString(association.createdAt),
+		updated_at: omDateToString(association.updatedAt),
+		created_by: '',
+		updated_by: '',
+		quantity: association.quantity,
+	} as AddonAssociationResponse;
 }
 
 /** OM 无订阅列表端点：经 customers.list 内嵌 subscriptions 拍平（本地管理规模下全量拉取）。 */
@@ -172,6 +204,20 @@ class SubscriptionApi {
 		unsupported('激活草稿订阅（OM 无 draft→active 手动激活）');
 	}
 
+	/** 撤销已排定的取消（周期末取消后反悔）：OM v3 `unschedule-cancelation`。 */
+	public static async unscheduleCancelation(subscriptionId: string): Promise<SubscriptionResponse> {
+		const client = requireOpenMeterClient();
+		const om = await client.subscriptions.unscheduleCancelation(subscriptionId);
+		if (!om) throw new Error(`撤销取消 ${subscriptionId} 失败`);
+		return mapOmSubscription(om);
+	}
+
+	/** 恢复已取消订阅：仅 v1 提供（`POST /subscriptions/{id}/restore`），恢复后重新拉取 v3 视图。 */
+	public static async restoreSubscription(subscriptionId: string): Promise<SubscriptionResponse> {
+		await omV1(`/subscriptions/${subscriptionId}/restore`, { method: 'POST' });
+		return await this.getSubscription(subscriptionId);
+	}
+
 	// =============================================================================
 	// USAGE & ANALYTICS METHODS
 	// =============================================================================
@@ -218,8 +264,24 @@ class SubscriptionApi {
 	// ADDON MANAGEMENT METHODS
 	// =============================================================================
 
-	public static async addAddonToSubscription(_payload: AddAddonRequest): Promise<AddonAssociationResponse> {
-		unsupported('为订阅添加附加组件');
+	/**
+	 * 添加附加组件：OM v3 `POST /subscriptions/{id}/addons`。OM 无 start_date/cadence/
+	 * proration 概念，立即生效、数量固定 1；Flexprice 元数据并入 OM labels 便于回查。
+	 * npm SDK 类型（beta.232）与现役 v3 spec 不一致（SDK 要求 name/metadata，served spec
+	 * 是 additionalProperties:false 的 {addon, labels, quantity, timing}）——以 served
+	 * spec 为准做类型旁路，多发的字段会被后端 400 拒绝。
+	 */
+	public static async addAddonToSubscription(payload: AddAddonRequest): Promise<AddonAssociationResponse> {
+		const client = requireOpenMeterClient();
+		const body = {
+			addon: { id: payload.addon_id },
+			quantity: 1,
+			timing: 'immediate',
+			...(payload.metadata ? { labels: Object.fromEntries(Object.entries(payload.metadata).map(([k, v]) => [k, String(v)])) } : {}),
+		} as unknown as Parameters<OpenMeterClient['subscriptionAddons']['create']>[1];
+		const created = await client.subscriptionAddons.create(payload.subscription_id, body);
+		if (!created) throw new Error('添加附加组件失败');
+		return mapOmSubscriptionAddon(created, payload.subscription_id);
 	}
 
 	public static async getActiveAddons(subscriptionId: string): Promise<ListAddonAssociationsResponse> {
@@ -227,31 +289,29 @@ class SubscriptionApi {
 		const client = getOpenMeterClient();
 		if (!client) return emptyPage() as ListAddonAssociationsResponse;
 		const addons = (await client.subscriptionAddons.list(subscriptionId)) ?? [];
+		// UI 直接展示 addon 名称；OM 关联对象只带 id，这里并入目录里的 addon 概要
+		const catalog = new Map(((await client.addons.list({ pageSize: 1000 }))?.items ?? []).map((a) => [a.id, a]));
 		return {
-			items: addons.map((a) => ({
-				id: a.id,
-				environment_id: '',
-				// Flexprice 语义：关联实体=订阅本体
-				entity_id: a.subscriptionId ?? subscriptionId,
-				entity_type: 'SUBSCRIPTION',
-				addon_id: a.addon?.id ?? '',
-				start_date: a.activeFrom instanceof Date ? a.activeFrom.toISOString() : String(a.activeFrom ?? ''),
-				end_date: a.activeTo instanceof Date ? a.activeTo.toISOString() : a.activeTo ? String(a.activeTo) : undefined,
-				addon_status: a.activeTo ? ADDON_ASSOCIATION_STATUS.INACTIVE : ADDON_ASSOCIATION_STATUS.ACTIVE,
-				tenant_id: '',
-				status: 'published',
-				created_at: a.createdAt instanceof Date ? a.createdAt.toISOString() : String(a.createdAt ?? ''),
-				updated_at: a.updatedAt instanceof Date ? a.updatedAt.toISOString() : String(a.updatedAt ?? ''),
-				created_by: '',
-				updated_by: '',
-				quantity: a.quantity,
-			})) as AddonAssociationResponse[],
+			items: addons.map((a) => {
+				const addon = catalog.get(a.addon?.id ?? '');
+				return {
+					...mapOmSubscriptionAddon(a, subscriptionId),
+					...(addon ? { addon: { id: addon.id, name: addon.name } as AddonAssociationResponse['addon'] } : {}),
+				};
+			}),
 			pagination: { limit: addons.length, offset: 0, total: addons.length },
 		};
 	}
 
-	public static async removeAddonFromSubscription(_payload: RemoveAddonRequest): Promise<{ message: string }> {
-		unsupported('移除订阅附加组件');
+	/**
+	 * 移除附加组件：OM 无 DELETE/定时移除，v1 PATCH quantity=0 即终止（立即生效）。
+	 * OM 不支持 Flexprice 的 proration/effective_date 语义，忽略并如实立即移除。
+	 */
+	public static async removeAddonFromSubscription(payload: RemoveAddonRequest): Promise<{ message: string }> {
+		const client = requireOpenMeterClient();
+		if (!payload.subscription_id) throw new Error('缺少 subscription_id，无法移除附加组件');
+		await client.subscriptionAddons.update(payload.subscription_id, payload.addon_association_id, { quantity: 0 });
+		return { message: 'ok' };
 	}
 
 	// =============================================================================

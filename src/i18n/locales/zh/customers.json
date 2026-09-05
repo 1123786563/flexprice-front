@@ -1,5 +1,6 @@
 {
 	"list": {
+		"writeDeniedTooltip": "您没有权限管理客户。请联系租户管理员获取访问权限。",
 		"title": "客户",
 		"paginationUnit": "客户",
 		"entityName": "客户",
@@ -311,12 +312,16 @@
 			"saveCardOnStripe": "在 Stripe 上保存卡片",
 			"setupAutopayMoyasar": "设置自动付款",
 			"sharePortalLinkTitle": "分享客户门户链接",
-			"childCustomersTitle": "子客户"
+			"childCustomersTitle": "子客户",
+			"stripePortalButton": "Stripe 账单门户",
+			"stripePortalFailed": "打开 Stripe 账单门户失败",
+			"stripePortalNoUrl": "Stripe 未返回门户地址"
 		},
 		"invoice": {
 			"title": "发票",
 			"emptySubtitle": "未找到发票",
 			"addInvoice": "添加发票",
+			"writeDeniedTooltip": "您没有权限创建发票。请联系租户管理员获取访问权限。",
 			"paginationUnit": "发票"
 		},
 		"overview": {
@@ -325,6 +330,7 @@
 			"entitlementsCardTitle": "权益"
 		},
 		"tax": {
+			"writeDeniedTooltip": "您没有权限管理税务关联。请联系租户管理员获取访问权限。",
 			"emptyTitle": "税务",
 			"emptySubtitle": "未给该客户分配税率",
 			"associationsTitle": "税务关联",
@@ -336,6 +342,8 @@
 			"noEventsFound": "未找到事件"
 		},
 		"wallet": {
+			"writeDeniedTooltip": "您没有权限管理此钱包。请联系租户管理员获取访问权限。",
+			"alertSettingsWriteDeniedTooltip": "您没有权限管理此钱包的提醒设置。请联系租户管理员获取访问权限。",
 			"emptyTitle": "钱包",
 			"emptySubtitle": "该客户没有关联的钱包",
 			"addWallet": "添加钱包",
@@ -353,6 +361,50 @@
 			"noTransactionsSubtitle": "暂无近期交易",
 			"noMetadataTitle": "无元数据",
 			"noMetadataHint": "添加自定义元数据以存储关于此钱包的额外信息。"
+		},
+		"charges": {
+			"title": "费用项（OpenMeter Charges）",
+			"name": "名称",
+			"type": "类型",
+			"currency": "币种",
+			"empty": "该客户暂无挂靠的费用项"
+		},
+		"credits": {
+			"title": "信用额度（OpenMeter Credits）",
+			"description": "OpenMeter 账本支持的货币化信用余额：发放→结算→按费用扣减",
+			"noBalance": "暂无信用余额。发放信用额度后在此展示。",
+			"liveLabel": "可用（含在途）",
+			"pendingLabel": "待入账",
+			"grants": {
+				"title": "发放记录",
+				"name": "名称",
+				"amount": "额度",
+				"funding": "资金来源",
+				"status": "状态",
+				"active": "生效中",
+				"voided": "已作废",
+				"void": "作废",
+				"voidConfirm": "确认作废「{{name}}」？作废立即生效并从余额扣回未消费部分。"
+			},
+			"funding": {
+				"none": "直接发放",
+				"invoice": "发票结算",
+				"external": "站外打款"
+			},
+			"transactions": {
+				"title": "额度流水",
+				"name": "名称",
+				"type": "类型",
+				"amount": "金额",
+				"bookedAt": "记账时间",
+				"loadMore": "加载更多",
+				"emptyTitle": "暂无额度流水",
+				"emptySubtitle": "发放信用额度或产生费用扣减后在此展示"
+			},
+			"toast": {
+				"grantVoided": "信用额度已作废",
+				"grantVoidFailed": "作废信用额度失败"
+			}
 		}
 	},
 	"moyasarAutopay": {
@@ -409,6 +461,8 @@
 			"chargeFallback": "费用"
 		},
 		"subscriptionAction": {
+			"writeDeniedTooltip": "您没有权限管理订阅。请联系租户管理员获取访问权限。",
+			"alertSettingsWriteDeniedTooltip": "您没有权限管理此订阅的提醒设置。请联系租户管理员获取访问权限。",
 			"cancelTitle": "取消订阅",
 			"cancelSubtitle": "此操作无法撤销。请在继续之前选择取消和发票行为。",
 			"cancellationType": "取消类型",
@@ -456,6 +510,7 @@
 			"commitmentAmount": "承诺金额",
 			"commitmentAmountPlaceholder": "例如 $100.00",
 			"commitmentPeriod": "承诺周期",
+			"commitmentDaily": "日度",
 			"commitmentMonthly": "月度",
 			"commitmentQuarterly": "季度",
 			"commitmentHalfYearly": "半年",
@@ -485,7 +540,8 @@
 			"autoInvoiceHelp": "可在周期结束前触发发票的使用量金额。当费用基于使用量时可用；固定价格订阅费用将禁用此字段。",
 			"autoInvoicePlaceholder": "100.00",
 			"autoInvoiceAmountAria": "自动开票阈值金额",
-			"planNoCharges": "此计划未添加任何费用"
+			"planNoCharges": "此计划未添加任何费用",
+			"addedChargesLostOnPhaseConversion": "阶段式订阅不支持添加的费用，这些费用已被移除。请在某个阶段内重新添加，或在订阅创建完成后再添加。"
 		},
 		"subscriptionPriceTable": {
 			"overridePrice": "覆盖价格",
@@ -503,8 +559,20 @@
 			"colBillingPeriod": "账单周期",
 			"colQuantity": "数量",
 			"colPrice": "价格",
+			"colBucketSize": "分桶大小",
 			"editAdded": "编辑",
 			"deleteAdded": "删除"
+		},
+		"additionalPlanPrices": {
+			"title": "此计划的其他可用周期",
+			"explainer": "这些计费周期的账单频率高于您订阅的计费周期。开启某个周期即可将其所有计划价格添加到费用中。",
+			"colCadence": "计费周期",
+			"colCount": "费用",
+			"colBillingImpact": "账单影响",
+			"chargeCount_one": "{{count}} 项费用",
+			"chargeCount_other": "{{count}} 项费用",
+			"fanoutHint": "每项在每张订阅发票中按 {{count}} 个行项目计费",
+			"noFanout": "与订阅计费周期相同"
 		},
 		"subscriptionTable": {
 			"planModifiedAria": "计划已修改",
@@ -558,6 +626,36 @@
 			"creditGrantDeleted": "信用额度授予删除成功",
 			"creditGrantDeleteFailed": "删除信用额度授予失败",
 			"loadError": "加载订阅数据出错"
+		}
+	},
+	"toast": {
+		"customerPortal": {
+			"missingExternalId": "缺少客户外部 ID",
+			"generateUrlFailed": "无法生成门户链接",
+			"createSessionFailed": "无法创建仪表盘会话。",
+			"linkCopied": "客户门户链接已复制到剪贴板！",
+			"copyFailed": "复制客户门户链接失败，请重试。",
+			"openFailed": "打开客户门户失败，请重试。"
+		},
+		"wallet": {
+			"autoTopupUpdated": "自动充值设置更新成功",
+			"autoTopupUpdateFailed": "更新自动充值设置失败",
+			"fetchDetailsFailed": "获取钱包详情时发生错误",
+			"alertSettingsUpdated": "提醒设置更新成功",
+			"alertSettingsUpdateFailed": "更新提醒设置失败"
+		},
+		"analytics": {
+			"fetchCustomerFailed": "获取客户数据时出错",
+			"fetchUsageFailed": "获取用量数据时出错",
+			"fetchCostFailed": "获取成本数据时出错"
+		},
+		"taxAssociation": {
+			"created": "税务关联创建成功",
+			"createFailed": "创建税务关联失败，请重试。",
+			"fetchFailed": "获取税务关联时出错"
+		},
+		"overview": {
+			"somethingWentWrong": "出错了"
 		}
 	}
 }

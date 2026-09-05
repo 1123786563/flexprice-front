@@ -8,6 +8,9 @@ import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/atoms/Button';
 import { useForceLightTheme } from '@/hooks/useForceLightTheme';
+import { config } from '@/config/config';
+import AuthService from '@/core/auth/AuthService';
+import { setPortalCustomerContext } from '@/api/CustomerPortalApi';
 import CustomerPortal from './CustomerPortal';
 
 /**
@@ -65,6 +68,10 @@ const CustomerPortalWrapper = () => {
 	// the customer left behind. That tab reports back and closes itself.
 	const isHandingOff = useCheckoutTabHandoff();
 	const [searchParams] = useSearchParams();
+	// OpenMeter 模式：OSS portal token 服务是 noop 适配器，无法签发客户自助 token——
+	// 门户改为管理员视图：`?customer=<id>` + 管理会话（localStorage 会话 JWT）驱动，
+	// 数据由 CustomerPortalApi 从 admin API 组装。
+	const omCustomer = config.openmeter.enabled ? searchParams.get('customer') : null;
 	// Falls back to stored state so a customer returning from a hosted checkout
 	// still authenticates: the return URL deliberately omits the token rather than
 	// handing the session to the payment provider. The provider opens in a fresh
@@ -76,9 +83,32 @@ const CustomerPortalWrapper = () => {
 		if (urlToken) rememberSessionToken(urlToken);
 	}, [urlToken]);
 
+	// Scope the portal's data calls to this customer for as long as the view mounts.
+	useEffect(() => {
+		setPortalCustomerContext(omCustomer);
+		return () => setPortalCustomerContext(null);
+	}, [omCustomer]);
+
 	// Nothing to show in a tab that is closing — and the invalid-link card in
 	// particular would be wrong, since this tab's job is already done.
 	if (isHandingOff) return null;
+
+	// OpenMeter 管理员视图：需要 customer 参数与已登录的管理会话。
+	if (config.openmeter.enabled) {
+		const sessionToken = AuthService.peekStoredToken();
+		if (!omCustomer || !sessionToken) {
+			return (
+				<ErrorState
+					icon={<Shield className='h-9 w-9 text-zinc-700' />}
+					title={t('wrapper.invalidLinkTitle')}
+					description={t('wrapper.invalidLinkDescription')}
+					actionLabel={t('wrapper.refreshPage')}
+					onAction={() => window.location.reload()}
+				/>
+			);
+		}
+		return <CustomerPortal token={sessionToken} />;
+	}
 
 	// Validate required token parameter
 	if (!token) {

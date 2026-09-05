@@ -3,14 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { Settings2, Trash2, Copy } from 'lucide-react';
-import { Button, Card, CardHeader, Chip, DatePicker, Dialog, AddButton, Select, Tooltip, NoDataCard } from '@/components/atoms';
+import { Button, Card, CardHeader, Chip, Dialog, AddButton, Tooltip, NoDataCard } from '@/components/atoms';
 import { FlexpriceTable, ColumnData } from '@/components/molecules';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { BsThreeDots } from 'react-icons/bs';
 import SubscriptionApi from '@/api/SubscriptionApi';
 import { ADDON_ASSOCIATION_STATUS } from '@/models/AddonAssociation';
 import { AddonAssociationResponse, SubscriptionResponse } from '@/types/dto/Subscription';
-import { ADDON_PRORATION_BEHAVIOR } from '@/types/dto/Addon';
 import { BILLING_PERIOD } from '@/constants/constants';
 import { toSentenceCase, copyToClipboard } from '@/utils/common/helper_functions';
 import { Price, PRICE_TYPE } from '@/models/Price';
@@ -157,14 +156,13 @@ const SubscriptionAddonsSection: FC<SubscriptionAddonsSectionProps> = ({
 	subscriptionCurrentPeriodEnd,
 }) => {
 	const { t } = useTranslation(['common', 'billing']);
+	const { t: tb } = useTranslation('billing');
 	const { can } = useCurrentUserPermissions();
 	const canWriteAddon = can('addon', 'write');
 	const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 	const [addonToConfigure, setAddonToConfigure] = useState<AddonAssociationResponse | null>(null);
 	const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
 	const [addonToCancel, setAddonToCancel] = useState<AddonAssociationResponse | null>(null);
-	const [effectiveEndDate, setEffectiveEndDate] = useState<Date | undefined>(undefined);
-	const [cancelProrationBehavior, setCancelProrationBehavior] = useState<ADDON_PRORATION_BEHAVIOR | ''>('');
 	const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 	const queryClient = useQueryClient();
 
@@ -234,57 +232,41 @@ const SubscriptionAddonsSection: FC<SubscriptionAddonsSectionProps> = ({
 		return addonAssociations.find((a) => a.id === addonToCancel.id)?.addon?.name || 'this addon';
 	}, [addonToCancel, addonAssociations]);
 
-	// Cancel addon mutation
+	// Cancel addon mutation — OpenMeter removal is immediate (v1 PATCH quantity=0)
 	const { mutate: cancelAddon, isPending: isCancellingAddon } = useMutation({
-		mutationFn: async (payload: { addonAssociationId: string; effectiveDate?: string; prorationBehavior?: ADDON_PRORATION_BEHAVIOR }) => {
+		mutationFn: async (payload: { addonAssociationId: string }) => {
 			return await SubscriptionApi.removeAddonFromSubscription({
 				addon_association_id: payload.addonAssociationId,
-				...(payload.effectiveDate ? { effective_date: payload.effectiveDate } : {}),
-				...(payload.prorationBehavior ? { proration_behavior: payload.prorationBehavior } : {}),
+				subscription_id: subscriptionId,
 			});
 		},
 		onSuccess: () => {
-			toast.success('Addon cancelled successfully');
+			toast.success(tb('toast.addon.cancelled'));
 			queryClient.invalidateQueries({ queryKey: ['subscriptionActiveAddons', subscriptionId] });
 			void refetchQueries(['subscriptionEdit', subscriptionId]);
 			queryClient.invalidateQueries({ queryKey: ['subscriptionEntitlements', subscriptionId] });
 			setIsCancelDialogOpen(false);
 			setAddonToCancel(null);
-			setEffectiveEndDate(undefined);
-			setCancelProrationBehavior('');
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to cancel addon');
+			toast.error(error.message || tb('toast.addon.cancelFailed'));
 		},
 	});
 
-	const handleCancel = useCallback(
-		(addon: AddonAssociationResponse) => {
-			setDropdownOpen(null);
-			setAddonToCancel(addon);
-			const rawPeriodEnd = subscriptionDetails?.current_period_end;
-			const periodEnd = rawPeriodEnd ? new Date(rawPeriodEnd) : undefined;
-			setEffectiveEndDate(periodEnd && !isNaN(periodEnd.getTime()) ? periodEnd : undefined);
-			setCancelProrationBehavior(ADDON_PRORATION_BEHAVIOR.NONE);
-			setIsCancelDialogOpen(true);
-		},
-		[subscriptionDetails?.current_period_end],
-	);
+	const handleCancel = useCallback((addon: AddonAssociationResponse) => {
+		setDropdownOpen(null);
+		setAddonToCancel(addon);
+		setIsCancelDialogOpen(true);
+	}, []);
 
 	const confirmCancel = useCallback(() => {
 		if (!addonToCancel) return;
-		cancelAddon({
-			addonAssociationId: addonToCancel.id,
-			effectiveDate: effectiveEndDate?.toISOString(),
-			prorationBehavior: cancelProrationBehavior || undefined,
-		});
-	}, [addonToCancel, cancelAddon, effectiveEndDate, cancelProrationBehavior]);
+		cancelAddon({ addonAssociationId: addonToCancel.id });
+	}, [addonToCancel, cancelAddon]);
 
 	const closeCancelDialog = useCallback(() => {
 		setIsCancelDialogOpen(false);
 		setAddonToCancel(null);
-		setEffectiveEndDate(undefined);
-		setCancelProrationBehavior('');
 	}, []);
 
 	const columns: ColumnData<AddonAssociationWithStatus>[] = useMemo(
@@ -463,35 +445,7 @@ const SubscriptionAddonsSection: FC<SubscriptionAddonsSectionProps> = ({
 				}}
 				showCloseButton={false}>
 				<div className='space-y-5'>
-					<div className='space-y-3'>
-						<div className='gap-3'>
-							<DatePicker
-								label={t('labels.effectiveEndDate')}
-								placeholder={t('labels.endDate')}
-								date={effectiveEndDate}
-								setDate={setEffectiveEndDate}
-								className='w-full'
-								minDate={subscriptionDetails?.current_period_start ? new Date(subscriptionDetails.current_period_start) : undefined}
-								maxDate={subscriptionDetails?.current_period_end ? new Date(subscriptionDetails.current_period_end) : undefined}
-								popoverTriggerClassName='w-full'
-							/>
-							<Select
-								label={t('labels.proration')}
-								placeholder={t('labels.default')}
-								options={[
-									{
-										label: 'Create prorations',
-										value: ADDON_PRORATION_BEHAVIOR.CREATE_PRORATIONS,
-										description: 'Creates proration credits/charges.',
-									},
-									{ label: 'None', value: ADDON_PRORATION_BEHAVIOR.NONE, description: 'No proration adjustments.' },
-								]}
-								value={cancelProrationBehavior}
-								onChange={(v) => setCancelProrationBehavior(v as ADDON_PRORATION_BEHAVIOR)}
-							/>
-						</div>
-						<p className='text-xs text-content-muted'>{t('labels.leaveEmptyToCancelAtPeriodEnd')}</p>
-					</div>
+					<p className='text-sm text-content-muted'>{t('billing:toast.addon.removeImmediateNote')}</p>
 
 					<div className='flex justify-end gap-3'>
 						<Button variant='outline' onClick={closeCancelDialog} disabled={isCancellingAddon}>

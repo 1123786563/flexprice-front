@@ -1887,8 +1887,11 @@
 				"updated": "Rule updated",
 				"deleted": "Rule deleted",
 				"failed": "Failed to save rule",
-				"deleteFailed": "Failed to delete rule"
-			}
+				"deleteFailed": "Failed to delete rule",
+				"testSent": "Test event sent",
+				"testFailed": "Failed to send test event"
+			},
+			"test": "Send test"
 		},
 		"events": {
 			"title": "Notification events",
@@ -1918,5 +1921,29 @@
 			}
 		},
 		"ossLimitNotice": "OpenMeter community edition ships a noop webhook delivery adapter: creating channels or rules is rejected by the backend (not implemented), while listing works. Full notification capability requires an OpenMeter distribution with a real webhook sender."
+	},
+	"toast": {
+		"integration": {
+			"syncTriggered": "Integration sync triggered successfully",
+			"syncFailed": "Failed to trigger sync",
+			"linked": "Integration linked successfully",
+			"linkFailed": "Failed to link integration",
+			"unlinked": "Integration unlinked successfully",
+			"unlinkFailed": "Failed to unlink integration",
+			"autopaySetupFailed": "Failed to start autopay setup",
+			"providerEntityIdRequired": "Provider Entity ID is required"
+		},
+		"oauth": {
+			"authorizationFailed": "{{providerName}} authorization failed: {{errorParam}}",
+			"missingRequiredParams": "{{providerName}} authorization failed: Missing required parameters",
+			"sessionExpired": "OAuth session expired. Please try connecting again.",
+			"connected": "{{providerName}} connected successfully!"
+		},
+		"quickBooks": {
+			"missingRealmId": "QuickBooks authorization failed: Missing realm ID"
+		},
+		"zoho": {
+			"organizationIdNotFound": "Zoho organization ID not found. Please reconnect."
+		}
 	}
 }

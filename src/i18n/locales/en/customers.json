@@ -312,7 +312,10 @@
 			"saveCardOnStripe": "Save Card on Stripe",
 			"setupAutopayMoyasar": "Setup Autopay",
 			"sharePortalLinkTitle": "Share Customer Portal Link",
-			"childCustomersTitle": "Child customers"
+			"childCustomersTitle": "Child customers",
+			"stripePortalButton": "Stripe Billing Portal",
+			"stripePortalFailed": "Failed to open Stripe billing portal",
+			"stripePortalNoUrl": "Stripe did not return a portal URL"
 		},
 		"invoice": {
 			"title": "Invoices",
@@ -358,6 +361,50 @@
 			"noTransactionsSubtitle": "No recent transactions",
 			"noMetadataTitle": "No metadata",
 			"noMetadataHint": "Add custom metadata to store additional information about this wallet."
+		},
+		"charges": {
+			"title": "Charges (OpenMeter Charges)",
+			"name": "Name",
+			"type": "Type",
+			"currency": "Currency",
+			"empty": "No charges attached to this customer yet"
+		},
+		"credits": {
+			"title": "Credits (OpenMeter Credits)",
+			"description": "Monetized credit balance backed by the OpenMeter ledger: grant → settle → deduct per charge",
+			"noBalance": "No credit balance yet. Credits appear here once granted.",
+			"liveLabel": "Live",
+			"pendingLabel": "Pending",
+			"grants": {
+				"title": "Grants",
+				"name": "Name",
+				"amount": "Amount",
+				"funding": "Funding",
+				"status": "Status",
+				"active": "Active",
+				"voided": "Voided",
+				"void": "Void",
+				"voidConfirm": "Void \"{{name}}\"? This takes effect immediately and claws back unconsumed credits."
+			},
+			"funding": {
+				"none": "Direct grant",
+				"invoice": "Invoice settlement",
+				"external": "External payment"
+			},
+			"transactions": {
+				"title": "Transactions",
+				"name": "Name",
+				"type": "Type",
+				"amount": "Amount",
+				"bookedAt": "Booked at",
+				"loadMore": "Load more",
+				"emptyTitle": "No credit transactions yet",
+				"emptySubtitle": "Transactions appear here after grants or usage charges"
+			},
+			"toast": {
+				"grantVoided": "Credit grant voided",
+				"grantVoidFailed": "Failed to void credit grant"
+			}
 		}
 	},
 	"moyasarAutopay": {
@@ -579,6 +626,36 @@
 			"creditGrantDeleted": "Credit grant deleted successfully",
 			"creditGrantDeleteFailed": "Failed to delete credit grant",
 			"loadError": "Error loading subscription data"
+		}
+	},
+	"toast": {
+		"customerPortal": {
+			"missingExternalId": "Customer external ID is missing",
+			"generateUrlFailed": "Unable to generate portal URL",
+			"createSessionFailed": "Unable to create dashboard session.",
+			"linkCopied": "Customer portal link copied to clipboard!",
+			"copyFailed": "Failed to copy customer portal link. Please try again.",
+			"openFailed": "Failed to open customer portal. Please try again."
+		},
+		"wallet": {
+			"autoTopupUpdated": "Auto top-up settings updated successfully",
+			"autoTopupUpdateFailed": "Failed to update auto top-up settings",
+			"fetchDetailsFailed": "An error occurred while fetching wallet details",
+			"alertSettingsUpdated": "Alert settings updated successfully",
+			"alertSettingsUpdateFailed": "Failed to update alert settings"
+		},
+		"analytics": {
+			"fetchCustomerFailed": "Error fetching customer data",
+			"fetchUsageFailed": "Error fetching usage data",
+			"fetchCostFailed": "Error fetching cost data"
+		},
+		"taxAssociation": {
+			"created": "Tax association created successfully",
+			"createFailed": "Failed to create tax association. Please try again.",
+			"fetchFailed": "Error fetching tax associations"
+		},
+		"overview": {
+			"somethingWentWrong": "Something went wrong"
 		}
 	}
 }

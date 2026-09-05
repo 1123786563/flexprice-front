@@ -33,9 +33,6 @@
 		},
 		"cardTitle": "المستخدمون",
 		"usersCount_one": "{{count}} مستخدم",
-		"usersCount_two": "{{count}} مستخدمان",
-		"usersCount_few": "{{count}} مستخدمين",
-		"usersCount_many": "{{count}} مستخدم",
 		"usersCount_other": "{{count}} مستخدم",
 		"actions": {
 			"add": "إضافة",
@@ -50,9 +47,6 @@
 			"success": "تم تحديث الأدوار لـ {{email}}.",
 			"failedGeneric": "فشل تحديث الأدوار.",
 			"activeKeysBody_one": "لدى هذا المستخدم مفتاح API نشط واحد يجب إلغاؤه قبل تغيير أدواره:",
-			"activeKeysBody_two": "لدى هذا المستخدم مفتاحا API نشطان يجب إلغاؤهما قبل تغيير أدواره:",
-			"activeKeysBody_few": "لدى هذا المستخدم {{count}} مفاتيح API نشطة يجب إلغاؤها قبل تغيير أدواره:",
-			"activeKeysBody_many": "لدى هذا المستخدم {{count}} مفتاح API نشط يجب إلغاؤها قبل تغيير أدواره:",
 			"activeKeysBody_other": "لدى هذا المستخدم {{count}} مفتاح API نشط يجب إلغاؤها قبل تغيير أدواره:",
 			"typeUser": "مستخدم",
 			"typeServiceAccount": "حساب خدمة",
@@ -493,8 +487,15 @@
 			"uploadSuccess": "تم رفع {{filename}} بنجاح",
 			"uploadFailed": "فشل رفع {{filename}}"
 		},
+		"errors": {
+			"notConfigured": "الاستيراد غير مفعّل لهذه البيئة. يرجى التواصل مع الدعم.",
+			"invalidUploadId": "حدث خطأ أثناء إعداد أداة الرفع. يرجى تحديث الصفحة والمحاولة مجدداً.",
+			"missingTenantOrEnv": "بانتظار تحميل المستأجر والبيئة…",
+			"downloadFailedHint": "تعذّر قراءة الملف المرفوع. يحدث هذا عادةً إذا نقرت على «استيراد» قبل انتهاء الرفع. يرجى المحاولة مجدداً."
+		},
 		"importFileLabel": "ملف الاستيراد",
-		"chooseFile": "اختر ملفاً للرفع"
+		"chooseFile": "اختر ملفاً للرفع",
+		"maxFileSizeHint": "5 ميغابايت كحد أقصى. تُقبل ملفات .csv فقط."
 	},
 	"bulkImports": {
 		"writeDeniedTooltip": "ليس لديك صلاحية إنشاء مهام الاستيراد. اطلب الوصول من مسؤول المستأجر.",
@@ -1741,5 +1742,164 @@
 		"sectionIndia": "الهند",
 		"benefitIn1": "أداء أفضل للمستخدمين في الهند",
 		"benefitIn2": "مستضافة في AWS ap-south-1"
+	},
+	"notifications": {
+		"tabs": {
+			"notifications": "الإشعارات"
+		},
+		"status": {
+			"enabled": "مفعّل",
+			"disabled": "معطّل"
+		},
+		"types": {
+			"balanceThreshold": "حد الرصيد",
+			"entitlementsReset": "إعادة ضبط الاستحقاقات",
+			"invoiceCreated": "تم إنشاء الفاتورة",
+			"invoiceUpdated": "تم تحديث الفاتورة"
+		},
+		"channels": {
+			"title": "قنوات الإشعارات",
+			"description": "وجهات ويب هوك تسلّم إليها قواعد الإشعارات الأحداث",
+			"create": "قناة جديدة",
+			"table": {
+				"name": "الاسم",
+				"type": "النوع",
+				"url": "URL",
+				"status": "الحالة"
+			},
+			"empty": {
+				"title": "لا توجد قنوات إشعارات بعد",
+				"subtitle": "أنشئ قناة ويب هوك لبدء استقبال الإشعارات"
+			},
+			"deleteConfirm": "حذف القناة \"{{name}}\"؟ سيتوقف عمل القواعد التي تسلّم إليها.",
+			"drawer": {
+				"createTitle": "إنشاء قناة",
+				"editTitle": "تعديل القناة",
+				"description": "تتلقى قناة الويب هوك نداءات HTTP عند تفعيل قاعدة ما",
+				"name": "الاسم",
+				"namePlaceholder": "مثال: billing-webhook",
+				"url": "عنوان الويب هوك",
+				"urlPlaceholder": "https://example.com/webhook",
+				"urlInvalid": "يجب أن يبدأ العنوان بـ http:// أو https://",
+				"customHeaders": "رؤوس مخصصة",
+				"addHeader": "إضافة رأس",
+				"headerKeyPlaceholder": "اسم الرأس",
+				"headerValuePlaceholder": "قيمة الرأس",
+				"signingSecret": "سرّ التوقيع",
+				"signingSecretPlaceholder": "whsec_...",
+				"signingSecretDescription": "سرّ اختياري بصيغة whsec_… يُستخدم للتحقق من تواقيع الويب هوك على نقطة النهاية لديك",
+				"enabled": "مفعّلة",
+				"enabledDescription": "يتم تجاهل القنوات المعطّلة أثناء التسليم"
+			},
+			"toast": {
+				"created": "تم إنشاء القناة",
+				"updated": "تم تحديث القناة",
+				"deleted": "تم حذف القناة",
+				"failed": "فشل حفظ القناة",
+				"deleteFailed": "فشل حذف القناة"
+			}
+		},
+		"rules": {
+			"title": "قواعد الإشعارات",
+			"description": "فعّل الإشعارات عند بلوغ حدود أرصدة الاستحقاقات أو إعادة ضبط الاستحقاقات أو عند أحداث الفواتير",
+			"create": "قاعدة جديدة",
+			"table": {
+				"name": "الاسم",
+				"type": "النوع",
+				"channels": "القنوات",
+				"status": "الحالة"
+			},
+			"empty": {
+				"title": "لا توجد قواعد إشعارات بعد",
+				"subtitle": "أنشئ قاعدة وأرفقها بقناة لتصلك الإشعارات"
+			},
+			"deleteConfirm": "حذف القاعدة \"{{name}}\"؟ لن تتلقى إشعاراتها بعد الآن.",
+			"thresholdTypes": {
+				"balanceValue": "الرصيد المتبقي",
+				"usagePercentage": "نسبة الاستخدام",
+				"usageValue": "قيمة الاستخدام"
+			},
+			"drawer": {
+				"createTitle": "إنشاء قاعدة",
+				"editTitle": "تعديل القاعدة",
+				"description": "اختر ما يفعّل الإشعار والقنوات التي تتلقاه",
+				"type": "النوع",
+				"name": "الاسم",
+				"namePlaceholder": "مثال: الرصيد أقل من 20%",
+				"channels": "القنوات",
+				"channelsPlaceholder": "اختر القنوات",
+				"channelsDescription": "مطلوب قناة واحدة على الأقل",
+				"thresholds": "الحدود",
+				"addThreshold": "إضافة حد",
+				"thresholdValuePlaceholder": "القيمة",
+				"features": "تصفية الميزات",
+				"featuresPlaceholder": "جميع الميزات",
+				"featuresDescription": "اختياري — قصر القاعدة على الميزات المحددة",
+				"enabled": "مفعّلة",
+				"enabledDescription": "القواعد المعطّلة لا تُفعَّل أبداً"
+			},
+			"toast": {
+				"created": "تم إنشاء القاعدة",
+				"updated": "تم تحديث القاعدة",
+				"deleted": "تم حذف القاعدة",
+				"failed": "فشل حفظ القاعدة",
+				"deleteFailed": "فشل حذف القاعدة",
+				"testSent": "تم إرسال حدث الاختبار",
+				"testFailed": "فشل إرسال حدث الاختبار"
+			},
+			"test": "إرسال اختبار"
+		},
+		"events": {
+			"title": "أحداث الإشعارات",
+			"description": "سجل تسليم الإشعارات التي تفعّلها القواعد",
+			"resend": "إعادة الإرسال",
+			"table": {
+				"id": "معرّف الحدث",
+				"type": "النوع",
+				"rule": "القاعدة",
+				"status": "حالة التسليم",
+				"createdAt": "تاريخ الإنشاء"
+			},
+			"empty": {
+				"title": "لا توجد أحداث إشعارات بعد",
+				"subtitle": "تظهر الأحداث هنا بمجرد بدء عمل القواعد"
+			},
+			"states": {
+				"SUCCESS": "نجاح",
+				"FAILED": "فشل",
+				"SENDING": "جارٍ الإرسال",
+				"PENDING": "معلق",
+				"RESENDING": "جارٍ إعادة الإرسال"
+			},
+			"toast": {
+				"resent": "أُعيد إرسال الإشعار",
+				"resendFailed": "فشلت إعادة إرسال الإشعار"
+			}
+		},
+		"ossLimitNotice": "يأتي إصدار المجتمع من OpenMeter بمهايئ تسليم ويب هوك وهمي (noop): يرفض الخادم إنشاء قنوات أو قواعد (غير مُنفَّذ)، بينما يعمل عرض القائمة. تتطلب إمكانات الإشعارات الكاملة توزيعة OpenMeter تتضمن مرسِل ويب هوك حقيقي."
+	},
+	"toast": {
+		"integration": {
+			"syncTriggered": "تم تشغيل مزامنة التكامل بنجاح",
+			"syncFailed": "فشل تشغيل المزامنة",
+			"linked": "تم ربط التكامل بنجاح",
+			"linkFailed": "فشل ربط التكامل",
+			"unlinked": "تم إلغاء ربط التكامل بنجاح",
+			"unlinkFailed": "فشل إلغاء ربط التكامل",
+			"autopaySetupFailed": "فشل بدء إعداد الدفع التلقائي",
+			"providerEntityIdRequired": "معرّف كيان المزود مطلوب"
+		},
+		"oauth": {
+			"authorizationFailed": "فشل تفويض {{providerName}}: {{errorParam}}",
+			"missingRequiredParams": "فشل تفويض {{providerName}}: المعاملات المطلوبة مفقودة",
+			"sessionExpired": "انتهت صلاحية جلسة OAuth. يرجى المحاولة بالاتصال مرة أخرى.",
+			"connected": "تم ربط {{providerName}} بنجاح!"
+		},
+		"quickBooks": {
+			"missingRealmId": "فشل تفويض QuickBooks: معرّف النطاق مفقود"
+		},
+		"zoho": {
+			"organizationIdNotFound": "لم يتم العثور على معرّف مؤسسة Zoho. يرجى إعادة الاتصال."
+		}
 	}
 }

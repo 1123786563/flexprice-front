@@ -78,6 +78,7 @@ function mockClient(invoiceOverrides: Record<string, unknown> = {}) {
 				approve: vi.fn().mockResolvedValue(omInvoiceWith({ status: 'issued' })),
 				createLineItems: vi.fn().mockResolvedValue({ lines: [{ id: LINE_ID }], invoice: OM_INVOICE, isInvoiceNew: true }),
 				invoicePendingLines: vi.fn().mockResolvedValue([OM_INVOICE]),
+				recalculateTax: vi.fn().mockResolvedValue(OM_INVOICE),
 				...invoiceOverrides,
 			},
 		},
@@ -314,9 +315,17 @@ describe('InvoiceApi（OpenMeter 承载）', () => {
 		await expect(InvoiceApi.createInvoice({ ...base, tax_rate_overrides: [{ tax_id: 't', rate: 10 }] as never })).rejects.toThrow(/税率/);
 	});
 
-	it('OM 无对应能力：PDF/重算/收款/通知/支付记账/预览明确报错（禁止假成功）', async () => {
+	it('重算发票：v1 taxes/recalculate → Flexprice workflow 形状（workflow/run 以发票 id 回填）', async () => {
+		const client = mockClient({
+			recalculateTax: vi.fn().mockResolvedValue(omInvoiceWith({ status: 'issued' })),
+		});
+		const res = await InvoiceApi.recalculateInvoice(INVOICE_ID);
+		expect(client.billing.invoices.recalculateTax).toHaveBeenCalledWith(INVOICE_ID);
+		expect(res).toEqual({ message: 'ok', workflow_id: INVOICE_ID, run_id: INVOICE_ID });
+	});
+
+	it('OM 无对应能力：PDF/收款/通知/支付记账/预览明确报错（禁止假成功）', async () => {
 		mockClient();
-		await expect(InvoiceApi.recalculateInvoice(INVOICE_ID)).rejects.toThrow(/OpenMeter 暂不支持/);
 		await expect(InvoiceApi.attemptPayment(INVOICE_ID)).rejects.toThrow(/OpenMeter 暂不支持/);
 		await expect(InvoiceApi.triggerCommunication(INVOICE_ID)).rejects.toThrow(/OpenMeter 暂不支持/);
 		await expect(InvoiceApi.updateInvoicePaymentStatus(INVOICE_ID, { payment_status: 'SUCCEEDED' })).rejects.toThrow(/OpenMeter 暂不支持/);

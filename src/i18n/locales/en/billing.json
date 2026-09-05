@@ -1034,5 +1034,108 @@
 		"saveChanges": "Save Changes",
 		"saveSuccess": "Alert settings saved successfully",
 		"saveError": "Failed to save alert settings"
+	},
+	"toast": {
+		"walletTopup": {
+			"selectCreditsType": "Please select a credits type",
+			"invalidAmount": "Please enter a valid credits amount",
+			"expiryAfterSubscriptionEnd": "Expiry date must be after the current subscription period end",
+			"expiryInPast": "Expiry date cannot be in the past",
+			"invoiceCreated": "Invoice created successfully. Credits will be added once the invoice is paid.",
+			"success": "Wallet topped up successfully",
+			"failed": "Failed to topup wallet",
+			"copyFailed": "Could not copy the link"
+		},
+		"setupLink": {
+			"created": "Setup link created successfully!",
+			"createFailed": "Failed to generate payment setup link",
+			"intentFailed": "Failed to create setup intent",
+			"noEnvironment": "No active environment found",
+			"copied": "Setup URL copied to clipboard!",
+			"copyFailed": "Failed to copy setup URL. Please try again or copy manually."
+		},
+		"invoice": {
+			"communicationTriggered": "Communication triggered",
+			"communicationFailed": "Unable to trigger communication",
+			"downloaded": "Invoice downloaded",
+			"downloadFailed": "Unable to download invoice",
+			"noBillableItems": "No billable line items to export",
+			"csvDownloaded": "Invoice CSV downloaded",
+			"csvDownloadFailed": "Unable to download invoice CSV",
+			"recalculationTriggered": "Invoice recalculation has been triggered. The replacement invoice will be available once the process completes.",
+			"recalculationFailed": "Unable to recalculate invoice",
+			"created": "Invoice created successfully",
+			"createFailed": "Failed to create invoice",
+			"customerIdRequired": "Customer ID is required",
+			"lineItemRequired": "At least one line item is required",
+			"lineItemsInvalid": "Please fill in all line item fields with valid values",
+			"somethingWentWrong": "Something went wrong"
+		},
+		"phase": {
+			"subscriptionEndDateRequired": "Please set a subscription end date before adding phases.",
+			"subscriptionDataUnavailable": "Subscription data is not available.",
+			"previousEndDateRequired": "Please set an end date for the previous phase before adding a new phase.",
+			"startDateAfterPrevious": "Phase start date must be after the previous phase's start date.",
+			"endDateBeforeNext": "Phase end date must be before the next phase's end date."
+		},
+		"subscription": {
+			"cancelled": "Subscription cancelled successfully",
+			"cancelFailed": "Failed to cancel subscription",
+			"activated": "Subscription activated successfully",
+			"activateFailed": "Failed to activate subscription",
+			"invalidBillingPeriod": "Invalid billing period.",
+			"previewFailed": "Failed to preview subscription change",
+			"quantityUpdated": "Quantity updated successfully",
+			"applyFailed": "Failed to apply subscription change",
+			"cancelScheduleRemoved": "Scheduled cancelation removed",
+			"cancelScheduleRemoveFailed": "Failed to remove scheduled cancelation",
+			"restored": "Subscription restored",
+			"restoreFailed": "Failed to restore subscription"
+		},
+		"payment": {
+			"recorded": "Payment recorded successfully",
+			"recordFailed": "Failed to record payment. Please try again.",
+			"urlCopied": "Payment URL copied to clipboard!",
+			"urlCopyFailed": "Failed to copy payment URL. Please try again or copy manually.",
+			"linkCopied": "Payment link copied to clipboard!",
+			"linkCopyFailed": "Failed to copy payment link. Please try again."
+		},
+		"walletDebit": {
+			"success": "Wallet debited successfully",
+			"failed": "Failed to debit wallet",
+			"walletIdRequired": "Wallet ID is required",
+			"invalidAmount": "Please enter a valid credits amount"
+		},
+		"invoiceStatus": {
+			"draftNotImplemented": "Draft status is yet to be implemented",
+			"updated": "Invoice status updated successfully",
+			"updateFailed": "Failed to update invoice status"
+		},
+		"creditGrant": {
+			"added": "Credit grant added successfully",
+			"addFailed": "Failed to add credit grant",
+			"loadFailed": "Error loading credit grants"
+		},
+		"addon": {
+			"cancelled": "Addon cancelled successfully",
+			"cancelFailed": "Failed to cancel addon",
+			"removeImmediateNote": "In OpenMeter mode, addon removal takes effect immediately; period-end scheduling and proration are not supported."
+		},
+		"wallet": {
+			"terminated": "Wallet terminated successfully",
+			"terminateFailed": "Failed to terminate wallet"
+		},
+		"tax": {
+			"removed": "Tax removed successfully",
+			"removeFailed": "Remove failed",
+			"applied": "Tax applied successfully",
+			"applyFailed": "Apply failed"
+		},
+		"coupon": {
+			"removed": "Coupon removed successfully",
+			"removeFailed": "Remove failed",
+			"applied": "Coupon applied successfully",
+			"applyFailed": "Apply failed"
+		}
 	}
 }

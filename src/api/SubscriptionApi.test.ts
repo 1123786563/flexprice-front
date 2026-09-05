@@ -48,6 +48,9 @@ function mockClient() {
 		subscriptionAddons: {
 			list: vi.fn().mockResolvedValue([]),
 		},
+		addons: {
+			list: vi.fn().mockResolvedValue({ items: [], totalCount: 0, page: 1, pageSize: 1000 }),
+		},
 		plans: {
 			get: vi.fn().mockResolvedValue({ id: 'plan-1', key: 'drill_plan_220', version: 1, name: 'Drill Plan' }),
 		},
@@ -154,6 +157,17 @@ describe('SubscriptionApi（OpenMeter 承载）', () => {
 	it('getActiveAddons：OM subscriptionAddons.list → AddonAssociationResponse（活跃/过期状态）', async () => {
 		const activeFrom = new Date('2026-08-30T11:51:18Z');
 		const client = mockClient();
+		client.addons = {
+			list: vi.fn().mockResolvedValue({
+				items: [
+					{ id: 'addon-1', key: 'addon_a', name: 'Addon A' },
+					{ id: 'addon-2', key: 'addon_b', name: 'Addon B' },
+				],
+				totalCount: 2,
+				page: 1,
+				pageSize: 1000,
+			}),
+		};
 		client.subscriptionAddons = {
 			list: vi.fn().mockResolvedValue([
 				{

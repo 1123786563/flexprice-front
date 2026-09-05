@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil, Trash2, Send } from 'lucide-react';
 import { Button, Card, Loader, NoDataCard } from '@/components/atoms';
 import { SettingsCardHeader } from '@/components/molecules';
 import FlexpriceTable, { type ColumnData } from '@/components/molecules/Table';
@@ -26,6 +26,12 @@ const RulesSection = () => {
 			void refetchAllNotifications();
 		},
 		onError: (error: Error) => toast.error(error.message || t('notifications.rules.toast.deleteFailed')),
+	});
+
+	const testMutation = useMutation({
+		mutationFn: (id: string) => NotificationApi.testRule(id),
+		onSuccess: () => toast.success(t('notifications.rules.toast.testSent')),
+		onError: (error: Error) => toast.error(error.message || t('notifications.rules.toast.testFailed')),
 	});
 
 	const openCreate = () => {
@@ -79,6 +85,15 @@ const RulesSection = () => {
 			align: 'right',
 			render: (row) => (
 				<div className='flex justify-end gap-1'>
+					<Button
+						type='button'
+						variant='ghost'
+						size='icon'
+						aria-label={t('notifications.rules.test')}
+						disabled={testMutation.isPending}
+						onClick={() => testMutation.mutate(row.id)}>
+						<Send className='size-4' />
+					</Button>
 					<Button type='button' variant='ghost' size='icon' aria-label={t('common:actions.edit')} onClick={() => openEdit(row)}>
 						<Pencil className='size-4' />
 					</Button>

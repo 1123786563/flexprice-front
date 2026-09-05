@@ -820,7 +820,21 @@
 			"displayUnitName": "Display Unit Name",
 			"usageReset": "Usage Reset ",
 			"bucketSize": "Bucket Size",
-			"groupBy": "Group by"
+			"groupBy": "Group by",
+			"title": "Unit Cost (OpenMeter)",
+			"desc": "OpenMeter unit cost: manual is a fixed per-unit cost (USD); llm is resolved from the LLM cost database by provider/model.",
+			"current": "Current",
+			"manualAmount": "Per-unit cost (USD)",
+			"set": "Set cost",
+			"clear": "Clear",
+			"llmConfigured": "Resolved from the LLM cost database (provider/model driven)",
+			"query": "Query last 30 days cost",
+			"queryResult": "Cost query result",
+			"noCost": "No unit cost configured",
+			"unitCostSaved": "Unit cost updated",
+			"unitCostSaveFailed": "Failed to update unit cost",
+			"unitCostQueryFailed": "Cost query failed",
+			"currentValue": "Current: ${{value}}"
 		}
 	},
 	"entityChargesPage": {
@@ -1088,5 +1102,81 @@
 		"toastScheduled": "{{name}} will be effective from {{date}}.",
 		"toastUpdated": "{{name}} has been updated successfully.",
 		"fallbackPriceName": "Price"
+	},
+	"toast": {
+		"plan": {
+			"archived": "Plan archived successfully",
+			"archiveFailed": "Failed to archive plan",
+			"syncStarted": "Sync has been started and will take up to 1 hour to complete.",
+			"syncFailed": "Error synchronizing plan with subscriptions",
+			"loadFailed": "Error loading plan data",
+			"notAvailable": "No plan data available",
+			"duplicated": "Plan duplicated successfully",
+			"duplicateFailed": "Failed to duplicate plan. Please try again."
+		},
+		"pricing": {
+			"tiersRequired": "Tiers are required when billing model is TIERED",
+			"unitAmountRequired": "Unit amount is required for tier {{tier}}",
+			"unitAmountMustBePositive": "Unit amount must be greater than or equal to 0 for tier {{tier}}",
+			"flatAmountMustBePositive": "Flat amount must be greater than or equal to 0 for tier {{tier}}",
+			"upToValueRequired": "Up to value is required for tier {{tier}}",
+			"fromValueCannotExceedUpTo": "From value cannot be greater than up to in tier {{tier}}"
+		},
+		"addon": {
+			"archived": "Addon archived successfully",
+			"archiveFailed": "Failed to archive addon",
+			"terminatePriceFailed": "Error terminating price",
+			"loadFailed": "Error loading addon data",
+			"notAvailable": "No addon data available"
+		},
+		"price": {
+			"idCopied": "Price ID copied to clipboard",
+			"terminated": "Price terminated successfully",
+			"deleteFailed": "Error deleting price",
+			"terminationScheduled": "{{name}} will be terminated on {{date}}.",
+			"terminatedImmediately": "{{name}} has been terminated immediately."
+		},
+		"metadata": {
+			"updated": "Metadata updated successfully",
+			"updateFailed": "Failed to update metadata"
+		},
+		"feature": {
+			"created": "Feature created successfully",
+			"createFailed": "An error occurred while creating feature. Please try again.",
+			"updated": "Feature updated successfully",
+			"updateFailed": "Failed to update feature. Please try again.",
+			"archived": "Feature archived successfully",
+			"archiveFailed": "Failed to archive feature",
+			"loadFailed": "Error fetching feature details",
+			"alertSettingsUpdated": "Alert settings updated successfully",
+			"alertSettingsFailed": "Failed to update alert settings"
+		},
+		"costSheet": {
+			"archived": "Cost Sheet archived successfully",
+			"archiveFailed": "Failed to archive cost sheet",
+			"loadFailed": "Error loading cost sheet data",
+			"notAvailable": "No cost sheet data available"
+		},
+		"prices": {
+			"noneToCreate": "No prices to create",
+			"created": "Prices created successfully for {{entityType}}"
+		},
+		"charges": {
+			"processingFailed": "An error occurred while processing charges"
+		},
+		"entity": {
+			"loadFailed": "Error fetching {{entityType}} data"
+		},
+		"creditGrant": {
+			"added": "Credit grant added successfully",
+			"addFailed": "Failed to add credit grant",
+			"loadFailed": "Error loading credit grants"
+		},
+		"entitlements": {
+			"loadFailed": "Error loading entitlements"
+		},
+		"coupon": {
+			"loadFailed": "Error loading coupon details"
+		}
 	}
 }

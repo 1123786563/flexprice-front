@@ -6,7 +6,7 @@ import {
 	SUBSCRIPTION_STATUS,
 } from '@/models/Subscription';
 import { useMutation } from '@tanstack/react-query';
-import { X, Pencil, Play, Bell } from 'lucide-react';
+import { X, Pencil, Play, Bell, Undo2, RotateCcw } from 'lucide-react';
 import React, { useState, useMemo } from 'react';
 import SubscriptionApi from '@/api/SubscriptionApi';
 import { DatePicker, Label, Modal, Input, Button, FormHeader, Spacer, Select, Toggle } from '@/components/atoms';
@@ -30,6 +30,7 @@ const SubscriptionActionButton: React.FC<Props> = ({ subscription }) => {
 	const navigate = useNavigate();
 	const { t } = useTranslation(['customers', 'common']);
 	const { t: tc } = useTranslation('common');
+	const { t: tb } = useTranslation('billing');
 	const { can } = useCurrentUserPermissions();
 	const canWriteSubscription = can('subscription', 'write');
 	const canWriteAlertSettings = can('alert_settings', 'write');
@@ -124,12 +125,12 @@ const SubscriptionActionButton: React.FC<Props> = ({ subscription }) => {
 			}),
 		onSuccess: async () => {
 			resetCancelState();
-			toast.success('Subscription cancelled successfully');
+			toast.success(tb('toast.subscription.cancelled'));
 			await refetchSubscriptionQueries();
 		},
 		onError: (err: Error) => {
 			resetCancelState();
-			toast.error(err.message || 'Failed to cancel subscription');
+			toast.error(err.message || tb('toast.subscription.cancelFailed'));
 		},
 	});
 
@@ -140,12 +141,34 @@ const SubscriptionActionButton: React.FC<Props> = ({ subscription }) => {
 			}),
 		onSuccess: async () => {
 			setState((prev) => ({ ...prev, isActivateModalOpen: false }));
-			toast.success('Subscription activated successfully');
+			toast.success(tb('toast.subscription.activated'));
 			await refetchSubscriptionQueries();
 			await refetchQueries(['subscriptionInvoices']);
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to activate subscription');
+			toast.error(error.message || tb('toast.subscription.activateFailed'));
+		},
+	});
+
+	const { mutate: unscheduleCancelation, isPending: isUnscheduling } = useMutation({
+		mutationFn: (id: string) => SubscriptionApi.unscheduleCancelation(id),
+		onSuccess: async () => {
+			toast.success(tb('toast.subscription.cancelScheduleRemoved'));
+			await refetchSubscriptionQueries();
+		},
+		onError: (error: Error) => {
+			toast.error(error.message || tb('toast.subscription.cancelScheduleRemoveFailed'));
+		},
+	});
+
+	const { mutate: restoreSubscription, isPending: isRestoring } = useMutation({
+		mutationFn: (id: string) => SubscriptionApi.restoreSubscription(id),
+		onSuccess: async () => {
+			toast.success(tb('toast.subscription.restored'));
+			await refetchSubscriptionQueries();
+		},
+		onError: (error: Error) => {
+			toast.error(error.message || tb('toast.subscription.restoreFailed'));
 		},
 	});
 
@@ -202,6 +225,24 @@ const SubscriptionActionButton: React.FC<Props> = ({ subscription }) => {
 		// 			},
 		// 		]
 		// 	: []),
+		{
+			label: 'Unschedule Cancelation',
+			icon: <Undo2 className='h-4 w-4' />,
+			onSelect: () => unscheduleCancelation(subscription.id),
+			disabled: isCancelled || isDraft || readOnly || !canWriteSubscription || isUnscheduling,
+			disabledReason:
+				!isCancelled && !isDraft && !readOnly && !canWriteSubscription
+					? t('customers:organisms.subscriptionAction.writeDeniedTooltip')
+					: undefined,
+		},
+		{
+			label: 'Restore Subscription',
+			icon: <RotateCcw className='h-4 w-4' />,
+			onSelect: () => restoreSubscription(subscription.id),
+			disabled: !isCancelled || readOnly || !canWriteSubscription || isRestoring,
+			disabledReason:
+				isCancelled && !readOnly && !canWriteSubscription ? t('customers:organisms.subscriptionAction.writeDeniedTooltip') : undefined,
+		},
 		{
 			label: 'Cancel Subscription',
 			icon: <X className='h-4 w-4' />,

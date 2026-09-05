@@ -1,7 +1,8 @@
 // src/api/InvoiceApi.ts
 // OpenMeter 承载：发票读走 billing.invoices（status/totals/lines 映射，list 需 expand lines）。
-// void→billing.void、finalize→billing.approve、create→createLineItems+invoicePendingLines（仅 ONE_OFF）。
-// OM OSS 无 PDF、手工支付记账、重算与通知触达——明确报错而非假成功。
+// void→billing.void、finalize→billing.approve、create→createLineItems+invoicePendingLines（仅 ONE_OFF）、
+// 重算→v1 taxes/recalculate（SDK billing.recalculateTax）。
+// OM OSS 无 PDF、手工支付记账、订阅发票预览与通知触达——明确报错而非假成功。
 import { Invoice } from '@/models';
 import { INVOICE_STATUS } from '@/models/Invoice';
 import { SortDirection } from '@/types/common/QueryBuilder';
@@ -124,8 +125,15 @@ class InvoiceApi {
 		throw new Error('OpenMeter 暂不支持补丁式更新发票（更新为整对象替换语义）');
 	}
 
-	public static async recalculateInvoice(_invoiceId: string): Promise<RecalculateInvoiceResponse> {
-		throw new Error('OpenMeter 暂不支持重算发票');
+	/**
+	 * 重算发票税额：v1 `POST /billing/invoices/{id}/taxes/recalculate`（同步返回重算后发票）。
+	 * Flexprice 侧为异步 workflow 形状（message/workflow_id/run_id），调用方只消费成功/失败，
+	 * workflow 字段以发票 id 回填。
+	 */
+	public static async recalculateInvoice(invoiceId: string): Promise<RecalculateInvoiceResponse> {
+		const om = await requireOpenMeterClient().billing.invoices.recalculateTax(invoiceId);
+		if (!om) throw new Error('重算发票失败');
+		return { message: 'ok', workflow_id: om.id, run_id: om.id };
 	}
 
 	public static async getInvoicePdf(_invoiceId: string, _invoiceNo?: string): Promise<void> {

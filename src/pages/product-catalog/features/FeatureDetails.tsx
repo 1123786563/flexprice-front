@@ -66,6 +66,7 @@ import { EXPAND } from '@/models/expand';
 import { GetPriceResponse } from '@/types/dto/Price';
 import { useTranslation } from 'react-i18next';
 import { useCurrentUserPermissions } from '@/hooks/useCurrentUserPermissions';
+import FeatureUnitCostCard from './FeatureUnitCostCard';
 
 export const formatAggregationType = (data: string): string => {
 	const aggregationTypeMap: Record<string, string> = {
@@ -192,10 +193,10 @@ const FeatureDetails = () => {
 		mutationFn: async () => await FeatureApi.deleteFeature(featureId!),
 		onSuccess: () => {
 			refetchQueries(['fetchFeatureDetails', featureId]);
-			toast.success('Feature archived successfully');
+			toast.success(t('toast.feature.archived'));
 		},
 		onError: (error: Error) => {
-			toast.error(error.message || 'Failed to archive feature');
+			toast.error(error.message || t('toast.feature.archiveFailed'));
 		},
 	});
 
@@ -347,7 +348,7 @@ const FeatureDetails = () => {
 	}
 
 	if (isError) {
-		toast.error('Error fetching feature details');
+		toast.error(t('toast.feature.loadFailed'));
 	}
 
 	return (
@@ -409,9 +410,9 @@ const FeatureDetails = () => {
 							});
 							setShowAlertDialog(false);
 							refetchQueries(['fetchFeatureDetails', featureId]);
-							toast.success('Alert settings updated successfully');
+							toast.success(t('toast.feature.alertSettingsUpdated'));
 						} catch (e: any) {
-							const errorMessage = e?.response?.data?.error?.message || e?.message || 'Failed to update alert settings';
+							const errorMessage = e?.response?.data?.error?.message || e?.message || t('toast.feature.alertSettingsFailed');
 							toast.error(errorMessage);
 						}
 					}}
@@ -430,6 +431,9 @@ const FeatureDetails = () => {
 							) : (
 								<NoDataCard title={t('catalog:features.details.charges')} subtitle='No charges linked to the feature yet' />
 							)}
+							<Spacer className='!h-4' />
+							{/* OpenMeter 单位成本（v3 原生 PATCH + 成本查询） */}
+							{featureId && <FeatureUnitCostCard featureId={featureId} />}
 						</div>
 					)}
 

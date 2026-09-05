@@ -1,8 +1,9 @@
 // src/api/FeatureApi.ts
 // OpenMeter 承载：feature CRUD 走 OM features（key↔lookup_key、meterSlug↔meter_id，
 // description/unit/reporting_unit/group/alert/config 收进 OM metadata 的 flexprice.* 保留键）。
-// OM 无 feature update 端点：updateFeature 以 delete+create 重建（key/meter/metadata 保真，
-// id 会变化；被 plan/addon rate card 引用时 OM 会拒绝删除并如实报错）。
+// OM 仅支持原位 PATCH unit_cost（updateFeatureUnitCost）；其余字段更新无原生 update，
+// updateFeature 以 delete+create 重建（key/meter/metadata 保真，id 会变化；
+// 被 plan/addon rate card 引用时 OM 会拒绝删除并如实报错）。
 // 内嵌 meter 的创建（CreateFeatureRequest.meter）OM 需两步：先 meters.create 再 features.create。
 import {
 	CreateFeatureRequest,
@@ -17,6 +18,8 @@ import {
 } from '@/types/dto';
 import { Feature, FEATURE_TYPE } from '@/models';
 import { getOpenMeterClient, requireOpenMeterClient } from '@/core/services/openmeter';
+import type { OpenMeterClient } from '@/core/services/openmeter';
+import { omV3 } from '@/core/services/openmeter/omFetch';
 import {
 	buildOmFeatureCreate,
 	buildOmFeatureListQuery,
@@ -26,8 +29,27 @@ import {
 	mapOmFeature,
 	mapOmMeter,
 } from '@/core/services/openmeter/mappers/feature';
+import type { OmMeterQueryPostBody } from '@/core/services/openmeter/mappers/meter';
 import type { TypedBackendFilter } from '@/types/formatters/QueryBuilder';
 import { DataType } from '@/types/common/QueryBuilder';
+
+/**
+ * Feature 单位成本配置：`manual` 固定单位成本（USD），`llm` 从 LLM 成本库按 provider/
+ * model/token type 解析（三维度各自可静态指定或指向 meter group-by 属性，互斥）。
+ */
+export type FeatureUnitCostInput =
+	| { type: 'manual'; amount: string }
+	| {
+			type: 'llm';
+			provider?: string;
+			provider_property?: string;
+			model?: string;
+			model_property?: string;
+			token_type?: string;
+			token_type_property?: string;
+	  };
+
+type OmFeature = NonNullable<Awaited<ReturnType<OpenMeterClient['features']['get']>>>;
 
 class FeatureApi {
 	/**
@@ -121,6 +143,30 @@ class FeatureApi {
 		const om = await client.features.create(create);
 		if (!om) throw new Error('重建 feature 失败（原 feature 已删除）');
 		return mapOmFeature(om);
+	}
+
+	/**
+	 * 原位更新 feature 单位成本：OM v3 `PATCH /features/{id}`（OM 唯一可原位更新的
+	 * feature 字段；name/filters 等结构变更无原生 update，仍需 updateFeature 的
+	 * delete+create 重建）。传 null 清除单位成本。
+	 */
+	public static async updateFeatureUnitCost(id: string, unitCost: FeatureUnitCostInput | null): Promise<FeatureResponse> {
+		const om = await omV3<OmFeature>(`/features/${id}`, { method: 'PATCH', body: { unit_cost: unitCost } });
+		return mapOmFeature(om);
+	}
+
+	/**
+	 * 按 OM meter 查询语义聚合该 feature 的成本（`POST /features/{id}/cost/query`）。
+	 * 需先配置单位成本（manual 或 llm），否则后端报错。body 缺省为全时段聚合。
+	 */
+	public static async queryFeatureCost(id: string, query: OmMeterQueryPostBody = {}): Promise<Record<string, unknown>> {
+		return await omV3<Record<string, unknown>>(`/features/${id}/cost/query`, { method: 'POST', body: query });
+	}
+
+	/** 读取原始单位成本配置（mapOmFeature 不透出该字段）。 */
+	public static async getFeatureUnitCost(id: string): Promise<FeatureUnitCostInput | null> {
+		const om = await omV3<{ unit_cost?: FeatureUnitCostInput | null }>(`/features/${id}`);
+		return om.unit_cost ?? null;
 	}
 
 	/**

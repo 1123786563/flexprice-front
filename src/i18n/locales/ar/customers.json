@@ -221,7 +221,8 @@
 			"saveEditsFirst": "يرجى حفظ التغييرات قبل الإرسال.",
 			"trialDays": "أدخل طول تجربة بالأيام (1 على الأقل)، أو اتركه فارغًا لاستخدام الافتراضي من الخطة.",
 			"autoThresholdFixed": "حد الفاتورة التلقائية غير متاح عندما تتضمن الخطة أسعارًا ثابتة.",
-			"autoThresholdNonNegative": "أدخل قيمة صالحة لحد الفاتورة التلقائية (صفر أو أكبر)، أو اتركه فارغًا لتجاهله."
+			"autoThresholdNonNegative": "أدخل قيمة صالحة لحد الفاتورة التلقائية (صفر أو أكبر)، أو اتركه فارغًا لتجاهله.",
+			"entitlementOverridesWithProration": "لا يمكن الجمع بين تجاوزات الاستحقاق والتناسب. عطّل التناسب أو أزل تجاوزات الاستحقاق."
 		},
 		"billingCustomer": {
 			"loadFailed": "تعذّر تحميل تفاصيل عميل الفوترة.",
@@ -311,7 +312,10 @@
 			"saveCardOnStripe": "حفظ البطاقة على Stripe",
 			"setupAutopayMoyasar": "إعداد الدفع التلقائي (Moyasar)",
 			"sharePortalLinkTitle": "مشاركة رابط بوابة العميل",
-			"childCustomersTitle": "العملاء الفرعيون"
+			"childCustomersTitle": "العملاء الفرعيون",
+			"stripePortalButton": "بوابة فواتير Stripe",
+			"stripePortalFailed": "فشل فتح بوابة فواتير Stripe",
+			"stripePortalNoUrl": "لم يُرجع Stripe عنوان البوابة"
 		},
 		"invoice": {
 			"title": "الفواتير",
@@ -357,29 +361,50 @@
 			"noTransactionsSubtitle": "لا توجد معاملات حديثة",
 			"noMetadataTitle": "لا توجد بيانات وصفية",
 			"noMetadataHint": "أضف بيانات وصفية مخصّصة لتخزين معلومات إضافية عن هذه المحفظة."
-		}
-	},
-	"subscriptionEdit": {
-		"pageTitle": "تعديل الاشتراك",
-		"pageHeading": "تعديل الاشتراك",
-		"couponAssociations": "ارتباطات الكوبون",
-		"addCoupon": "إضافة كوبون",
-		"taxAssociations": "ارتباطات الضريبة",
-		"addTax": "إضافة ضريبة",
-		"toast": {
-			"lineItemUpdated": "تم تحديث بند الخط بنجاح",
-			"lineItemUpdateFailed": "فشل في تحديث بند الخط",
-			"lineItemTerminated": "تم إنهاء بند الخط بنجاح",
-			"lineItemTerminateFailed": "فشل في إنهاء بند الخط",
-			"chargeAdded": "تمت إضافة الرسوم بنجاح",
-			"chargeAddFailed": "فشل في إضافة الرسوم",
-			"subscriptionUpdated": "تم تحديث الاشتراك بنجاح",
-			"subscriptionUpdateFailed": "فشل في تحديث الاشتراك",
-			"creditGrantCreated": "تم إنشاء منحة الائتمان بنجاح",
-			"creditGrantCreateFailed": "فشل في إنشاء منحة الائتمان",
-			"creditGrantDeleted": "تم حذف منحة الائتمان بنجاح",
-			"creditGrantDeleteFailed": "فشل في حذف منحة الائتمان",
-			"loadError": "خطأ في تحميل بيانات الاشتراك"
+		},
+		"charges": {
+			"title": "الرسوم (OpenMeter Charges)",
+			"name": "الاسم",
+			"type": "النوع",
+			"currency": "العملة",
+			"empty": "لا توجد رسوم مرتبطة بهذا العميل بعد"
+		},
+		"credits": {
+			"title": "الأرصدة الائتمانية (OpenMeter Credits)",
+			"description": "رصيد ائتماني نقدي مدعوم بدفتر OpenMeter: إصدار ← تسوية ← خصم حسب الرسوم",
+			"noBalance": "لا يوجد رصيد ائتماني بعد. ستظهر الأرصدة هنا بعد الإصدار.",
+			"liveLabel": "المتاح (مع المعاملات الجارية)",
+			"pendingLabel": "قيد التسوية",
+			"grants": {
+				"title": "سجل الإصدارات",
+				"name": "الاسم",
+				"amount": "المبلغ",
+				"funding": "مصدر التمويل",
+				"status": "الحالة",
+				"active": "نشط",
+				"voided": "ملغى",
+				"void": "إلغاء",
+				"voidConfirm": "إلغاء \"{{name}}\"؟ يسري فورًا ويُسترد غير المستهلك من الرصيد."
+			},
+			"funding": {
+				"none": "إصدار مباشر",
+				"invoice": "تسوية عبر فاتورة",
+				"external": "دفعة خارجية"
+			},
+			"transactions": {
+				"title": "حركات الرصيد",
+				"name": "الاسم",
+				"type": "النوع",
+				"amount": "المبلغ",
+				"bookedAt": "وقت التسجيل",
+				"loadMore": "تحميل المزيد",
+				"emptyTitle": "لا توجد حركات بعد",
+				"emptySubtitle": "تظهر الحركات بعد الإصدار أو خصم الرسوم"
+			},
+			"toast": {
+				"grantVoided": "تم إلغاء المنحة الائتمانية",
+				"grantVoidFailed": "فشل إلغاء المنحة الائتمانية"
+			}
 		}
 	},
 	"moyasarAutopay": {
@@ -544,11 +569,7 @@
 			"colCadence": "الدورة",
 			"colCount": "الرسوم",
 			"colBillingImpact": "الأثر على الفواتير",
-			"chargeCount_zero": "لا توجد رسوم",
 			"chargeCount_one": "رسم واحد",
-			"chargeCount_two": "رسمان",
-			"chargeCount_few": "{{count}} رسوم",
-			"chargeCount_many": "{{count}} رسمًا",
 			"chargeCount_other": "{{count}} رسم",
 			"fanoutHint": "يُحتسب كلٌّ منها كـ {{count}} بنود لكل فاتورة اشتراك",
 			"noFanout": "بنفس دورة الاشتراك"
@@ -582,6 +603,59 @@
 		},
 		"usageTable": {
 			"currentMeterUsage": "استخدام العداد الحالي"
+		}
+	},
+	"subscriptionEdit": {
+		"pageTitle": "تعديل الاشتراك",
+		"pageHeading": "تعديل الاشتراك",
+		"couponAssociations": "ارتباطات الكوبون",
+		"addCoupon": "إضافة كوبون",
+		"taxAssociations": "ارتباطات الضريبة",
+		"addTax": "إضافة ضريبة",
+		"toast": {
+			"lineItemUpdated": "تم تحديث بند الخط بنجاح",
+			"lineItemUpdateFailed": "فشل في تحديث بند الخط",
+			"lineItemTerminated": "تم إنهاء بند الخط بنجاح",
+			"lineItemTerminateFailed": "فشل في إنهاء بند الخط",
+			"chargeAdded": "تمت إضافة الرسوم بنجاح",
+			"chargeAddFailed": "فشل في إضافة الرسوم",
+			"subscriptionUpdated": "تم تحديث الاشتراك بنجاح",
+			"subscriptionUpdateFailed": "فشل في تحديث الاشتراك",
+			"creditGrantCreated": "تم إنشاء منحة الائتمان بنجاح",
+			"creditGrantCreateFailed": "فشل في إنشاء منحة الائتمان",
+			"creditGrantDeleted": "تم حذف منحة الائتمان بنجاح",
+			"creditGrantDeleteFailed": "فشل في حذف منحة الائتمان",
+			"loadError": "خطأ في تحميل بيانات الاشتراك"
+		}
+	},
+	"toast": {
+		"customerPortal": {
+			"missingExternalId": "معرّف العميل الخارجي مفقود",
+			"generateUrlFailed": "تعذّر إنشاء رابط البوابة",
+			"createSessionFailed": "تعذّر إنشاء جلسة لوحة التحكم.",
+			"linkCopied": "تم نسخ رابط بوابة العميل إلى الحافظة!",
+			"copyFailed": "فشل نسخ رابط بوابة العميل. حاول مرة أخرى.",
+			"openFailed": "فشل فتح بوابة العميل. حاول مرة أخرى."
+		},
+		"wallet": {
+			"autoTopupUpdated": "تم تحديث إعدادات الشحن التلقائي بنجاح",
+			"autoTopupUpdateFailed": "فشل تحديث إعدادات الشحن التلقائي",
+			"fetchDetailsFailed": "حدث خطأ أثناء جلب تفاصيل المحفظة",
+			"alertSettingsUpdated": "تم تحديث إعدادات التنبيهات بنجاح",
+			"alertSettingsUpdateFailed": "فشل تحديث إعدادات التنبيهات"
+		},
+		"analytics": {
+			"fetchCustomerFailed": "خطأ في جلب بيانات العميل",
+			"fetchUsageFailed": "خطأ في جلب بيانات الاستخدام",
+			"fetchCostFailed": "خطأ في جلب بيانات التكلفة"
+		},
+		"taxAssociation": {
+			"created": "تم إنشاء ارتباط الضريبة بنجاح",
+			"createFailed": "فشل إنشاء ارتباط الضريبة. حاول مرة أخرى.",
+			"fetchFailed": "خطأ في جلب ارتباطات الضرائب"
+		},
+		"overview": {
+			"somethingWentWrong": "حدث خطأ ما"
 		}
 	}
 }

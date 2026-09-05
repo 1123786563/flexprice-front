@@ -1,4 +1,1740 @@
 {
+	"page": {
+		"settings": "设置",
+		"billing": "账单"
+	},
+	"info": {
+		"ariaLabel": "关于 {{field}} 的更多信息"
+	},
+	"superAdmin": {
+		"writeDeniedTooltip": "只有超级管理员才能修改此设置。请联系租户管理员开通权限。"
+	},
+	"members": {
+		"writeDeniedTooltip": "您没有邀请团队成员的权限。请联系租户管理员开通权限。",
+		"roleAdmin": "管理员",
+		"roleMember": "成员",
+		"errors": {
+			"userLimitReached": "已达到该组织的用户上限。",
+			"userAlreadyExists": "已存在使用该邮箱的用户！",
+			"failedToAddUser": "添加用户失败",
+			"failedToLoadUsers": "加载用户失败",
+			"enterEmail": "请输入邮箱地址",
+			"emailInvalid": "请输入有效的邮箱地址",
+			"copyFailed": "无法复制到剪贴板",
+			"loginLinkCopied": "登录链接已复制 – 请安全地分享给该用户。",
+			"credentialsCopied": "凭据已复制到剪贴板。",
+			"credentialsDownloaded": "凭据已下载。",
+			"loadError": "加载用户失败，请重试。"
+		},
+		"columns": {
+			"email": "邮箱",
+			"role": "角色",
+			"joined": "加入时间"
+		},
+		"cardTitle": "用户",
+		"usersCount_one": "{{count}} 个用户",
+		"usersCount_other": "{{count}} 个用户",
+		"actions": {
+			"add": "添加",
+			"invite": "邀请",
+			"remove": "移除",
+			"editRoles": "编辑角色"
+		},
+		"editRoles": {
+			"title": "编辑角色",
+			"description": "管理该用户的访问权限。",
+			"submit": "保存角色",
+			"success": "已更新 {{email}} 的角色。",
+			"failedGeneric": "更新角色失败。",
+			"activeKeysBody_one": "该用户有 {{count}} 个生效中的 API 密钥，必须先使其过期才能更改角色：",
+			"activeKeysBody_other": "该用户有 {{count}} 个生效中的 API 密钥，必须先使其过期才能更改角色：",
+			"typeUser": "用户",
+			"typeServiceAccount": "服务账号",
+			"noRoles": "暂无角色",
+			"userFetchFailed": "无法刷新该用户的最新数据 — 正在显示最后已知的信息。"
+		},
+		"filters": {
+			"title": "筛选用户",
+			"role": "角色",
+			"status": "状态",
+			"all": "全部",
+			"joined": "已加入",
+			"pending": "待处理"
+		},
+		"joinedPending": "待处理",
+		"addMember": {
+			"title": "添加成员",
+			"description": "通过邮箱邀请新的团队成员。",
+			"emailLabel": "邮箱",
+			"emailPlaceholder": "user@example.com",
+			"addUser": "添加用户",
+			"rolesLabel": "角色",
+			"rolesHint": "为该成员至少选择一个角色。选择超级管理员将授予全部权限并清除其他选择。",
+			"rolesLoading": "正在加载角色...",
+			"rolesUnavailable": "无法加载可用角色。",
+			"rolesRetry": "重试",
+			"rolesRequired": "请至少选择一个角色"
+		},
+		"addUser": {
+			"title": "添加用户",
+			"description": "添加新用户并生成登录凭据。",
+			"nameLabel": "姓名",
+			"namePlaceholder": "王小明",
+			"emailLabel": "邮箱",
+			"emailPlaceholder": "user@example.com",
+			"submit": "添加用户"
+		},
+		"invite": {
+			"title": "邀请用户",
+			"description": "通过邮箱邀请用户并生成可分享的登录凭据。",
+			"nameLabel": "姓名",
+			"namePlaceholder": "王小明",
+			"submit": "邀请用户"
+		},
+		"credentials": {
+			"title": "登录凭据",
+			"description": "将这些信息分享给新用户，以便其登录。",
+			"emailCopied": "邮箱已复制",
+			"copyEmail": "复制邮箱",
+			"password": "密码",
+			"hidePassword": "隐藏密码",
+			"showPassword": "显示密码",
+			"copyPassword": "复制密码",
+			"oneClickHint": "一键登录链接 – 请分享给该用户。",
+			"copyLoginLink": "复制登录链接",
+			"downloadCsv": "下载 CSV",
+			"copyAll": "全部复制",
+			"passwordResetNote": "此密码后续可以重置。",
+			"signInMethodsNote": "用户可以使用邮箱/密码或 Google 登录。",
+			"csvHeader": "email,password,login_link",
+			"copyBlockEmailLine": "邮箱：{{email}}",
+			"copyBlockPasswordLine": "密码：{{password}}",
+			"copyBlockLoginLine": "登录链接：{{url}}"
+		},
+		"tabs": {
+			"team": "团队"
+		},
+		"unitUsers_one": "用户",
+		"unitUsers_other": "用户"
+	},
+	"organization": {
+		"writeDeniedTooltip": "您没有编辑组织的权限。请联系租户管理员开通权限。",
+		"title": "组织",
+		"workspaceOwner": "工作区所有者",
+		"editOrganization": "编辑组织"
+	},
+	"billing": {
+		"tabs": {
+			"billing": "账单"
+		},
+		"actions": {
+			"resetToDefaults": "恢复默认设置"
+		},
+		"invoiceConfiguration": {
+			"title": "发票配置",
+			"previewLabel": "预览",
+			"nextInvoiceNumber": "下一张发票编号",
+			"infoAria": "关于 {{field}} 的更多信息",
+			"saveSuccess": "发票配置已保存",
+			"saveError": "保存发票配置失败",
+			"resetSuccess": "发票配置已恢复为默认值",
+			"resetError": "重置发票配置失败",
+			"validation": {
+				"prefixRequired": "前缀为必填项",
+				"timezoneRequired": "时区为必填项",
+				"invalidSequenceDigits": "序列位数必须是整数",
+				"sequenceDigitsMin": "序列位数至少为 1",
+				"sequenceDigitsMax": "序列位数不能超过 10"
+			},
+			"fields": {
+				"prefix": "前缀",
+				"separator": "分隔符",
+				"dateFormat": "日期格式",
+				"timezone": "时区",
+				"startSequence": "起始序列号",
+				"sequenceDigits": "序列位数",
+				"paymentDueDays": "付款期限（开票后天数）"
+			},
+			"hints": {
+				"prefix": "非空字符串，例如 INV、ACME、FP",
+				"separator": "前缀、日期和序列号之间的字符。留空表示不使用分隔符。",
+				"timezone": "建议使用 IANA 时区名称（例如 Asia/Kolkata）",
+				"dateFormat": "可选 YYYYMM、YYYY、YYYYMMDD、YYMMDD 或 YY，用于发票编号的日期段。",
+				"startSequence": "整数 ≥ 0，序列的起始编号。",
+				"sequenceDigits": "1–10 位数字，不足位补零。例如 5 → 00001",
+				"paymentDueDays": "整数 ≥ 0，发票创建后多少天设置为到期日。默认：1。"
+			},
+			"dateFormats": {
+				"YYYYMM": "YYYYMM — 202506",
+				"YYYY": "YYYY — 2025",
+				"YYYYMMDD": "YYYYMMDD — 20250629",
+				"YYMMDD": "YYMMDD — 250629",
+				"YY": "YY — 25"
+			}
+		},
+		"subscriptionConfiguration": {
+			"title": "订阅配置",
+			"previewLabel": "配置预览",
+			"saveSuccess": "订阅配置已保存",
+			"saveError": "保存订阅配置失败",
+			"preview": {
+				"triggerColumn": "触发条件",
+				"gracePeriodColumn": "宽限期",
+				"actionColumn": "操作",
+				"triggerValue": "发票逾期未支付",
+				"gracePeriodValue": "{{count}} 天",
+				"actionEnabled": "取消订阅",
+				"actionDisabled": "未启用"
+			},
+			"fields": {
+				"autoCancellation": "启用自动取消",
+				"gracePeriodDays": "宽限期",
+				"gracePeriodSuffix": "天（自到期日起算）"
+			},
+			"hints": {
+				"autoCancellation": "自动取消逾期的订阅",
+				"disabledState": "启用后，订阅将在宽限期结束后自动取消。",
+				"gracePeriodDays": "最少 1 天，默认为 3 天。"
+			},
+			"infoCallout": {
+				"title": "触发后会发生什么",
+				"description1": "订阅立即取消 - 而非在周期结束时取消",
+				"description2": "会触发 subscription.cancelled Webhook，使下游系统保持同步",
+				"description3": "未来的额度授予将被取消，并为部分周期生成最终发票"
+			}
+		}
+	},
+	"customerPortal": {
+		"tabs": {
+			"customerPortal": "客户门户"
+		},
+		"portal": {
+			"title": "门户",
+			"description": "控制客户在自助门户中可以看到哪些板块和标签页。",
+			"showInvoices": "显示发票",
+			"showInvoicesDescription": "客户可以查看和下载自己的发票",
+			"showWalletBalance": "显示钱包余额",
+			"showWalletBalanceDescription": "客户可以查看自己的信用额度和交易记录",
+			"showUsage": "显示用量",
+			"showUsageDescription": "客户可以查看其订阅的计量用量数据",
+			"showSubscriptions": "显示订阅",
+			"showSubscriptionsDescription": "客户可以查看其活跃订阅的详情",
+			"saveSuccess": "门户设置已保存",
+			"saveError": "保存门户设置失败",
+			"showPaymentMethods": "显示支付方式",
+			"showPaymentMethodsDescription": "允许客户在门户中查看已保存的银行卡并添加新卡"
+		}
+	},
+	"customerOnboarding": {
+		"tabs": {
+			"customerOnboarding": "客户入驻"
+		},
+		"workflow": {
+			"title": "客户入驻",
+			"description": "配置客户创建后自动执行的操作。未配置任何操作时，将跳过入驻流程。",
+			"summaryLabel": "工作流状态",
+			"noActionsConfigured": "尚未配置任何入驻操作。",
+			"actionConfigured": "已配置 {{count}} 个入驻操作",
+			"actionsConfigured": "已配置 {{count}} 个入驻操作",
+			"advancedActionsPreserved": "此配置包含无法在此处编辑的高级操作。保存时将保留这些操作。",
+			"selectedPlanUnavailable": "该套餐已保存在工作流中，但不在当前已发布的套餐列表内。",
+			"saveSuccess": "客户入驻设置已保存",
+			"saveError": "保存客户入驻设置失败",
+			"resetSuccess": "客户入驻已恢复为默认值",
+			"resetError": "重置客户入驻失败",
+			"validation": {
+				"walletCurrencyRequired": "钱包币种为必填项",
+				"walletConversionRateInvalid": "钱包兑换比率必须大于 0",
+				"walletInitialCreditsInvalid": "初始积分必须是大于或等于 0 的数字",
+				"walletCreditsExpirationIncomplete": "启用积分过期时，需同时设置过期时长和单位",
+				"walletCreditsExpirationInvalid": "过期时长必须为正整数，并选择有效单位",
+				"walletCreditsExpirationWithoutCredits": "只有初始积分大于 0 时才能设置过期时间",
+				"subscriptionPlanRequired": "启用订阅创建前请先选择套餐",
+				"subscriptionStartDateInvalid": "开始日期必须为 ISO 日期时间格式（如 2026-07-04T00:00:00Z），或留空",
+				"customWorkflowNameRequired": "每个自定义工作流都需要一个名称",
+				"customWorkflowNameInvalid": "自定义工作流名称不能超过 100 个字符",
+				"customWorkflowNameDuplicate": "自定义工作流名称不能重复"
+			},
+			"customWorkflows": {
+				"title": "自定义工作流",
+				"description": "可选的命名工作流，可用于为不同客户触发不同的入驻流程。",
+				"empty": "暂无自定义工作流。",
+				"add": "添加自定义工作流",
+				"remove": "移除自定义工作流",
+				"name": "名称",
+				"nameHint": "用作工作流名称，最多 100 个字符。",
+				"namePlaceholder": "企业试用",
+				"untitled": "未命名工作流",
+				"noActionsSummary": "未启用任何操作",
+				"advancedCount": "已保留 {{count}} 个高级操作"
+			},
+			"wallet": {
+				"title": "创建钱包",
+				"description": "为每位新客户创建一个钱包。",
+				"type": "钱包类型",
+				"typeHint": "预付费钱包从余额中扣减；后付费钱包在发票中结算。",
+				"typePlaceholder": "选择钱包类型",
+				"types": {
+					"prePaid": "预付费",
+					"prePaidHint": "客户预先充值积分。用量从实时余额中扣减。",
+					"postPaid": "后付费",
+					"postPaidHint": "积分在账单周期结束时计入发票。"
+				},
+				"currency": "币种",
+				"currencyHint": "将要创建的钱包所使用的币种。",
+				"conversionRate": "兑换比率",
+				"conversionRateHint": "可选，留空时默认为 1。",
+				"initialCredits": "初始积分",
+				"initialCreditsHint": "可选的欢迎免费积分。留空或填 0 表示不赠送免费积分。",
+				"initialCreditsPlaceholder": "0",
+				"expireCredits": "积分过期",
+				"expireCreditsHint": "关闭时，欢迎积分永不过期。开启时，请设置相对时长和单位。",
+				"expirationDuration": "积分过期时长",
+				"expirationDurationHint": "欢迎积分在发放后多久过期。启用过期时必须与单位一起设置。",
+				"expirationDurationPlaceholder": "30",
+				"expirationUnit": "积分过期单位",
+				"expirationUnitHint": "过期时长的单位。启用过期时必须与时长一起设置。",
+				"expirationUnitPlaceholder": "选择单位",
+				"expirationUnits": {
+					"day": "天",
+					"week": "周",
+					"month": "月",
+					"year": "年"
+				}
+			},
+			"subscription": {
+				"title": "创建订阅",
+				"description": "为每位新客户创建一个订阅。",
+				"plan": "套餐",
+				"planPlaceholder": "选择套餐",
+				"plansLoading": "正在加载套餐...",
+				"noPlans": "未找到已发布的套餐",
+				"planHint": "新创建的客户将订阅此套餐。",
+				"billingCycle": "计费周期",
+				"billingCycleHint": "周年制按客户注册时间计费；日历制按自然周期对齐。",
+				"startDate": "开始日期",
+				"startDatePlaceholder": "2026-07-04T00:00:00Z",
+				"startDateHint": "可选的 RFC3339 时间戳。留空则不设置 start_date。"
+			}
+		}
+	},
+	"alerts": {
+		"tabs": {
+			"alerts": "提醒"
+		},
+		"walletAlerts": {
+			"title": "钱包提醒设置",
+			"description": "根据配置的阈值监控钱包余额",
+			"thresholdValue": "阈值（{{currency}}）",
+			"condition": "条件",
+			"remove": "移除",
+			"add": "添加",
+			"amountPlaceholder": "0.00",
+			"saveChanges": "保存更改",
+			"saveSuccess": "钱包提醒设置已保存",
+			"saveError": "保存钱包提醒设置失败",
+			"levels": {
+				"critical": "严重",
+				"warning": "警告",
+				"info": "信息"
+			},
+			"levelDescriptions": {
+				"critical": "达到严重级别时提醒",
+				"warning": "达到警告级别时提醒",
+				"info": "达到信息级别时提醒"
+			},
+			"conditions": {
+				"below": "低于",
+				"above": "高于"
+			},
+			"validation": {
+				"atLeastOneThreshold": "启用提醒时请至少配置一个阈值级别",
+				"invalidCriticalThreshold": "请输入有效的严重阈值",
+				"invalidWarningThreshold": "请输入有效的警告阈值",
+				"invalidInfoThreshold": "请输入有效的信息阈值",
+				"criticalRequiredForWarning": "设置警告阈值时必须同时设置严重阈值",
+				"warningMustBeLessThanCritical": "对于「高于」提醒，警告阈值必须小于严重阈值",
+				"warningMustBeGreaterThanCritical": "对于「低于」提醒，警告阈值必须大于严重阈值",
+				"infoMustBeLessThanWarning": "对于「高于」提醒，信息阈值必须小于警告阈值",
+				"infoMustBeGreaterThanWarning": "对于「低于」提醒，信息阈值必须大于警告阈值",
+				"infoMustBeLessThanCritical": "对于「高于」提醒，信息阈值必须小于严重阈值",
+				"infoMustBeGreaterThanCritical": "对于「低于」提醒，信息阈值必须大于严重阈值"
+			}
+		}
+	},
+	"appearance": {
+		"tabs": {
+			"appearance": "外观"
+		},
+		"theme": {
+			"title": "深色模式",
+			"description": "在控制台的浅色和深色主题之间切换。该选择会保存在此设备上。",
+			"toggleAriaLabel": "切换深色模式",
+			"rolloutNote": "深色模式仍在逐步上线中 — 部分页面尚未适配，暂时保持浅色样式。"
+		}
+	},
+	"billingPage": {
+		"errorFetchBilling": "获取账单信息出错",
+		"labels": {
+			"name": "名称",
+			"billingEmail": "账单邮箱",
+			"billingAddress": "账单地址",
+			"billingCity": "账单城市",
+			"billingState": "账单州/省",
+			"billingCountry": "账单国家/地区",
+			"billingPostalCode": "账单邮政编码"
+		},
+		"tabs": {
+			"usage": "用量",
+			"subscriptions": "订阅",
+			"general": "常规"
+		},
+		"cards": {
+			"usage": "用量",
+			"subscriptions": "订阅",
+			"billingDetails": "账单信息"
+		}
+	},
+	"tenant": {
+		"validation": {
+			"organizationNameRequired": "组织名称为必填项"
+		},
+		"errors": {
+			"tenantIdRequired": "租户 ID 为必填项",
+			"updateFailed": "更新租户信息失败，请重试。"
+		},
+		"toast": {
+			"updated": "租户信息更新成功"
+		},
+		"drawer": {
+			"title": "更新租户信息",
+			"description": "更新您的账单地址信息。",
+			"organizationName": "组织名称",
+			"organizationNamePlaceholder": "输入组织名称",
+			"billingSection": "账单信息",
+			"country": "国家/地区",
+			"selectCountry": "选择国家/地区",
+			"noCountries": "暂无可选国家/地区",
+			"addressLine1": "地址第 1 行",
+			"addressLine1Placeholder": "街道地址、邮政信箱、公司名称、转交人",
+			"addressLine2": "地址第 2 行",
+			"addressLine2Placeholder": "公寓、单元、楼层、建筑物等",
+			"state": "州/省",
+			"selectState": "选择州/省",
+			"noStates": "暂无可选州/省",
+			"city": "城市",
+			"selectCity": "选择城市",
+			"noCities": "暂无可选城市",
+			"postalCode": "邮政编码",
+			"postalCodePlaceholder": "输入邮政编码",
+			"saving": "保存中...",
+			"saveChanges": "保存更改"
+		}
+	},
+	"integrationDrawer": {
+		"validation": {
+			"nameRequired": "连接名称为必填项",
+			"apiSecretRequired": "API 私密密钥为必填项"
+		},
+		"title": {
+			"edit": "编辑 {{providerName}} 连接",
+			"connect": "连接到 {{providerName}}"
+		},
+		"description": "输入连接信息，完成后点击保存。",
+		"connectionName": "连接名称",
+		"connectionNamePlaceholder": "输入名称",
+		"connectionNameHint": "该集成的自定义名称",
+		"apiSecretKey": "API 私密密钥",
+		"apiSecretPlaceholder": "输入 API 私密密钥",
+		"apiSecretHint": "提供商提供给您的 API 私密密钥"
+	},
+	"import": {
+		"entityTypes": {
+			"events": "事件",
+			"customers": "客户",
+			"features": "功能",
+			"prices": "价格"
+		},
+		"fileTypes": {
+			"csv": "CSV",
+			"json": "JSON"
+		},
+		"taskTypes": {
+			"import": "导入",
+			"export": "导出"
+		},
+		"taskStatus": {
+			"successful": "成功",
+			"failed": "失败",
+			"queued": "排队中"
+		},
+		"detailLabels": {
+			"type": "类型",
+			"status": "状态",
+			"importStartedAt": "导入开始时间",
+			"importCompletedAt": "导入完成时间"
+		},
+		"rowStats": {
+			"totalRows": "总行数",
+			"failedRows": "失败行数",
+			"successfulRows": "成功行数"
+		},
+		"validation": {
+			"uploadFile": "请上传文件",
+			"selectEntityType": "请选择实体类型"
+		},
+		"toast": {
+			"uploadSuccess": "{{filename}} 上传成功",
+			"uploadFailed": "{{filename}} 上传失败"
+		},
+		"errors": {
+			"notConfigured": "当前环境未启用导入功能，请联系支持团队。",
+			"invalidUploadId": "上传组件初始化出错，请刷新后重试。",
+			"missingTenantOrEnv": "正在等待租户和环境加载…",
+			"downloadFailedHint": "无法读取上传的文件。这通常是因为上传尚未完成就点击了导入，请重试。"
+		},
+		"importFileLabel": "导入文件",
+		"chooseFile": "选择要上传的文件",
+		"maxFileSizeHint": "最大 5 MB，仅支持 .csv 文件。"
+	},
+	"bulkImports": {
+		"writeDeniedTooltip": "您没有创建导入任务的权限。请联系租户管理员开通权限。",
+		"title": "批量导入",
+		"columns": {
+			"fileName": "文件名",
+			"entityType": "实体类型",
+			"status": "状态",
+			"startedAt": "开始时间",
+			"updatedAt": "更新时间"
+		},
+		"errors": {
+			"fetchFailed": "获取数据失败"
+		},
+		"empty": {
+			"readyTitle": "准备导入数据？",
+			"readyDescription": "上传第一个导入文件，导入客户或事件数据。",
+			"createTaskButton": "创建导入任务"
+		},
+		"importFile": "导入文件",
+		"paginationUnit": "个导入任务",
+		"placeholders": {
+			"noFileName": "--"
+		}
+	},
+	"exportDrawer": {
+		"validation": {
+			"bucketRequired": "S3 存储桶名称为必填项",
+			"regionRequired": "AWS 区域为必填项",
+			"keyPrefixRequired": "键前缀为必填项",
+			"metadataFieldKeys": "所有元数据字段都必须填写字段键"
+		},
+		"toast": {
+			"created": "导出任务创建成功",
+			"updated": "导出任务更新成功",
+			"createFailed": "创建导出任务失败",
+			"updateFailed": "更新导出任务失败"
+		},
+		"title": {
+			"edit": "编辑导出任务",
+			"create": "创建导出任务"
+		},
+		"description": "配置 S3 数据管道的导出设置，完成后点击保存。",
+		"entityType": "实体类型",
+		"entityTypeHint": "选择要导出的数据类型",
+		"entityTypes": {
+			"events": "事件",
+			"invoice": "发票",
+			"creditTopups": "积分充值",
+			"creditUsage": "积分用量",
+			"usageAnalytics": "用量分析"
+		},
+		"interval": {
+			"label": "导出间隔",
+			"hint": "导出任务的执行频率",
+			"hourly": "每小时",
+			"daily": "每天"
+		},
+		"s3": {
+			"bucket": "S3 存储桶名称",
+			"bucketPlaceholder": "输入 S3 存储桶名称",
+			"bucketHint": "您的 S3 存储桶名称",
+			"region": "AWS 区域",
+			"regionPlaceholder": "输入 AWS 区域",
+			"regionHint": "S3 存储桶所在的 AWS 区域",
+			"keyPrefix": "键前缀",
+			"keyPrefixPlaceholder": "输入键前缀",
+			"keyPrefixHint": "S3 存储桶中文件的前缀"
+		},
+		"compression": {
+			"label": "压缩",
+			"hint": "导出文件的压缩格式",
+			"none": "无",
+			"gzip": "GZIP"
+		},
+		"encryption": {
+			"label": "加密",
+			"hint": "导出文件的加密方式",
+			"aes256": "AES256"
+		},
+		"metadata": {
+			"title": "附加元数据字段",
+			"optional": "（可选）",
+			"tooltip": "将自定义元数据字段导出为额外的 CSV 列。如果同一字段键存在于多个实体类型中，请使用「列名」为每个实体指定唯一的表头。",
+			"columnName": "列名",
+			"summary": "已配置 {{count}} 个字段",
+			"summaryPlural": "已配置 {{count}} 个字段",
+			"emptyHint": "点击添加要导出的元数据字段",
+			"entityTypeCol": "实体类型",
+			"fieldKeyCol": "字段键 *",
+			"fieldKeyPlaceholder": "例如 account_id",
+			"columnNamePlaceholder": "CSV 列表头，例如 Account ID",
+			"setColumnName": "+ 设置列名",
+			"addField": "添加元数据字段",
+			"entityTypes": {
+				"customer": "客户",
+				"wallet": "钱包"
+			}
+		},
+		"endpoint": {
+			"label": "端点 URL（可选）",
+			"placeholder": "输入自定义 S3 端点 URL",
+			"description": "S3 兼容存储（如 MinIO、DigitalOcean Spaces）的自定义端点 URL"
+		},
+		"flexpriceManaged": {
+			"title": "Flexprice 托管存储",
+			"body": "您的导出数据将自动存储在 Flexprice 托管的 S3 存储桶中，无需额外的导出配置。可在相应任务运行记录表中下载导出的文件。"
+		},
+		"enabled": "启用此导出任务",
+		"buttons": {
+			"create": "创建"
+		}
+	},
+	"exportRuns": {
+		"emptyTitle": "暂无导出运行记录",
+		"emptyDescription": "该导出任务尚未运行过。",
+		"recentTitle": "最近的导出运行记录",
+		"notStarted": "未开始",
+		"started": "开始时间：{{time}}",
+		"completed": "完成时间：{{time}}",
+		"errorPrefix": "错误：",
+		"processed": "已处理",
+		"exported": "已导出",
+		"sizeUnits": {
+			"bytes": "字节",
+			"kb": "KB",
+			"mb": "MB",
+			"gb": "GB"
+		},
+		"notAvailable": "不适用",
+		"runStatus": {
+			"completed": "已完成",
+			"failed": "失败",
+			"running": "运行中",
+			"pending": "等待中",
+			"cancelled": "已取消"
+		}
+	},
+	"connection": {
+		"awsMarketplace": {
+			"titleConnect": "连接您的 AWS Marketplace 账户",
+			"titleEdit": "编辑 AWS Marketplace 连接",
+			"description": "使用 IAM 角色安全地同步您的 AWS Marketplace 客户、订阅和账单数据。Flexprice 仅访问您明确授权的权限，并在启用同步前验证连接。",
+			"connectionNameLabel": "连接名称",
+			"connectionNameInfo": "选择一个名称，便于在工作区中识别此 AWS Marketplace 连接。",
+			"connectionNamePlaceholder": "生产环境 AWS Marketplace",
+			"connectionNameHint": "为该连接起一个描述性名称。",
+			"step1Title": "第 1 步 — 在 AWS 中创建 IAM 角色",
+			"step1Hint": "使用下方的策略在您的 AWS 账户中创建新的 IAM 角色。这些策略仅授予 Flexprice 同步您的 AWS Marketplace 订阅、客户和账单信息所需的权限。",
+			"iamPolicyLabel": "权限策略",
+			"iamPolicyInfo": "精确指定 Flexprice 可以访问哪些 AWS Marketplace 资源。",
+			"trustPolicyLabel": "信任关系",
+			"trustPolicyInfo": "允许 Flexprice 使用下方的 External ID 安全地扮演该 IAM 角色。",
+			"externalIdLabel": "External ID",
+			"externalIdInfo": "该唯一标识可防止「混淆代理人」安全问题，确保只有您的 Flexprice 工作区才能扮演此 IAM 角色。您无需单独复制 — 它已包含在上方的信任关系中。",
+			"accountIdLabel": "Flexprice AWS 账户 ID",
+			"accountIdInfo": "您的 IAM 角色所信任的 Flexprice AWS 账户。它已包含在上方的信任关系中。",
+			"accountIdMissing": "未配置。请设置 VITE_FLEXPRICE_AWS_ACCOUNT_ID 以便生成信任策略。",
+			"step2Title": "第 2 步 — 输入您的 IAM 角色 ARN",
+			"roleArnLabel": "角色 ARN",
+			"roleArnInfo": "粘贴在您的 AWS 账户中创建的 IAM 角色的完整 ARN。保存前我们会验证该角色是否可以扮演。",
+			"roleArnPlaceholder": "arn:aws:iam::<AWS_ACCOUNT_ID>:role/flexprice-marketplace-role",
+			"roleArnHint": "保存连接前我们会先验证该角色。",
+			"regionLabel": "AWS Marketplace 区域",
+			"regionInfo": "您产品的 Marketplace Metering Service 所启用的 AWS 区域。默认为 us-east-1 — 除非您特别申请了其他区域，否则 AWS Marketplace 会为每个 SaaS 产品分配该区域。",
+			"regionPlaceholder": "us-east-1",
+			"regionHint": "仅在 AWS 确认您的产品使用其他计量区域时才修改此项。",
+			"variablesTitle": "变量",
+			"variablesHint": "复制每个值，填充上方信任关系中对应的 {VARIABLE} 占位符。这些值在此处保持隐藏，粘贴后才会显示。",
+			"infoAriaLabel": "更多信息",
+			"copyIamPolicy": "权限策略已复制到剪贴板",
+			"copyTrustPolicy": "信任关系已复制到剪贴板",
+			"copyExternalId": "External ID 已复制到剪贴板",
+			"copyAccountId": "账户 ID 已复制到剪贴板"
+		},
+		"gcpMarketplace": {
+			"titleConnect": "连接到 GCP Marketplace",
+			"titleEdit": "编辑 GCP Marketplace 连接",
+			"description": "在您的 GCP 项目中运行设置脚本，然后将生成的凭据 JSON 粘贴到此处。保存前 Flexprice 会进行验证。",
+			"connectionNameLabel": "连接名称",
+			"connectionNameInfo": "选择一个名称，便于在工作区中识别此 GCP Marketplace 连接。",
+			"connectionNamePlaceholder": "例如 GCP Marketplace",
+			"connectionNameHint": "为该连接起一个描述性名称，覆盖同一 GCP 项目下列出的所有产品。",
+			"step1Title": "1. 在您 GCP 项目的 Cloud Shell 中运行此脚本",
+			"step1Hint": "它会创建 Workload Identity Federation 池和服务账号，并仅授予上报用量所需的权限。复制前可展开查看。",
+			"scriptLabel": "设置脚本",
+			"scriptInfo": "在您的 GCP 项目中创建 Workload Identity Federation 池、provider 和服务账号，权限范围仅限于上报用量。",
+			"copyScript": "设置脚本已复制到剪贴板",
+			"variablesTitle": "变量",
+			"variablesHint": "复制每个值，填充上方设置脚本中对应的 {VARIABLE} 占位符。这些值在此处保持隐藏，粘贴后才会显示。",
+			"accountIdInfo": "您的 Workload Identity Federation provider 所信任的 Flexprice AWS 账户。它已包含在上方的设置脚本中。",
+			"roleNameInfo": "您的 Workload Identity Federation provider 的属性条件所校验的 AWS 角色名称。它已包含在上方的设置脚本中。",
+			"copyAccountId": "账户 ID 已复制到剪贴板",
+			"copyRoleName": "角色名称已复制到剪贴板",
+			"infoAriaLabel": "更多信息",
+			"accountIdMissing": "未配置。请设置 VITE_FLEXPRICE_AWS_ACCOUNT_ID 和 VITE_FLEXPRICE_AWS_ROLE_NAME 以便生成脚本。",
+			"step2Title": "2. 粘贴脚本生成的凭据 JSON",
+			"credentialsJsonLabel": "凭据 JSON",
+			"credentialsJsonInfo": "脚本生成的凭据文件。Flexprice 使用它对您的 GCP 项目进行身份验证，不会存储长期有效的密钥。",
+			"credentialsJsonPlaceholder": "{\"type\": \"external_account\", ...}",
+			"credentialsJsonHint": "脚本写入文件的完整内容（flexprice-gcp-creds.json）",
+			"credentialsJsonRequired": "凭据 JSON 为必填项",
+			"credentialsJsonInvalid": "这看起来不是 Workload Identity Federation 凭据文件 — 必须包含 \"type\": \"external_account\""
+		},
+		"azureMarketplace": {
+			"titleConnect": "连接到 Azure Marketplace",
+			"titleEdit": "编辑 Azure Marketplace 连接",
+			"description": "使用在您自己的租户中注册的 Entra ID 应用同步您的 Azure Marketplace 订阅和用量。保存前 Flexprice 会验证凭据。",
+			"connectionNameLabel": "连接名称",
+			"connectionNameInfo": "选择一个名称，便于在工作区中识别此 Azure Marketplace 连接。",
+			"connectionNamePlaceholder": "例如 Azure Marketplace",
+			"connectionNameHint": "为该连接起一个描述性名称。",
+			"infoAriaLabel": "更多信息",
+			"step1Title": "第 1 步：在您的 Microsoft Entra ID 租户中注册应用",
+			"step1Hint": "在您自己的 Microsoft Entra ID 租户中创建应用注册，并授予其访问 SaaS Marketplace 资源的权限。",
+			"technicalConfigWarning": "请使用与合作伙伴中心「技术配置」页面中为每个想要上报用量的套餐所指定的相同 Entra 租户 ID 和应用程序 ID。",
+			"step2Title": "第 2 步：输入应用凭据",
+			"tenantIdLabel": "租户 ID",
+			"tenantIdInfo": "应用注册所在的 Microsoft Entra ID 租户的目录（租户）ID。",
+			"tenantIdPlaceholder": "输入租户 ID",
+			"tenantIdHint": "可在 Azure 的应用注册概览页面找到。",
+			"tenantIdRequired": "租户 ID 为必填项",
+			"clientIdLabel": "客户端 ID",
+			"clientIdInfo": "已注册应用的应用程序（客户端）ID。",
+			"clientIdPlaceholder": "输入客户端 ID",
+			"clientIdHint": "可在 Azure 的应用注册概览页面找到。",
+			"clientIdRequired": "客户端 ID 为必填项",
+			"clientSecretLabel": "客户端密钥",
+			"clientSecretInfo": "为该应用生成的客户端密钥。Flexprice 会将其加密，仅用于请求访问令牌。",
+			"clientSecretPlaceholder": "输入客户端密钥",
+			"clientSecretHint": "在应用注册的「证书和密码」下生成。",
+			"clientSecretRequired": "客户端密钥为必填项"
+		},
+		"validation": {
+			"nameRequired": "连接名称为必填项",
+			"roleArnRequired": "角色 ARN 为必填项",
+			"roleArnInvalid": "请输入有效的 IAM 角色 ARN（arn:aws:iam::<account-id>:role/<name>）",
+			"regionRequired": "区域为必填项",
+			"awsAccessKeyRequired": "AWS Access Key ID 为必填项",
+			"awsSecretRequired": "AWS Secret Access Key 为必填项",
+			"accessTokenRequired": "访问令牌为必填项",
+			"clientSecretRequired": "客户端密钥为必填项",
+			"apiKeyRequired": "API 密钥为必填项",
+			"apiKeyRequiredUpper": "API 密钥为必填项",
+			"siteRequired": "站点为必填项",
+			"webhookUsernameRequired": "Webhook 用户名为必填项",
+			"webhookPasswordRequired": "Webhook 密码为必填项",
+			"secretKeyRequired": "密钥为必填项",
+			"webhookSecretRequired": "Webhook 密钥为必填项",
+			"keyIdRequired": "Key ID 为必填项",
+			"clientSideTokenRequired": "客户端令牌为必填项",
+			"organizationIdRequired": "组织 ID 为必填项",
+			"accountsServerRequired": "Accounts Server 为必填项",
+			"clientIdRequired": "客户端 ID 为必填项",
+			"redirectUrlInvalid": "必须是有效的 URL，且以 http:// 或 https:// 开头"
+		},
+		"toast": {
+			"created": "{{provider}} 连接创建成功",
+			"updated": "{{provider}} 连接更新成功",
+			"failedToCreate": "创建连接失败",
+			"failedToUpdate": "更新连接失败",
+			"externalIdUnavailable": "无法创建连接 — 缺少租户或环境",
+			"webhookUrlCopied": "Webhook URL 已复制到剪贴板！",
+			"redirectUriCopied": "重定向 URI 已复制到剪贴板！",
+			"failedOAuth": "发起 OAuth 失败",
+			"failedZohoOAuth": "发起 Zoho OAuth 失败",
+			"oauthGeneric": "发起 OAuth 失败"
+		},
+		"buttons": {
+			"createConnection": "创建连接",
+			"updateConnection": "更新连接",
+			"cancel": "取消"
+		},
+		"sync": {
+			"title": "同步配置",
+			"description": "配置在 {{partner}} 与 Flexprice 之间同步哪些数据",
+			"pushTo": "推送至 {{partner}}",
+			"pushToHubSpot": "推送至 HubSpot",
+			"inboundWebhook": "入站同步（需要配置 Webhook）"
+		},
+		"labels": {
+			"invoices": "发票",
+			"deals": "交易",
+			"quotes": "报价单",
+			"payments": "付款",
+			"environment": "环境",
+			"apiKey": "API 密钥",
+			"secretKey": "密钥"
+		},
+		"webhook": {
+			"sectionTitle": "Webhook 配置",
+			"url": "Webhook URL",
+			"eventsToSubscribe": "要订阅的 Webhook 事件",
+			"setupInstructions": "设置说明：",
+			"copy": "复制",
+			"copied": "已复制！",
+			"secretLabel": "Webhook 密钥",
+			"secretPlaceholder": "输入 Webhook 密钥",
+			"secretDescription": "用于校验 Webhook 真实性的密钥"
+		},
+		"scopes": {
+			"requiredScopes": "所需权限范围",
+			"hubspotHint": "根据您的同步配置，请确保在 HubSpot 应用中启用以下权限范围："
+		},
+		"hubSpot": {
+			"description": "使用所需凭据配置您的 HubSpot 集成。",
+			"connectionNamePlaceholder": "例如 生产环境 HubSpot、测试 HubSpot",
+			"connectionNameHint": "用于识别此 HubSpot 连接的友好名称",
+			"accessToken": "访问令牌",
+			"accessTokenPlaceholder": "pat-...",
+			"accessTokenHint": "您的 HubSpot 私有应用访问令牌",
+			"clientSecret": "客户端密钥",
+			"clientSecretPlaceholder": "输入您的客户端密钥",
+			"clientSecretHint": "您的 HubSpot 应用客户端密钥",
+			"webhookIntro": "在您的 HubSpot 旧版应用控制台中设置此 Webhook URL，以接收事件通知：",
+			"webhookEventsIntro": "在您的 HubSpot Webhook 配置中订阅以下事件："
+		},
+		"s3": {
+			"titleEdit": "编辑 S3 连接",
+			"titleConnect": "连接到 Amazon S3",
+			"description": "输入您的 AWS 凭据以连接到 S3，完成后点击保存。",
+			"connectionNameHint": "为该 S3 连接起一个描述性名称",
+			"connectionNamePlaceholder": "输入连接名称",
+			"flexpriceManaged": "Flexprice 托管存储",
+			"flexpriceManagedHint": "无需配置 AWS",
+			"awsAccessKey": "AWS Access Key ID",
+			"awsAccessKeyPlaceholder": "输入 AWS Access Key ID",
+			"awsAccessKeyHint": "您的 AWS Access Key ID",
+			"awsSecretKey": "AWS Secret Access Key",
+			"awsSecretKeyPlaceholder": "输入 AWS Secret Access Key",
+			"awsSecretKeyHint": "您的 AWS Secret Access Key",
+			"sessionToken": "AWS Session Token（可选）",
+			"sessionTokenPlaceholder": "输入 AWS Session Token",
+			"sessionTokenHint": "仅使用临时凭据时需要",
+			"securityNote": "安全说明",
+			"securityFlexprice": "您的数据将安全地存储在 Flexprice 托管的 S3 存储桶中。文件采用静态加密，并可通过安全的下载链接访问。",
+			"securityAws": "您的 AWS 凭据会被加密并安全存储。我们建议使用具有最小必需权限的 IAM 角色来访问 S3。"
+		},
+		"zohoBooks": {
+			"description": "配置您的 Zoho Books 集成并通过 OAuth 授权。",
+			"connectionPlaceholder": "例如 Zoho Books 生产环境",
+			"clientIdPlaceholder": "Zoho OAuth 客户端 ID",
+			"clientSecretPlaceholder": "Zoho OAuth 客户端密钥",
+			"organizationId": "组织 ID",
+			"organizationIdPlaceholder": "Zoho Books organization_id",
+			"organizationIdHint": "执行 Zoho Books API 操作所必需。",
+			"accountsServer": "Accounts Server",
+			"accountsServerPlaceholder": "https://accounts.zoho.in",
+			"accountsServerHint": "默认为印度（.in）。如有需要可使用其他区域（如 accounts.zoho.com、accounts.zoho.eu）。",
+			"webhookSection": "Webhook 配置",
+			"webhookBody": "在 Zoho Books 中创建 Invoice 和 Contact Webhook，并为每个 Webhook 设置此 URL。此处与 Zoho 中使用相同的密钥，以便 Flexprice 校验 X-Zoho-Webhook-Signature。",
+			"webhookSecret": "Webhook 密钥",
+			"webhookSecretPlaceholderEdit": "留空保留现有密钥，或输入新密钥进行轮换",
+			"webhookSecretPlaceholderCreate": "与 Zoho Books Webhook 设置中的值相同",
+			"webhookSecretDescEdit": "已加密存储。更新时留空表示保留当前密钥。",
+			"webhookSecretDescCreate": "必填。必须与 Zoho Books 中的密钥一致，以便 Flexprice 校验 X-Zoho-Webhook-Signature。将随连接一起加密存储。",
+			"oauthRedirectTitle": "OAuth 重定向 URI",
+			"oauthRedirectBody": "此 URI 必须与您的 Zoho 应用授权重定向 URI 以及后端 OAuth 重定向配置完全一致。",
+			"webhookBodyHtml": "在 Zoho Books 中创建 Invoice 和 Contact Webhook，并为每个 Webhook 设置此 URL。此处与 Zoho 中使用相同的密钥，以便 Flexprice 校验 <header>X-Zoho-Webhook-Signature</header>。",
+			"credentialsHidden": "OAuth 凭据已加密并隐藏。如需更新凭据，请删除该连接并重新创建。",
+			"selectTenantForUrl": "选择租户和环境以生成 URL",
+			"toastUpdated": "Zoho Books 连接更新成功"
+		},
+		"quickBooks": {
+			"descriptionEdit": "更新您的 QuickBooks 连接设置。",
+			"descriptionCreate": "配置您的 QuickBooks 集成。您将被重定向到 QuickBooks 进行授权。",
+			"connectionNamePlaceholder": "例如 QuickBooks 生产环境、QuickBooks 沙盒",
+			"connectionNameHint": "用于识别此 QuickBooks 连接的友好名称",
+			"clientId": "客户端 ID",
+			"clientIdPlaceholder": "输入您的 QuickBooks OAuth 客户端 ID",
+			"clientIdHint": "您的 QuickBooks OAuth 客户端 ID，来自开发者控制台的「Keys & Credentials」标签页",
+			"qbClientSecret": "客户端密钥",
+			"qbClientSecretPlaceholder": "输入您的 QuickBooks OAuth 客户端密钥",
+			"qbClientSecretHint": "您的 QuickBooks OAuth 客户端密钥，来自开发者控制台的「Keys & Credentials」标签页",
+			"incomeAccountOptional": "收入科目 ID（可选）",
+			"incomeAccountPlaceholder": "79",
+			"incomeAccountHint": "QuickBooks 中用于商品的收入科目 ID。留空时默认使用 QuickBooks 标准收入科目（ID：79）。",
+			"pushToQb": "推送至 QuickBooks",
+			"webhookPaymentEnabled": "在您的 QuickBooks 应用中配置 Webhook，以启用从 QuickBooks 到 Flexprice 的付款对账。",
+			"webhookPaymentDisabled": "启用付款同步以配置用于付款对账的 Webhook 集成。",
+			"webhookVerifierOptional": "Webhook 验证令牌（可选）",
+			"webhookVerifierPlaceholder": "输入 QuickBooks 提供的 Webhook 验证令牌",
+			"webhookVerifierHint": "来自 Intuit 开发者门户的 Webhook 验证令牌，用于签名校验（生产环境推荐）",
+			"qbWebhookIntro": "在您的 QuickBooks 应用（Intuit 开发者门户）中设置此 Webhook URL，以接收付款通知：",
+			"qbWebhookEventsIntro": "在您的 QuickBooks 应用（Intuit 开发者门户）中订阅此事件：",
+			"oauthTitle": "🔒 需要 OAuth 授权",
+			"oauthBody": "点击「创建连接」后，您将被重定向到 QuickBooks 以授权该连接。",
+			"oauthClientReady": "请确保已从 QuickBooks 控制台准备好客户端 ID 和客户端密钥。",
+			"oauthImportant": "重要提示：您必须在 QuickBooks 应用设置中配置此重定向 URI。",
+			"oauthImportantRich": "<important>重要提示：</important>您必须在 QuickBooks 应用设置中配置此重定向 URI。",
+			"noteEditing": "注意：出于安全考虑，OAuth 凭据已加密且不会显示。如需更新凭据，请删除该连接并重新创建。",
+			"qbSetupStep1": "前往 Intuit 开发者门户中的您的 QuickBooks 应用",
+			"qbSetupStep2": "进入 Webhooks 部分",
+			"qbSetupStep3": "添加上方的 Webhook URL",
+			"qbSetupStep4": "订阅 Payment 实体事件（创建/更新）",
+			"qbSetupStep5Optional": "复制 Webhook 验证令牌并粘贴到上方（可选但推荐）"
+		},
+		"chargebee": {
+			"description": "使用所需凭据配置您的 Chargebee 集成。",
+			"connectionNamePlaceholder": "例如 生产环境 Chargebee、测试 Chargebee",
+			"connectionNameHint": "用于识别此 Chargebee 连接的友好名称",
+			"apiKeyHint": "您的 Chargebee API 密钥，来自 API 密钥部分",
+			"site": "站点",
+			"sitePlaceholder": "例如 flexpriceio-test",
+			"siteHint": "您的 Chargebee 站点名称",
+			"webhookUsername": "Webhook 用户名",
+			"webhookUsernamePlaceholder": "输入 Webhook 用户名",
+			"webhookUsernameHint": "用于验证 Webhook 请求身份的 Webhook 用户名",
+			"webhookPassword": "Webhook 密码",
+			"webhookPasswordPlaceholder": "输入 Webhook 密码",
+			"webhookPasswordHint": "用于验证 Webhook 请求身份的 Webhook 密码",
+			"pushToChargebee": "推送至 Chargebee",
+			"webhookIntro": "在您的 Chargebee 控制台中设置此 Webhook URL，以接收事件通知：",
+			"webhookEventsIntro": "在您的 Chargebee 控制台中订阅以下事件："
+		},
+		"nomod": {
+			"description": "配置您的 Nomod 集成，用于支付链接和发票同步。",
+			"apiKey": "API 密钥",
+			"connectionPlaceholder": "例如 Nomod 生产环境、Nomod 测试",
+			"connectionHint": "用于识别此 Nomod 连接的友好名称",
+			"webhookSecret": "Webhook 密钥",
+			"webhookSecretPlaceholder": "输入 Webhook 密钥",
+			"apiKeyPlaceholder": "输入您的 API 密钥",
+			"apiKeyHint": "您的 Nomod API 密钥（例如 sk_live_...）",
+			"pushToNomod": "推送至 Nomod",
+			"webhookIntro": "如有需要，可在您的 Zapier Webhook 中使用此 Webhook URL：",
+			"webhookSecretHint": "用于校验 Webhook 真实性的密钥"
+		},
+		"moyasar": {
+			"description": "使用所需凭据配置您的 Moyasar 集成。",
+			"connectionPlaceholder": "例如 Moyasar 生产环境、Moyasar 测试",
+			"connectionHint": "用于识别此 Moyasar 连接的友好名称",
+			"secretKey": "密钥",
+			"secretKeyPlaceholder": "sk_...",
+			"secretKeyHint": "您的 Moyasar 密钥，来自 API 密钥部分",
+			"publishableKey": "可公开密钥",
+			"publishableKeyPlaceholder": "pk_live_... 或 pk_test_...",
+			"publishableKeyHint": "用于渲染自动扣款的安全银行卡表单。可在您的 Moyasar 控制台中找到。",
+			"successUrl": "成功跳转 URL",
+			"successUrlPlaceholder": "https://your-app.com/billing/success",
+			"successUrlHint": "支付成功后客户被重定向到的 URL（可选）",
+			"cancelUrl": "取消跳转 URL",
+			"cancelUrlPlaceholder": "https://your-app.com/billing/cancel",
+			"cancelUrlHint": "客户取消支付后被重定向到的 URL（可选）",
+			"webhookIntro": "在您的 Moyasar 控制台中设置此 Webhook URL，以接收事件通知：",
+			"webhookEventsIntro": "在您的 Moyasar 控制台中订阅以下事件：",
+			"webhookEventPaymentPaid": "payment_paid",
+			"webhookEventPaymentFailed": "payment_failed",
+			"webhookEventPaymentRefunded": "payment_refunded",
+			"webhookEventPaymentVoided": "payment_voided",
+			"webhookEventPaymentCaptured": "payment_captured"
+		},
+		"razorpay": {
+			"description": "使用所需凭据配置您的 Razorpay 集成。",
+			"connectionPlaceholder": "例如 生产环境 Razorpay、测试 Razorpay",
+			"connectionHint": "用于识别此 Razorpay 连接的友好名称",
+			"keyId": "Key ID",
+			"keyIdHint": "您的 Razorpay Key ID，来自 API 密钥部分",
+			"secretKeyPlaceholder": "输入您的密钥",
+			"secretKeyHint": "您的 Razorpay 密钥，来自 API 密钥部分",
+			"pushToRazorpay": "推送至 Razorpay",
+			"webhookIntro": "在您的 Razorpay 控制台中设置此 Webhook URL，以接收事件通知：",
+			"webhookEventsIntro": "在您的 Razorpay 控制台中订阅以下事件："
+		},
+		"paddle": {
+			"description": "使用所需凭据配置您的 Paddle 集成。",
+			"connectionPlaceholder": "例如 Paddle 生产环境、Paddle 沙盒",
+			"connectionHint": "用于识别此 Paddle 连接的友好名称",
+			"apiKeyPlaceholder": "输入您的 Paddle API 密钥",
+			"apiKeyHint": "您的 Paddle API 密钥，来自 Developer Tools > Authentication",
+			"clientSideToken": "客户端令牌",
+			"clientSidePlaceholder": "live_... 或 test_...",
+			"clientSideHint": "Paddle 客户端令牌，来自 Developer Tools > Authentication。用于在结账页初始化 Paddle.js。",
+			"redirectUrl": "重定向 URL",
+			"redirectUrlPlaceholder": "https://your-app.com/payment-success",
+			"redirectUrlHint": "支付成功后客户被重定向到的 URL（可选）",
+			"webhookSecretPlaceholder": "pdl_ntfset_...",
+			"webhookIntro": "在您的 Paddle 控制台中设置此 Webhook URL，以接收事件通知：",
+			"webhookEventsIntro": "在您的 Paddle 控制台中订阅以下事件："
+		},
+		"whop": {
+			"description": "将 Flexprice 连接到 Whop 以同步发票。",
+			"connectionPlaceholder": "为您的 Whop 连接命名",
+			"connectionHint": "该连接的友好名称。",
+			"apiKeyPlaceholder": "apik_...",
+			"apiKeyHint": "来自您的 Whop 开发者控制台的 Bearer 令牌。",
+			"companyId": "公司 ID",
+			"companyIdPlaceholder": "biz_...",
+			"companyIdHint": "您的 Whop 公司标识符（biz_...）。",
+			"companyIdRequired": "公司 ID 为必填项",
+			"productIdOptional": "产品 ID（可选）",
+			"productIdPlaceholder": "prod_... — 留空则自动创建",
+			"productIdHint": "用于发票的 Whop 产品。留空则由 Flexprice 自动创建。",
+			"invoiceSyncHint": "将 Flexprice 发票以 send_invoice 付款形式推送到 Whop",
+			"webhookSecret": "Webhook 密钥",
+			"webhookSecretPlaceholderCreate": "来自 Whop 的 Webhook 签名密钥",
+			"webhookSecretPlaceholderEdit": "留空保留现有密钥，或输入新密钥进行轮换",
+			"webhookSecretDescCreate": "Webhook 校验所必需。必须与 Whop 中配置的密钥一致。已加密存储。",
+			"webhookSecretDescEdit": "已加密存储。更新时留空表示保留当前密钥。"
+		},
+		"tabs": {
+			"description": "使用所需凭据配置您的 Tabs 集成。",
+			"connectionPlaceholder": "例如 Tabs 生产环境、Tabs 测试",
+			"connectionHint": "用于识别此 Tabs 连接的友好名称",
+			"apiKeyPlaceholder": "输入您的 Tabs API 密钥",
+			"apiKeyHint": "您的 Tabs API 密钥（例如 tabs_sk_...）",
+			"pushToTabs": "推送至 Tabs"
+		}
+	},
+	"insightsTools": {
+		"exports": {
+			"pageHeading": "数据导出",
+			"s3PageHeading": "S3 数据导出",
+			"exportNotFound": "未找到导出任务",
+			"exportNotFoundDescription": "请求的导出任务不存在或已被删除。",
+			"backToExports": "返回导出列表",
+			"backToS3Connections": "返回 S3 连接列表",
+			"pause": "暂停",
+			"resume": "恢复",
+			"manualExport": "手动导出",
+			"overviewTab": "概览",
+			"runsTab": "运行记录",
+			"basicInformation": "基本信息",
+			"statusLabel": "状态",
+			"intervalLabel": "间隔",
+			"connectionLabel": "连接",
+			"s3Configuration": "S3 配置",
+			"bucketLabel": "存储桶",
+			"regionLabel": "区域",
+			"keyPrefixLabel": "键前缀",
+			"compressionLabel": "压缩",
+			"encryptionLabel": "加密",
+			"fallbackEncryptionDisplay": "AES256",
+			"timestamps": "时间戳",
+			"createdAt": "创建时间",
+			"lastUpdated": "最后更新时间",
+			"exportTasksTitle": "导出任务",
+			"entityExportSuffix": "{{entity}} 导出",
+			"exportDetailsDocumentTitle": "导出详情 - {{entity}} 导出",
+			"exportManagementDocumentTitle": "导出管理 - {{name}}",
+			"fallbackS3ConnectionName": "S3 连接",
+			"noExportTasks": "暂无导出任务",
+			"noExportTasksHint": "创建第一个导出任务，开始将数据同步到 S3。",
+			"addExportTask": "添加导出任务",
+			"connectionsTitle": "连接",
+			"providerS3Suffix": "S3",
+			"exportCountSingular": "{{count}} 个导出",
+			"exportCountPlural": "{{count}} 个导出",
+			"viewExports": "查看导出",
+			"noS3Connections": "暂无 S3 连接",
+			"noS3ConnectionsHint": "创建第一个 S3 连接，开始导出数据。",
+			"addS3Connection": "添加 S3 连接",
+			"s3FeaturesTitle": "S3 导出功能",
+			"s3FeatureDataExportTitle": "数据导出",
+			"s3FeatureDataExportBody": "按计划自动将事件、发票及其他 Flexprice 数据导出到您的 S3 存储桶。",
+			"s3FeatureSchedulingTitle": "灵活调度",
+			"s3FeatureSchedulingBody": "可选择每小时或每天导出，满足您的数据处理需求。",
+			"s3FeatureSecureTitle": "安全存储",
+			"s3FeatureSecureBody": "您的数据会加密后安全地存储在您自己的 S3 存储桶中，并提供可配置的加密选项。",
+			"s3FeatureFormatsTitle": "数据格式选项",
+			"s3FeatureFormatsBody": "以多种格式导出数据，并可配置压缩和文件大小上限，优化存储效率。",
+			"overviewSectionTitle": "概览",
+			"overviewIntro": "将 Flexprice 数据导出到外部存储系统，用于数据仓库、分析和备份。通过灵活调度和安全传输配置自动化导出。",
+			"highlightAutomatedExportsTitle": "自动化导出",
+			"highlightAutomatedExportsBody": "按计划定期导出数据",
+			"highlightMultipleFormatsTitle": "多种格式",
+			"highlightMultipleFormatsBody": "以多种数据格式导出",
+			"highlightSecureStorageTitle": "安全存储",
+			"highlightSecureStorageBody": "数据传输与存储全程加密",
+			"exportProvidersTitle": "导出提供商",
+			"providerAmazonS3Name": "Amazon S3",
+			"providerAmazonS3Description": "将 Flexprice 数据导出到 Amazon S3，用于数据仓库、分析和备份。",
+			"tagStorage": "存储",
+			"tagDataWarehouse": "数据仓库",
+			"tagAnalytics": "分析",
+			"premiumBadge": "高级版",
+			"taskRunsHeading": "任务运行记录",
+			"backToExportDetails": "返回导出详情"
+		},
+		"usageSyncs": {
+			"pageHeading": "用量同步",
+			"paginationUnit": "条用量记录",
+			"notSynced": "暂无同步记录",
+			"entityName": "用量记录",
+			"emptyDescription": "暂无用量记录。连接云市场并关联订阅后即可查看用量同步。",
+			"errors": {
+				"fetchFailed": "加载用量记录失败"
+			},
+			"columns": {
+				"subscription": "订阅",
+				"customer": "客户",
+				"plan": "套餐",
+				"amount": "金额",
+				"currency": "币种",
+				"periodStart": "周期开始",
+				"periodEnd": "周期结束",
+				"syncs": "同步次数"
+			},
+			"filterLabels": {
+				"customerId": "客户 ID",
+				"subscriptionId": "订阅 ID",
+				"periodStart": "周期开始",
+				"periodEnd": "周期结束"
+			},
+			"sortLabels": {
+				"createdAt": "创建时间",
+				"periodStart": "周期开始",
+				"periodEnd": "周期结束"
+			},
+			"drawer": {
+				"title": "同步记录",
+				"empty": "暂无同步记录。",
+				"synced": "已同步",
+				"skipped": "已跳过"
+			}
+		},
+		"integrations": {
+			"writeDeniedTooltip": "您没有管理连接的权限。请联系租户管理员开通权限。",
+			"pageHeading": "集成",
+			"availableSection": "可用集成",
+			"premiumAddonsSection": "高级附加组件",
+			"previewConnectionName": "预览连接",
+			"badgeConnected": "已连接",
+			"badgePremium": "高级版",
+			"docsLink": "文档",
+			"openDocsTitle": "打开 {{name}} 文档",
+			"disconnectTitle": "断开 {{name}}？",
+			"disconnectDescription": "此操作将移除该连接。您随时可以从集成页面重新连接。",
+			"disconnect": "断开连接",
+			"disconnecting": "正在断开…",
+			"notFound": "未找到该集成",
+			"comingSoon": "即将推出",
+			"addConnection": "添加连接",
+			"connectedAccountsTitle": "已关联账户",
+			"deleteConnectionConfirmTitle": "确定要删除连接「{{name}}」吗？",
+			"deleteConnectionIrreversible": "此操作无法撤销。",
+			"deleteConnection": "删除连接",
+			"toastDisconnected": "{{name}} 已断开",
+			"toastDisconnectFailed": "断开连接失败",
+			"toastPreviewDisconnectMock": "仅预览 — 这是一个模拟的已连接状态。",
+			"toastConnectionDeleted": "连接删除成功",
+			"toastConnectionDeleteFailed": "删除连接失败",
+			"catalog": {
+				"tags": {
+					"payments": "付款",
+					"invoices": "发票",
+					"crm": "CRM",
+					"sales": "销售",
+					"marketing": "营销",
+					"customerService": "客户服务",
+					"accounting": "会计",
+					"payment": "支付",
+					"invoiceCustomer": "发票与客户",
+					"marketplace": "云市场",
+					"usageMetering": "用量计量"
+				},
+				"mode": {
+					"test": "测试模式"
+				},
+				"stripe": {
+					"name": "Stripe",
+					"description": "使用我们的 Stripe 原生连接器发送发票、计算税费并收取付款。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": ["Flexprice Stripe 应用支持通过 Stripe 开具发票、收取税费和收款。"]
+						},
+						"stripeInvoicing": {
+							"title": "Stripe 发票",
+							"paragraphs": ["直接从 Flexprice 通过 Stripe Invoicing 创建和发送发票，并自动收取付款。"]
+						},
+						"automaticTax": {
+							"title": "税额自动计算",
+							"paragraphs": [
+								"借助 Stripe Tax 处理任何地区的复杂税务规则和税率。该集成可确保每张发票的税额计算准确且实时更新，免去人工估算并降低合规风险。"
+							]
+						},
+						"securePayments": {
+							"title": "安全灵活的收款",
+							"paragraphs": [
+								"通过 Stripe 可信的支付网关快速、安全地收取付款。您的客户可以选择多种支付方式 - 信用卡、ACH 等 - 从而提升整体客户体验并加快资金回笼。"
+							]
+						}
+					}
+				},
+				"razorpay": {
+					"name": "Razorpay",
+					"description": "使用我们的 Razorpay 原生连接器接收、处理和发放付款。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": [
+								"Flexprice Razorpay 应用支持直接通过 Razorpay 开具发票、计算税费和收取付款。将其与 Flexprice（或您的计费引擎）无缝集成，简化付款流程。"
+							]
+						},
+						"razorpayInvoicing": {
+							"title": "Razorpay 发票",
+							"paragraphs": ["利用 Razorpay 的开票能力，直接从 Flexprice 点击几下即可创建和发送发票。收款流程可以自动化，减少人工跟催。"]
+						},
+						"automaticTax": {
+							"title": "税额自动计算",
+							"paragraphs": [
+								"利用 Razorpay 对各地区税务规则（如印度的 GST）的支持。该集成可确保每张发票使用准确、实时的税率，最大限度地降低合规风险和人工计算。"
+							]
+						},
+						"securePayments": {
+							"title": "安全灵活的收款",
+							"paragraphs": [
+								"通过 Razorpay 可信的支付网关快速、安全地收取付款。您的客户可以选择多种支付方式 - 信用卡、借记卡、网银、UPI 和钱包 - 提升支付体验并加快资金回笼。"
+							]
+						}
+					}
+				},
+				"chargebee": {
+					"name": "Chargebee",
+					"description": "在 Flexprice 与 Chargebee 之间同步发票和费用/价格，实现无缝计费。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": [
+								"Flexprice Chargebee 应用支持在 Flexprice 与 Chargebee 之间无缝同步发票和费用/价格。集成后可简化您的计费流程。"
+							]
+						},
+						"invoiceSync": {
+							"title": "发票同步",
+							"paragraphs": ["将发票从 Flexprice 同步到 Chargebee，确保您的计费系统与最新发票数据保持一致。"]
+						},
+						"chargePriceSync": {
+							"title": "费用与价格同步",
+							"paragraphs": ["在 Flexprice 与 Chargebee 之间同步费用和价格，保持计费平台数据一致。"]
+						}
+					}
+				},
+				"hubspot": {
+					"name": "Hubspot",
+					"description": "Hubspot 是一个集 CRM、销售、营销和客户服务于一体的平台。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": ["Flexprice HubSpot 应用支持在 HubSpot 与 Flexprice 之间无缝同步交易、发票、客户和付款。"]
+						},
+						"dealLineItems": {
+							"title": "交易行项目同步",
+							"paragraphs": ["自动将交易行项目从 HubSpot 同步到 Flexprice，确保收入统计和计费准确无误。"]
+						},
+						"invoiceSync": {
+							"title": "发票同步",
+							"paragraphs": ["将发票从 Flexprice 推送到 HubSpot，让您的 CRM 与账单信息保持同步。"]
+						},
+						"customerSync": {
+							"title": "客户同步",
+							"paragraphs": ["在 HubSpot 与 Flexprice 之间同步客户数据，确保客户信息的单一可信来源。"]
+						},
+						"paymentsSync": {
+							"title": "付款同步",
+							"paragraphs": ["在两个平台之间保持付款记录同步，确保财务报告准确。"]
+						},
+						"revenueReporting": {
+							"title": "在 HubSpot 中计算收入",
+							"paragraphs": ["利用 HubSpot 的报表能力，使用从 Flexprice 同步的准确收入数据。"]
+						}
+					}
+				},
+				"salesforce": {
+					"name": "Salesforce",
+					"description": "Salesforce 是一个客户关系管理（CRM）平台。"
+				},
+				"paypal": {
+					"name": "PayPal",
+					"description": "PayPal 是一个支持在线转账的在线支付系统。"
+				},
+				"zoho": {
+					"name": "Zoho",
+					"description": "Zoho Books 集成让您可以直接从 Flexprice 管理关键的会计任务。",
+					"sections": {
+						"createCustomer": {
+							"title": "在 Zoho Books 中创建客户",
+							"paragraphs": ["在 Flexprice 中新增或修改客户时，自动在 Zoho Books 中创建或更新对应客户。"]
+						},
+						"createInvoice": {
+							"title": "在 Zoho Books 中创建发票",
+							"paragraphs": ["基于 Flexprice 的用量数据或计费触发器无缝生成 Zoho Books 发票，减少人工操作。"]
+						},
+						"transformInvoice": {
+							"title": "将 Flexprice 发票转换为 Zoho Books 发票",
+							"paragraphs": ["将 Flexprice 发票对象转换为 Zoho Books 的发票格式 - 简化数据流转并确保准确性。"]
+						}
+					}
+				},
+				"quickbooks": {
+					"name": "QuickBooks",
+					"description": "将套餐、客户和发票从 Flexprice 单向同步到 QuickBooks Online，实现无缝记账。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": [
+								"Flexprice QuickBooks 集成支持从 Flexprice 到 QuickBooks Online 的单向同步。自动同步套餐、客户和发票，让您的会计系统保持最新。"
+							]
+						},
+						"planPriceSync": {
+							"title": "套餐/价格同步",
+							"paragraphs": [
+								"在 Flexprice 中创建套餐时，自动创建 QuickBooks 商品（服务类型）。每个价格会映射到一个 QuickBooks 商品，确保发票行项目准确。"
+							]
+						},
+						"customerSync": {
+							"title": "客户同步",
+							"paragraphs": ["发票同步时自动在 QuickBooks 中创建客户。客户的名称、邮箱和账单地址等信息会一并同步。"]
+						},
+						"invoiceSync": {
+							"title": "发票同步",
+							"paragraphs": ["自动将发票从 Flexprice 同步到 QuickBooks Online。发票行项目会映射到 QuickBooks 商品，确保会计记录准确。"]
+						},
+						"tokenRefresh": {
+							"title": "令牌自动刷新",
+							"paragraphs": ["OAuth 令牌过期后由后端自动刷新，无需人工干预即可保持同步不中断。"]
+						}
+					}
+				},
+				"nomod": {
+					"name": "Nomod",
+					"description": "通过 Nomod 集成发送发票并使用支付链接收取付款。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": ["Flexprice Nomod 应用支持通过 Nomod 支付链接开具发票和收取付款。将其与 Flexprice 无缝集成，简化付款流程。"]
+						},
+						"invoiceSync": {
+							"title": "发票同步",
+							"paragraphs": ["直接从 Flexprice 通过 Nomod 创建带支付链接的发票并发送。收款可以通过 Nomod 支付链接自动完成。"]
+						},
+						"paymentLinks": {
+							"title": "支付链接",
+							"paragraphs": ["使用 Nomod 为您的发票生成安全的支付链接。您的客户可以通过 Nomod 支持的多种支付方式快速、安全地付款。"]
+						},
+						"webhooks": {
+							"title": "Webhook 集成",
+							"paragraphs": ["通过 Webhook 实时接收发票和支付链接事件的通知。随时掌握付款状态、发票创建等动态。"]
+						}
+					}
+				},
+				"moyasar": {
+					"name": "Moyasar",
+					"description": "通过 Moyasar 支付网关集成发送发票并收取付款。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": ["Flexprice Moyasar 应用支持通过 Moyasar 支付网关开具发票和收取付款。将其与 Flexprice 无缝集成，简化付款流程。"]
+						},
+						"invoiceSync": {
+							"title": "发票同步",
+							"paragraphs": ["直接从 Flexprice 通过 Moyasar 创建和发送发票。收款可以通过 Moyasar 支付网关自动完成。"]
+						},
+						"securePayments": {
+							"title": "安全收款",
+							"paragraphs": ["通过 Moyasar 支付网关快速、安全地收取付款。您的客户可以选择多种支付方式，提升整体客户体验并加快资金回笼。"]
+						},
+						"webhooks": {
+							"title": "Webhook 集成",
+							"paragraphs": ["通过 Webhook 实时接收付款事件通知。订阅 payment_paid 事件即可随时掌握付款状态。"]
+						}
+					}
+				},
+				"paddle": {
+					"name": "Paddle",
+					"description": "通过 Paddle 支付网关集成发送发票并收取付款。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": ["Flexprice Paddle 应用支持通过 Paddle 支付网关开具发票和收取付款。将其与 Flexprice 无缝集成，简化付款流程。"]
+						},
+						"invoiceSync": {
+							"title": "发票同步",
+							"paragraphs": ["直接从 Flexprice 通过 Paddle 创建和发送发票。收款可以通过 Paddle 支付网关自动完成。"]
+						},
+						"securePayments": {
+							"title": "安全收款",
+							"paragraphs": ["通过 Paddle 支付网关快速、安全地收取付款。您的客户可以选择多种支付方式，提升整体客户体验并加快资金回笼。"]
+						},
+						"webhooksPaddle": {
+							"title": "Webhook 集成",
+							"paragraphs": ["通过 Webhook 实时接收付款事件通知。订阅 transactions.completed 事件即可随时掌握付款状态。"]
+						}
+					}
+				},
+				"whop": {
+					"name": "Whop",
+					"description": "将发票同步到 Whop，并自动更新付款状态。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": [
+								"Flexprice Whop 集成让您可以将发票直接推送到 Whop，作为一次性的 send_invoice 付款。客户可以通过 Whop 托管的结账页付款，收到付款后 Flexprice 会自动更新。"
+							]
+						},
+						"invoiceSync": {
+							"title": "发票同步",
+							"paragraphs": [
+								"启用发票同步后，每当 Flexprice 发票定稿，Flexprice 都会自动在 Whop 中创建对应发票。该集成会确保您的 Whop 产品存在（必要时自动创建）。",
+								"您还可以从 Flexprice 将 Whop 发票标记为已支付，该操作会代您调用 Whop 的 mark_paid API。"
+							]
+						},
+						"webhooks": {
+							"title": "Webhook",
+							"paragraphs": [
+								"在您的 Whop 开发者设置中注册 Flexprice Webhook URL，订阅 invoice.paid 事件，并在 Flexprice 中使用相同的 Webhook 签名密钥。当 Whop 触发该事件时，Flexprice 会校验签名、将对应发票标记为已支付并记录付款。"
+							]
+						}
+					}
+				},
+				"tabs": {
+					"name": "Tabs",
+					"description": "使用您的 Tabs API 密钥将发票同步到 Tabs。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": [
+								"Flexprice Tabs 集成让您可以使用 Tabs API 密钥将发票直接推送到 Tabs。配置连接名称、API 密钥和发票同步设置即可开始使用。"
+							]
+						},
+						"invoiceSync": {
+							"title": "发票同步",
+							"paragraphs": ["启用发票同步后，Flexprice 会自动将定稿的发票推送到 Tabs。"]
+						}
+					}
+				},
+				"aws_marketplace": {
+					"name": "AWS Marketplace",
+					"description": "向 AWS Marketplace 上报计量用量，让您的 AWS 买家按实际消耗付费。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": [
+								"Flexprice 代您将已计量的用量上报到 AWS Marketplace。连接来自您自己 AWS 账户的市场计量 IAM 角色，Flexprice 会为每个已注册的协议发送 BatchMeterUsage。"
+							]
+						},
+						"setup": {
+							"title": "设置",
+							"paragraphs": [
+								"使用连接面板中显示的 IAM 策略和信任策略，在您的 AWS 账户中创建 IAM 角色。信任策略授予 Flexprice 的 AWS 账户扮演该角色的权限，并限定为唯一的 External ID。将生成的角色 ARN 粘贴回 Flexprice 并保存 — Flexprice 会在存储连接前通过扮演该角色进行验证。"
+							]
+						},
+						"usageReporting": {
+							"title": "用量上报",
+							"paragraphs": ["连接后，每小时任务会按协议汇总用量并通过 BatchMeterUsage 上报给 AWS，同时每日执行一次对账作为兜底。"]
+						}
+					}
+				},
+				"gcp_marketplace": {
+					"name": "GCP Marketplace",
+					"description": "向 GCP Marketplace 上报计量用量，让您的 GCP 买家按实际消耗付费。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": [
+								"Flexprice 代您将已计量的用量上报到 GCP Marketplace。Flexprice 通过 Workload Identity Federation 对您的 GCP 项目进行身份验证 — 不会存储任何长期有效的 GCP 密钥 — 并为每个已注册的权益发送用量报告。"
+							]
+						},
+						"setup": {
+							"title": "设置",
+							"paragraphs": [
+								"在您 GCP 项目的 Cloud Shell 中运行连接面板中显示的设置脚本。它会创建一个信任 Flexprice AWS 身份的工作负载身份池，以及一个权限仅限于上报用量的服务账号。将生成的凭据文件粘贴回 Flexprice 并保存 — Flexprice 会在存储连接前将其兑换为有效令牌进行验证。"
+							]
+						},
+						"usageReporting": {
+							"title": "用量上报",
+							"paragraphs": ["连接后，调度任务会按权益汇总用量，并通过 Service Control API 的 services.report 上报给 GCP。"]
+						}
+					}
+				},
+				"azure_marketplace": {
+					"name": "Azure Marketplace",
+					"description": "向 Azure Marketplace 上报计量用量，让您的 Azure 买家按实际消耗付费。",
+					"sections": {
+						"overview": {
+							"title": "概览",
+							"paragraphs": [
+								"Flexprice 代您将已计量的用量上报到 Azure Marketplace。连接在您自己的 Azure 租户中注册的 Entra ID 应用，Flexprice 会为每个已注册的订阅发送用量事件。"
+							]
+						},
+						"setup": {
+							"title": "设置",
+							"paragraphs": [
+								"在您自己的 Microsoft Entra ID 租户中注册应用并为其生成客户端密钥。请确保在每个想要上报用量的套餐的「技术配置」页面中填入该应用的租户 ID 和应用程序 ID。将租户 ID、客户端 ID 和客户端密钥粘贴回 Flexprice 并保存。Flexprice 会在存储连接前通过请求访问令牌验证凭据。"
+							]
+						},
+						"usageReporting": {
+							"title": "用量上报",
+							"paragraphs": ["连接后，调度任务会按订阅将用量上报到 Azure Marketplace 的用量事件 API。"]
+						}
+					}
+				}
+			}
+		},
+		"oauthCallback": {
+			"authorizationFailed": "❌ 授权失败",
+			"redirectingToIntegrations": "正在返回集成页面...",
+			"completingAuthorization": "正在完成 {{provider}} 授权...",
+			"exchangingTokens": "🔒 正在安全地将授权码兑换为令牌"
+		},
+		"revenue": {
+			"pageHeading": "收入",
+			"metricNetRevenue": "净收入",
+			"metricContractRevenue": "合同收入",
+			"metricUsageRevenue": "用量收入",
+			"metricVoiceMinutes": "语音分钟数",
+			"metricCostPerMinute": "每分钟成本",
+			"emptyRangeTitle": "该时间范围内没有数据",
+			"emptyRangeBody": "所选时间范围内的收入数据不足，无法显示此统计信息。",
+			"viewLatestData": "查看最新数据",
+			"searchCustomersPlaceholder": "搜索客户...",
+			"colCustomer": "客户",
+			"colCurrency": "币种",
+			"noSearchMatches": "没有符合搜索条件的客户。",
+			"loadingEllipsis": "...",
+			"filterThisMonth": "本月",
+			"filterThisQuarter": "本季度",
+			"filterThisYear": "今年",
+			"filterLastMonth": "上个月",
+			"filterLastQuarter": "上个季度",
+			"filterLastYear": "去年"
+		}
+	},
+	"integrations": {
+		"stripe": {
+			"description": "使用所需凭据配置您的 Stripe 集成。",
+			"connectionPlaceholder": "例如 生产环境 Stripe、测试 Stripe",
+			"connectionNameHint": "用于识别此 Stripe 连接的友好名称",
+			"secretKeyLabel": "密钥",
+			"secretKeyPlaceholder": "sk_...",
+			"secretKeyHint": "您的 Stripe 密钥，来自 API 密钥部分",
+			"pullFromStripe": "从 Stripe 拉取",
+			"pushToStripe": "推送至 Stripe",
+			"webhookSecretDescription": "设置 Webhook 端点后由 Stripe 提供的 Webhook 密钥",
+			"webhookSecretPlaceholder": "whsec_...",
+			"webhookIntro": "在您的 Stripe 控制台中设置此 Webhook URL，以接收事件通知：",
+			"webhookEventsIntro": "根据您的同步配置，在 Stripe 控制台中订阅以下事件：",
+			"labels": {
+				"plans": "套餐",
+				"invoices": "发票",
+				"prices": "价格",
+				"subscriptions": "订阅"
+			},
+			"toast": {
+				"stripeCreated": "Stripe 连接创建成功",
+				"stripeUpdated": "Stripe 连接更新成功"
+			}
+		}
+	},
+	"environment": {
+		"types": {
+			"sandbox": "沙盒",
+			"production": "生产",
+			"sandboxDescription": "用于开发和测试",
+			"productionDescription": "用于线上生产环境"
+		},
+		"copy": {
+			"title": "复制环境",
+			"fallbackDescription": "将所有已发布的配置复制到一个环境中。",
+			"introBeforeBadge": "正在从",
+			"intoNew": "复制到一个新环境。",
+			"intoSelected": "复制到所选环境。",
+			"cleanupTitle": "复制前先清理",
+			"cleanupBodyLead": "所有启用的功能和套餐都会按原样复制。如有不想带入的内容，请",
+			"cleanupBefore": "先",
+			"cleanupBodyTrail": "归档或移除，然后再继续。",
+			"copyIntoLabel": "复制到",
+			"selectTargetPlaceholder": "选择目标环境",
+			"createNewOption": "创建新环境",
+			"createNewOptionDescription": "将创建一个新环境用于复制",
+			"newEnvironmentName": "新环境名称",
+			"namePlaceholder": "例如 Staging、生产克隆",
+			"typeLabel": "类型",
+			"typePlaceholder": "选择环境类型",
+			"whatCopiedHeading": "将复制哪些内容",
+			"featuresTitle": "所有启用的功能",
+			"featuresDescription": "静态、布尔和计量型功能及其关联的计量指标",
+			"plansTitle": "所有启用的套餐",
+			"plansDescription": "包括每个套餐关联的所有价格、权益和额度授予",
+			"excludedLead": "草稿实体、已归档实体、客户、订阅、发票和钱包余额",
+			"excludedBold": "不会",
+			"excludedTail": "被复制。",
+			"noteAsyncNewEnv": "环境会立即创建。功能和套餐将在后台克隆，可能需要几秒钟才会显示。",
+			"noteAsyncOnly": "功能和套餐将在后台克隆，可能需要几秒钟才会显示。",
+			"copyingEllipsis": "复制中...",
+			"buttonCopy": "复制环境",
+			"toastStarted": "环境克隆已启动 — 功能和套餐正在后台复制。",
+			"toastCloneFailed": "克隆环境失败",
+			"errorNameRequired": "环境名称为必填项",
+			"errorNoSource": "未选择源环境"
+		},
+		"creator": {
+			"title": "创建环境",
+			"description": "为您的应用创建一个新环境",
+			"nameLabel": "名称",
+			"namePlaceholder": "输入环境名称",
+			"typeLabel": "类型",
+			"typePlaceholder": "选择环境类型",
+			"sandboxCancellationNote": "沙盒订阅将在 {{days}} 天后自动取消",
+			"productionBodyLine1": "生产环境需要审批。",
+			"productionContactPrompt": "联系我们以开始使用：",
+			"brandSlack": "Slack",
+			"brandEmail": "邮件",
+			"bookACall": "预约通话",
+			"ariaSlackContact": "通过 Slack 联系",
+			"ariaEmailContact": "通过邮件联系",
+			"ariaBookCall": "预约通话",
+			"slackAlt": "Slack",
+			"toastCreated": "环境创建成功",
+			"toastCreateFailed": "创建环境失败",
+			"errorNameRequired": "环境名称为必填项",
+			"errorCreateUnknown": "创建环境失败",
+			"savingEllipsis": "创建中...",
+			"submitCreate": "创建环境"
+		},
+		"editor": {
+			"title": "重命名环境",
+			"description": "更新此环境的名称",
+			"nameLabel": "名称",
+			"namePlaceholder": "输入环境名称",
+			"savingEllipsis": "保存中...",
+			"submitSave": "保存",
+			"toastUpdated": "环境更新成功",
+			"toastUpdateFailed": "更新环境失败",
+			"errorNameRequired": "环境名称为必填项",
+			"errorNoEnvironment": "未选择环境",
+			"errorUpdateUnknown": "更新环境失败"
+		},
+		"selector": {
+			"noneAvailable": "暂无可用环境",
+			"noEnvironment": "无环境",
+			"fallbackTenantLetters": "UN",
+			"unknownTenant": "未知",
+			"addEnvironment": "添加环境",
+			"copyEnvironment": "复制环境",
+			"renameAria": "重命名 {{name}}",
+			"suspendedTitle": "环境已暂停",
+			"suspendedDescription": "该环境已暂时关闭。请联系我们以继续使用。",
+			"writeDeniedTooltip": "您没有管理环境的权限"
+		},
+		"restrictedBanner": {
+			"productionAccount": "生产账户",
+			"sandboxAccount": "沙盒",
+			"grace": "您的{{envType}}还可使用 {{count}} {{dayWord}}。到期后如需继续使用，请",
+			"dayWordOne": "天",
+			"dayWordPlural": "天",
+			"contactUs": "联系我们",
+			"suspended": "您的{{envType}}已暂时关闭。如需继续使用，请"
+		}
+	},
+	"debug": {
+		"tooltipTitle": "查看基于用量的定价实战演示",
+		"sampleEventsCreated": "示例事件已创建",
+		"loading": "加载中...",
+		"titleStreamSamples": "推送示例事件",
+		"noCustomers": "未找到客户。请先创建一个客户。",
+		"needSubscriptionLead": "请先分配一个订阅，以便推送示例事件",
+		"eventsFiredSentence": "已触发 {{count}} 个事件，所属套餐为 ",
+		"eventsFiredMiddle": "，所属套餐为 ",
+		"eventsFiredTrailing": " 套餐。",
+		"viewEvents": "查看事件",
+		"streamAgain": "再次推送",
+		"streamIntro": "实时体验计量、计费与权益的更新过程。示例事件将针对 ",
+		"planBridge": " 触发，套餐为 ",
+		"planEnd": " 套餐。",
+		"progress": "已触发 {{current}}/{{total}} 个事件",
+		"streaming": "推送中...",
+		"startStreaming": "开始推送"
+	},
+	"saml": {
+		"tabs": {
+			"saml": "SAML SSO"
+		},
+		"config": {
+			"title": "SAML 单点登录",
+			"description": "让您的团队通过身份提供商登录，而无需使用密码。",
+			"onboardingOrder": "请先将下方的元数据 URL 复制到您的身份提供商并在那里创建应用，然后用它提供的值填写下方字段。",
+			"metadataUrlLabel": "SP 元数据 URL",
+			"metadataUrlDescription": "创建应用时，请将此 URL 粘贴到您的身份提供商。",
+			"copyMetadataUrl": "复制元数据 URL",
+			"copiedMetadataUrl": "元数据 URL 已复制",
+			"enabled": "启用 SAML SSO",
+			"enabledDescription": "为该租户开启 SSO。在登录可用之前需要 Flexprice 审批。",
+			"statusApproved": "已批准",
+			"statusPending": "等待 Flexprice 批准",
+			"statusDescription": "Flexprice 会为每个租户审核并批准 SSO 访问。这与上方的开关相互独立。",
+			"enforceSso": "要求使用 SSO 登录",
+			"enforceSsoWarning": "开启后，除超级管理员外，该租户内所有人的密码登录都将被禁用。",
+			"idpEntityId": "IdP 实体 ID",
+			"idpEntityIdDescription": "必须与 SAML 断言中的 Issuer 一致。",
+			"idpEntityIdPlaceholder": "https://idp.example.com/metadata",
+			"idpSsoUrl": "IdP SSO URL",
+			"idpSsoUrlDescription": "必须是绝对的 https:// URL。仅 localhost / 127.0.0.1 / ::1 允许使用 http://。",
+			"idpSsoUrlPlaceholder": "https://idp.example.com/sso",
+			"idpCertificate": "IdP 证书",
+			"idpCertificateDescription": "PEM 编码的 X.509 证书，以 -----BEGIN CERTIFICATE----- 开头。",
+			"idpCertificatePlaceholder": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----",
+			"emailAttribute": "邮箱属性",
+			"emailAttributeDescription": "断言中携带用户邮箱的属性。留空则使用 NameID。",
+			"emailAttributePlaceholder": "email",
+			"defaultRole": "默认角色",
+			"defaultRoleDescription": "用户首次通过 SSO 登录时被授予的角色。",
+			"defaultRolePlaceholder": "选择角色",
+			"roleAllReader": "全部只读",
+			"roleAllWriter": "全部可写",
+			"validation": {
+				"idpEntityIdRequired": "启用 SAML SSO 时，IdP 实体 ID 为必填项",
+				"idpSsoUrlRequired": "启用 SAML SSO 时，IdP SSO URL 为必填项",
+				"idpSsoUrlInvalid": "IdP SSO URL 必须是绝对的 https:// URL（仅 localhost 允许 http://）",
+				"idpCertificateRequired": "启用 SAML SSO 时，IdP 证书为必填项",
+				"defaultRoleRequired": "启用 SAML SSO 时，默认角色为必填项"
+			},
+			"saveSuccess": "SAML SSO 设置已保存",
+			"saveSuccessPendingApproval": "已保存。等待 Flexprice 批准后即可使用登录。",
+			"saveError": "保存 SAML SSO 设置失败",
+			"saveErrorForbidden": "只有超级管理员用户才能配置 SAML SSO。超级管理员 API 密钥不能用于更改登录方式。",
+			"saveErrorDisabled": "当前部署不提供 SSO。",
+			"ssoLoginUrlLabel": "SSO 登录链接",
+			"ssoLoginUrlDescription": "将此链接分享给您的团队，他们会直接前往您的身份提供商进行登录。",
+			"copySsoLoginUrl": "复制 SSO 登录链接",
+			"copiedSsoLoginUrl": "SSO 登录链接已复制",
+			"unsupportedSigning": "Flexprice 不会对认证请求签名，也不接受加密断言。上方的证书是您身份提供商的公开证书 — Flexprice 自身不持有签名密钥。如果您的身份提供商要求签名请求或断言加密，请为该应用关闭这些选项，否则登录将失败。",
+			"saveConflict": "在此页面打开期间，有其他人修改了这些设置。已加载最新值 — 请核对后重新保存。"
+		}
+	},
+	"region": {
+		"dataRegion": "数据区域",
+		"selectPlaceholder": "选择区域",
+		"tooltipLearnMore": "点击了解区域的更多信息",
+		"dialogTitle": "您想选择哪个区域？",
+		"dialogDescription": "请谨慎选择您的区域。虽然之后可以迁移到其他区域，但需要人工处理，无法自动更改。",
+		"sectionUs": "美国托管",
+		"benefitUs1": "如果您和您的用户位于美国，访问速度更快",
+		"benefitUs2": "更容易符合美国的部分法规要求",
+		"benefitUs3": "托管于美国俄勒冈州（us-west-2）",
+		"sectionIndia": "印度托管",
+		"benefitIn1": "如果您和您的用户位于印度，访问速度更快",
+		"benefitIn2": "托管于印度孟买（ap-south-1）"
+	},
 	"notifications": {
 		"tabs": {
 			"notifications": "通知"
@@ -99,8 +1835,11 @@
 				"updated": "规则已更新",
 				"deleted": "规则已删除",
 				"failed": "保存规则失败",
-				"deleteFailed": "删除规则失败"
-			}
+				"deleteFailed": "删除规则失败",
+				"testSent": "测试事件已发送",
+				"testFailed": "发送测试事件失败"
+			},
+			"test": "发送测试"
 		},
 		"events": {
 			"title": "通知事件",
@@ -128,6 +1867,31 @@
 				"resent": "通知已重发",
 				"resendFailed": "重发通知失败"
 			}
+		},
+		"ossLimitNotice": "OpenMeter 社区版内置的是 noop Webhook 投递适配器：创建渠道或规则会被后端拒绝（未实现），但列表查看可用。完整的通知能力需要带有真实 Webhook 发送器的 OpenMeter 发行版。"
+	},
+	"toast": {
+		"integration": {
+			"syncTriggered": "集成同步已成功触发",
+			"syncFailed": "触发同步失败",
+			"linked": "集成关联成功",
+			"linkFailed": "关联集成失败",
+			"unlinked": "集成已解除关联",
+			"unlinkFailed": "解除关联失败",
+			"autopaySetupFailed": "启动自动扣款设置失败",
+			"providerEntityIdRequired": "请输入提供商实体 ID"
+		},
+		"oauth": {
+			"authorizationFailed": "{{providerName}} 授权失败：{{errorParam}}",
+			"missingRequiredParams": "{{providerName}} 授权失败：缺少必要参数",
+			"sessionExpired": "OAuth 会话已过期，请重新连接。",
+			"connected": "{{providerName}} 连接成功！"
+		},
+		"quickBooks": {
+			"missingRealmId": "QuickBooks 授权失败：缺少 realm ID"
+		},
+		"zoho": {
+			"organizationIdNotFound": "未找到 Zoho 组织 ID，请重新连接。"
 		}
 	}
 }

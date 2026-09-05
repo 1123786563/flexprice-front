@@ -2,6 +2,7 @@
 // OpenMeter 原生 notifications 域薄壳：channels（WEBHOOK 单类型）/ rules（type 判别 4 类）/
 // events（投递记录 + resend）。概念与 OM 一一对应，不做 DTO 映射，类型全部从 SDK client 派生。
 import { getOpenMeterClient, requireOpenMeterClient, type OpenMeterClient } from '@/core/services/openmeter';
+import { omV1 } from '@/core/services/openmeter/omFetch';
 
 type NotificationChannels = OpenMeterClient['notifications']['channels'];
 type NotificationRules = OpenMeterClient['notifications']['rules'];
@@ -98,6 +99,13 @@ class NotificationApi {
 
 	public static async deleteRule(id: string): Promise<void> {
 		await requireOpenMeterClient().notifications.rules.delete(id);
+	}
+
+	/** 发送随机数据的测试事件（v1 `POST /notification/rules/{id}/test`），返回投递记录。 */
+	public static async testRule(id: string): Promise<OmNotificationEvent> {
+		const event = await omV1<OmNotificationEvent>(`/notification/rules/${id}/test`, { method: 'POST' });
+		if (!event) throw new Error('发送测试事件失败');
+		return event;
 	}
 
 	// ---- Events ----

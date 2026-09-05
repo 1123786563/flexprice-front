@@ -20,6 +20,7 @@
 		}
 	},
 	"addons": {
+		"writeDeniedTooltip": "您没有权限管理附加组件。请联系租户管理员获取访问权限。",
 		"drawer": {
 			"editTitle": "编辑附加组件",
 			"createTitle": "创建附加组件",
@@ -50,6 +51,7 @@
 		"details": {
 			"title": "附加组件详情",
 			"charges": "费用",
+			"chargesWriteDeniedTooltip": "您没有权限修改附加组件的费用。请联系租户管理员获取访问权限。",
 			"entitlements": "权益",
 			"creditGrants": "额度授予",
 			"metadata": "元数据"
@@ -101,6 +103,7 @@
 		}
 	},
 	"costSheets": {
+		"writeDeniedTooltip": "您没有权限管理成本表。请联系租户管理员获取访问权限。",
 		"listPage": {
 			"title": "成本表",
 			"paginationUnit": "成本表",
@@ -139,6 +142,7 @@
 		"details": {
 			"title": "成本表详情",
 			"charges": "费用",
+			"chargesWriteDeniedTooltip": "您没有权限修改成本表的费用。请联系租户管理员获取访问权限。",
 			"chargeCount": "{{count}} 项费用",
 			"searchCharges": "搜索费用…",
 			"noDescription": "暂无描述",
@@ -176,6 +180,7 @@
 		}
 	},
 	"coupons": {
+		"writeDeniedTooltip": "您没有权限管理优惠券。请联系租户管理员获取访问权限。",
 		"listPage": {
 			"title": "优惠券",
 			"paginationUnit": "优惠券",
@@ -284,6 +289,7 @@
 		}
 	},
 	"groups": {
+		"writeDeniedTooltip": "您没有权限管理分组。请联系租户管理员获取访问权限。",
 		"listPage": {
 			"title": "分组",
 			"sortLabels": {
@@ -411,6 +417,8 @@
 				"archive": "归档"
 			},
 			"createWithAi": "使用 AI 创建",
+			"writeDeniedTooltip": "您没有权限创建套餐。请联系租户管理员获取访问权限。",
+			"aiPricingWriteDeniedTooltip": "AI 定价设置会同时创建套餐和功能，因此需要两者的写入权限。请联系租户管理员获取访问权限。",
 			"emptyStateCustom": {
 				"heading": "套餐",
 				"description": "创建套餐以展示定价并开始向客户计费。"
@@ -428,12 +436,24 @@
 			"configSheet": {
 				"keysCount": "{{count}} 个键",
 				"title": "配置值"
-			}
+			},
+			"writeDeniedTooltip": "您没有权限修改权益",
+			"emptyStateSubtitle": "此套餐尚未添加任何权益"
+		},
+		"creditGrantsTab": {
+			"writeDeniedTooltip": "您没有权限修改积分授予"
+		},
+		"detailsPage": {
+			"writeDeniedTooltip": "您没有权限修改此套餐。请联系租户管理员获取访问权限。",
+			"syncWriteDeniedTooltip": "您没有权限同步此套餐的价格。请联系租户管理员获取访问权限。",
+			"unsyncedCountTooltip_one": "{{count}} 个订阅与此套餐的价格不同步。",
+			"unsyncedCountTooltip_other": "{{count}} 个订阅与此套餐的价格不同步。"
 		},
 		"information": {
 			"loading": "正在加载套餐详情…",
 			"planDetails": "套餐详情",
-			"metadata": "元数据"
+			"metadata": "元数据",
+			"writeDeniedTooltip": "您没有权限编辑此套餐"
 		},
 		"pricing": {
 			"noWidget": "不存在定价组件",
@@ -481,7 +501,11 @@
 				"billingModelPlaceholder": "计费模式",
 				"selectBillingPeriod": "选择计费周期",
 				"per": "每",
-				"amountPlaceholder": "0.00"
+				"amountPlaceholder": "0.00",
+				"bucketSize": "分桶大小（可选）",
+				"bucketSizeNone": "不分桶",
+				"bucketSizePlaceholder": "不分桶",
+				"bucketSizeDescription": "在聚合前将使用量按固定大小的桶划分，例如每小时的总量"
 			},
 			"priceForm": {
 				"displayName": "显示名称",
@@ -512,6 +536,7 @@
 				"noDateInformation": "无日期信息",
 				"fallbackName": "--",
 				"charges": "费用",
+				"writeDeniedTooltip": "您没有权限修改价格。请联系租户管理员获取访问权限。",
 				"recurring": "周期性",
 				"advance": "预付",
 				"arrear": "后付",
@@ -532,6 +557,7 @@
 		}
 	},
 	"priceUnits": {
+		"writeDeniedTooltip": "您没有权限管理价格单位。请联系租户管理员获取访问权限。",
 		"listPage": {
 			"title": "价格单位",
 			"paginationUnit": "价格单位",
@@ -630,6 +656,8 @@
 		}
 	},
 	"features": {
+		"writeDeniedTooltip": "您没有权限管理功能。请联系租户管理员获取访问权限。",
+		"alertSettingsWriteDeniedTooltip": "您没有权限管理此功能的提醒设置。请联系租户管理员获取访问权限。",
 		"listPage": {
 			"title": "功能",
 			"columns": {
@@ -768,10 +796,7 @@
 			"aggregationMultiplier": "聚合系数*",
 			"aggregationMultiplierPh": "1",
 			"aggregationMultiplierHelp": "指定聚合的系数，例如 1.5、0.25 或 1000。",
-			"bucketSizeButton": "时间桶大小",
 			"groupByButton": "分组依据",
-			"bucketSize": "时间桶大小",
-			"bucketSizeHelp": "聚合窗口的大小，例如 15MIN、30MIN、HOUR 等。",
 			"groupBy": "分组依据",
 			"groupByPlaceholder": "例如 user_id、tenant_id",
 			"groupByHelp": "聚合分组所依据的字段。必须为字符串（例如事件属性名）。",
@@ -795,7 +820,21 @@
 			"displayUnitName": "显示单位名称",
 			"usageReset": "使用量重置 ",
 			"bucketSize": "时间桶大小",
-			"groupBy": "分组依据"
+			"groupBy": "分组依据",
+			"title": "单位成本（OpenMeter）",
+			"desc": "OpenMeter 单位成本：manual 为固定每单位成本（USD）；llm 由 LLM 成本库按 provider/model 解析。",
+			"current": "当前配置",
+			"manualAmount": "每单位成本（USD）",
+			"set": "设置成本",
+			"clear": "清除",
+			"llmConfigured": "由 LLM 成本库解析（provider/model 驱动）",
+			"query": "查询近 30 天成本",
+			"queryResult": "成本查询结果",
+			"noCost": "未配置单位成本",
+			"unitCostSaved": "单位成本已更新",
+			"unitCostSaveFailed": "更新单位成本失败",
+			"unitCostQueryFailed": "成本查询失败",
+			"currentValue": "当前配置: ${{value}}"
 		}
 	},
 	"entityChargesPage": {
@@ -1034,6 +1073,9 @@
 		},
 		"originalPrice": "原始价格",
 		"billingModel": "计费模式",
+		"bucketSize": "分桶大小（可选）",
+		"bucketSizePlaceholder": "不分桶",
+		"bucketSizeSetOnMeter": "已在计量器上设置（{{bucketSize}}）——价格无法在其之上另行定义分桶。",
 		"selectBillingModel": "选择计费模式",
 		"overrideAmountLabel": "覆盖金额（{{unit}}）",
 		"enterNewAmountOptional": "输入新金额（可选）",
@@ -1060,5 +1102,81 @@
 		"toastScheduled": "{{name}} 将自 {{date}} 起生效。",
 		"toastUpdated": "{{name}} 已更新成功。",
 		"fallbackPriceName": "价格"
+	},
+	"toast": {
+		"plan": {
+			"archived": "套餐归档成功",
+			"archiveFailed": "归档套餐失败",
+			"syncStarted": "同步已开始，完成最长可能需要 1 小时。",
+			"syncFailed": "套餐与订阅同步出错",
+			"loadFailed": "加载套餐数据出错",
+			"notAvailable": "暂无套餐数据",
+			"duplicated": "套餐复制成功",
+			"duplicateFailed": "复制套餐失败，请重试。"
+		},
+		"pricing": {
+			"tiersRequired": "计费模式为 TIERED（阶梯）时必须填写阶梯档位",
+			"unitAmountRequired": "第 {{tier}} 档必须填写单价",
+			"unitAmountMustBePositive": "第 {{tier}} 档的单价必须大于或等于 0",
+			"flatAmountMustBePositive": "第 {{tier}} 档的固定金额必须大于或等于 0",
+			"upToValueRequired": "第 {{tier}} 档必须填写“至”数值",
+			"fromValueCannotExceedUpTo": "第 {{tier}} 档的“起始”数值不能大于“至”数值"
+		},
+		"addon": {
+			"archived": "附加组件归档成功",
+			"archiveFailed": "归档附加组件失败",
+			"terminatePriceFailed": "终止价格出错",
+			"loadFailed": "加载附加组件数据出错",
+			"notAvailable": "暂无附加组件数据"
+		},
+		"price": {
+			"idCopied": "价格 ID 已复制到剪贴板",
+			"terminated": "价格终止成功",
+			"deleteFailed": "删除价格出错",
+			"terminationScheduled": "{{name}} 将于 {{date}} 终止。",
+			"terminatedImmediately": "{{name}} 已立即终止。"
+		},
+		"metadata": {
+			"updated": "元数据更新成功",
+			"updateFailed": "更新元数据失败"
+		},
+		"feature": {
+			"created": "功能创建成功",
+			"createFailed": "创建功能时发生错误，请重试。",
+			"updated": "功能更新成功",
+			"updateFailed": "更新功能失败，请重试。",
+			"archived": "功能归档成功",
+			"archiveFailed": "归档功能失败",
+			"loadFailed": "获取功能详情出错",
+			"alertSettingsUpdated": "警报设置更新成功",
+			"alertSettingsFailed": "更新警报设置失败"
+		},
+		"costSheet": {
+			"archived": "成本表归档成功",
+			"archiveFailed": "归档成本表失败",
+			"loadFailed": "加载成本表数据出错",
+			"notAvailable": "暂无成本表数据"
+		},
+		"prices": {
+			"noneToCreate": "没有可创建的价格",
+			"created": "已成功为 {{entityType}} 创建价格"
+		},
+		"charges": {
+			"processingFailed": "处理费用时发生错误"
+		},
+		"entity": {
+			"loadFailed": "获取 {{entityType}} 数据出错"
+		},
+		"creditGrant": {
+			"added": "额度授予添加成功",
+			"addFailed": "添加额度授予失败",
+			"loadFailed": "加载额度授予出错"
+		},
+		"entitlements": {
+			"loadFailed": "加载权益出错"
+		},
+		"coupon": {
+			"loadFailed": "加载优惠券详情出错"
+		}
 	}
 }
